@@ -17,6 +17,7 @@ public class AlembicManager {
     ArrayList<Location> ret = new ArrayList<Location>();
 
     ArrayList<HashMap<String, String>> serializedAlembics = plugin.getConfig().getList("active_alembics");
+    if(serializedAlembics == null) return ret;
 
     for(HashMap<String, String> map: serializedAlembics) {
 	double x = (double) map.get("x");
