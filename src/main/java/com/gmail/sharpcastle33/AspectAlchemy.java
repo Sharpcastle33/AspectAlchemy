@@ -27,7 +27,7 @@ public class AspectAlchemy extends JavaPlugin {
     
     potionMan.loadPotions();
     recipeMan.loadRecipes();
-    alembicMan.loadActiveAlembics();
+    alembicMan.loadActiveAlembics(plugin);
 
     
     getServer().getPluginManager().registerEvents(new AlembicCreationListener(), plugin);
@@ -37,7 +37,9 @@ public class AspectAlchemy extends JavaPlugin {
   }
   
   public void onDisable(){
-    alembicMan.saveActiveAlembics();
+    alembicMan.saveActiveAlembics(plugin);
+
+    saveConfig();
   }
 
 }
