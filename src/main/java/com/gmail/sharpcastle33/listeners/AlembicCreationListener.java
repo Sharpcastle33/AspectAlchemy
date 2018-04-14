@@ -24,7 +24,7 @@ public class AlembicCreationListener implements Listener{
   public static final String ALEMBIC_CHEST_NAME = ChatColor.BLUE + "Alembic Chamber";
   public static final String ALEMBIC_FURNACE_NAME = ChatColor.BLUE + "Alembic Bellows";
   public static final String ALEMBIC_BREWINGSTAND_NAME = ChatColor.BLUE + "Alembic Stand";
-  
+    
   @EventHandler
   public void alembicPlaceEvent(BlockPlaceEvent event){
     Block b = event.getBlock();
@@ -82,7 +82,6 @@ public class AlembicCreationListener implements Listener{
                                       null,ni,null,null,null,null,null,ni,start,
                                       null,ni,null,null,null,null,null,ni,book};
               chestState.getBlockInventory().setContents(contents);
-              
               }
                
             }else{

@@ -38,16 +38,23 @@ public class AlembicManager {
 	  map.put("y", loc.getY());
 	  map.put("z", loc.getZ());
 	  map.put("world", loc.getWorld().getName());
+	  serializedAlembics.add(map);
       } // for
 
       plugin.getConfig().set("active_alembics", serializedAlembics);
   } // saveActiveAlembics
   
   public void activateAlembic(Location loc){
-    
+    activeAlembics.add(loc);
+    System.out.println("Alembic Activated");
   }
   
   public void deactivateAlembic(Location loc){
-    
+    for(Location compare: activeAlembics) {
+	if(loc.getBlockX() == compare.getBlockX() && loc.getBlockY() == compare.getBlockY() && loc.getBlockZ() == compare.getBlockZ() && loc.getWorld().getName().equals(compare.getWorld().getName())) {
+	    activeAlembics.remove(compare);
+	    break;
+	}
+    }
   }
 }
