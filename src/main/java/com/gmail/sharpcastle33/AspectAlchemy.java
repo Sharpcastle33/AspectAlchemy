@@ -20,14 +20,13 @@ public class AspectAlchemy extends JavaPlugin {
     
     plugin = this;
 
-    alembicMan = new AlembicManager();
+    alembicMan = new AlembicManager(plugin);
     potionMan = new PotionManager();
     aspectMan = new AspectManager();
     recipeMan = new AspectRecipeManager();
     
     potionMan.loadPotions();
     recipeMan.loadRecipes();
-    alembicMan.loadActiveAlembics(plugin);
 
     
     getServer().getPluginManager().registerEvents(new AlembicCreationListener(), plugin);

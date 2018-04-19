@@ -9,17 +9,17 @@ public class AlembicManager {
   
   public ArrayList<Location> activeAlembics;
   
-  public AlembicManager(){
-    activeAlembics = loadActiveAlembics();
+  public AlembicManager(Plugin plugin){
+    activeAlembics = loadActiveAlembics(plugin);
   }
  
   public ArrayList<Location> loadActiveAlembics(Plugin plugin){
     ArrayList<Location> ret = new ArrayList<Location>();
 
-    ArrayList<HashMap<String, String>> serializedAlembics = plugin.getConfig().getList("active_alembics");
+    ArrayList<HashMap<String, Object>> serializedAlembics = (ArrayList<HashMap<String, Object>>) plugin.getConfig().get("active_alembics");
     if(serializedAlembics == null) return ret;
 
-    for(HashMap<String, String> map: serializedAlembics) {
+    for(HashMap<String, Object> map: serializedAlembics) {
 	double x = (double) map.get("x");
 	double y = (double) map.get("y");
 	double z = (double) map.get("z");
@@ -31,23 +31,30 @@ public class AlembicManager {
   }
   
   public void saveActiveAlembics(Plugin plugin){
-      ArrayList<HashMap<String, String>> serializedAlembics = new ArrayList<>();
+      ArrayList<HashMap<String, Object>> serializedAlembics = new ArrayList<>();
       for(Location loc: activeAlembics) {
 	  HashMap<String, Object> map = new HashMap<>();
 	  map.put("x", loc.getX());
 	  map.put("y", loc.getY());
 	  map.put("z", loc.getZ());
 	  map.put("world", loc.getWorld().getName());
+	  serializedAlembics.add(map);
       } // for
 
       plugin.getConfig().set("active_alembics", serializedAlembics);
   } // saveActiveAlembics
   
   public void activateAlembic(Location loc){
-    
+    activeAlembics.add(loc);
+    System.out.println("Alembic Activated");
   }
   
   public void deactivateAlembic(Location loc){
-    
+    for(Location compare: activeAlembics) {
+	if(loc.getBlockX() == compare.getBlockX() && loc.getBlockY() == compare.getBlockY() && loc.getBlockZ() == compare.getBlockZ() && loc.getWorld().getName().equals(compare.getWorld().getName())) {
+	    activeAlembics.remove(compare);
+	    break;
+	}
+    }
   }
 }
