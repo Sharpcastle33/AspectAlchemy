@@ -53,10 +53,10 @@ public class AspectManager {
 				// Organize data and put into instance level map of aspect data
 				AspectData data = new AspectData(
 						key,
-						meta.getDisplayName(),
+						meta.hasDisplayName() ? meta.getDisplayName() : null,
 						itemAspectMap,
 						itemStack.getType(),
-						meta.getLore()
+						meta.hasLore() ? meta.getLore() : null
 					);
 				itemAspects.put(key, data);
 			}
@@ -113,10 +113,10 @@ public class AspectManager {
 				boolean itemLoreMatch = true;
 				
 				// Figure out whether or not lores match
-				if (stackLore == null && aspect.itemLore == null) {
-					itemLoreMatch = true;
-				} else if (stackLore == null && aspect.itemLore != null) {
+				if (stackLore == null && aspect.itemLore != null) {
 					itemLoreMatch = false;
+				} else if (stackLore == null && aspect.itemLore == null) {
+					itemLoreMatch = true;
 				} else {
 					// Check if the lore lists have the same entries.
 					for (int i = 0; i < stackLore.size(); i++) {
@@ -142,10 +142,11 @@ public class AspectManager {
 	}
 
 	/**
-	 * Holds aspect and item data from config.
+	 * Aspect and item data for reading data from config.
 	 * @author adamd
 	 *
 	 */
+	// Might want seperate ApsectConfig class, analogous to hidden ores' BlockConfig, ToolConfig, etc.
 	private class AspectData {
 		String configName;
 		String displayName;
