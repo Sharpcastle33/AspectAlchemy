@@ -44,10 +44,8 @@ public class AspectManager {
 				// Get aspect map from aspect section of item
 				Map<String, Object> configAspects = itemSection.getConfigurationSection("aspects").getValues(false);
 
-				// Map for transforming the config map
+				// Transform the config map
 				Map<Aspect, Integer> itemAspectMap = new HashMap<Aspect, Integer>();
-
-				// Transform
 				for (String aspect : configAspects.keySet()) {
 					itemAspectMap.put(Aspect.valueOf(aspect), (Integer) configAspects.get(aspect));
 				}
@@ -109,8 +107,7 @@ public class AspectManager {
 		// Iterate through all loaded items
 		for (AspectData aspect : itemAspects.values()) {
 			
-			
-			
+			// Check if display name and material match
 			if (aspect.displayName.equals(stackDisplayName) && aspect.itemMaterial == stackMaterial) {
 				// Assume that lore match before checking
 				boolean itemLoreMatch = true;
