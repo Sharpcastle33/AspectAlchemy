@@ -4,17 +4,17 @@ import java.util.Map;
 import org.bukkit.inventory.ItemStack;
 
 public class AspectRecipe {
-  
-  private Map<Aspect, Integer> aspects;
-  private Aspect primaryAspect;
-  private int time;
-  private ItemStack result;
-  
-  public AspectRecipe(Map<Aspect, Integer> map, Aspect a, int t, ItemStack result){
-    aspects = map;
-    primaryAspect = a;
-    time = t;
-    this.result = result;
-  }
+
+	public Map<Aspect, Integer> aspects;
+	public Aspect primaryAspect;
+	public int time;
+	public ItemStack result;
+
+	public AspectRecipe(Map<Aspect, Integer> aspectMap, Aspect primaryAspect, int time, ItemStack result) {
+		this.aspects = aspectMap;
+		this.primaryAspect = primaryAspect;
+		this.time = time;
+		this.result = result;
+	}
 
 }
