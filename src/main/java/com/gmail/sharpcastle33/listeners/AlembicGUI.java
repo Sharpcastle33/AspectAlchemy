@@ -12,7 +12,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import com.gmail.sharpcastle33.handlers.AlembicHandler;
-import net.md_5.bungee.api.ChatColor;
+import org.bukkit.ChatColor;
 
 public class AlembicGUI implements Listener{
   

@@ -29,6 +29,7 @@ public class PotionManager {
 			potions = loadPotions(potionConfig);
 		} catch (IllegalArgumentException e) {
 			Bukkit.getLogger().severe("Potions config does not exist.");
+			e.printStackTrace();
 		}
 	}
 

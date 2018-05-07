@@ -1,13 +1,16 @@
 package com.gmail.sharpcastle33.aspects;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -15,24 +18,30 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class AspectManager {
 
-	// Map of aspect data per item keyed by name in configuration
-	Map<String, AspectData> itemAspects;
+	static FileConfiguration aspectsConfig;
+	static Map<String, AspectItemData> itemAspects;
+	
+	public static void init(File configFile) {
+		try {
+			aspectsConfig = YamlConfiguration.loadConfiguration(configFile);
+			itemAspects = loadAspectValues(aspectsConfig);
+		} catch (IllegalArgumentException e) {
+			Bukkit.getLogger().severe("Aspects config not loaded");
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * Loads the aspect values for each item in config section "items".
 	 * @param config
 	 */
-	public void loadAspectValues(FileConfiguration config) {
+	private static Map<String, AspectItemData> loadAspectValues(FileConfiguration config) {
 		// Construct new map to load into from configs
-		itemAspects = new HashMap<String, AspectData>();
-
-		// Get items section from config
-		ConfigurationSection items = config.getConfigurationSection("items");
-		if (items != null) {
+		Map<String, AspectItemData> itemAspects = new HashMap<String, AspectItemData>();
 			
 			// Iterate over each item in section
-			for (String key : items.getKeys(false)) {
-				ConfigurationSection itemSection = items.getConfigurationSection(key);
+			for (String key : config.getKeys(false)) {
+				ConfigurationSection itemSection = config.getConfigurationSection(key);
 
 				// Get item data
 				ItemStack itemStack = ((List<ItemStack>) itemSection.getList("package")).get(0);
@@ -48,7 +57,7 @@ public class AspectManager {
 				}
 
 				// Organize data and put into instance level map of aspect data
-				AspectData data = new AspectData(
+				AspectItemData data = new AspectItemData(
 						key,
 						meta.hasDisplayName() ? meta.getDisplayName() : null,
 						itemAspectMap,
@@ -57,11 +66,11 @@ public class AspectManager {
 					);
 				itemAspects.put(key, data);
 			}
-		}
+		return itemAspects;
 	}
 
 	// Get aspect totals for item stack array
-	public Map<Aspect, Integer> getAspectTotals(ItemStack[] arr) {
+	public static Map<Aspect, Integer> getAspectTotals(ItemStack[] arr) {
 
 		// Map to populate with aspect data
 		Map<Aspect, Integer> ret = new HashMap<Aspect, Integer>();
@@ -86,7 +95,7 @@ public class AspectManager {
 	 * @param stack
 	 * @return Map of aspect values keyed by aspect
 	 */
-	public Map<Aspect, Integer> getAspects(ItemStack stack) {
+	public static Map<Aspect, Integer> getAspects(ItemStack stack) {
 		
 		// Check if aspects have been loaded
 		if (itemAspects == null) {
@@ -102,7 +111,7 @@ public class AspectManager {
 		List<String> stackLore = meta.hasLore() ? meta.getLore() : null;
 
 		// Iterate through all loaded items
-		for (AspectData aspect : itemAspects.values()) {
+		for (AspectItemData aspect : itemAspects.values()) {
 			
 			// Check if display name and material match
 			if (aspect.displayName.equals(stackDisplayName) && aspect.itemMaterial == stackMaterial) {
@@ -136,32 +145,5 @@ public class AspectManager {
 		
 		// If there was no match return null
 		return null;
-	}
-
-	/**
-	 * Aspect and item data for reading data from config.
-	 * @author adamd
-	 *
-	 */
-	// Might want seperate ApsectConfig class, analogous to hidden ores' BlockConfig, ToolConfig, etc.
-	private class AspectData {
-		String configName;
-		String displayName;
-		Map<Aspect, Integer> aspects;
-		Material itemMaterial;
-		List<String> itemLore;
-
-		public AspectData(String name, String displayName, Map<Aspect, Integer> aspects, Material material,
-				List<String> lore) {
-			this.configName = name;
-			this.displayName = displayName;
-			this.aspects = aspects;
-			this.itemMaterial = material;
-			this.itemLore = lore;
-		}
-
-		public AspectData() {
-			this(null, null, new HashMap<Aspect, Integer>(), null, new ArrayList<String>());
-		}
 	}
 }

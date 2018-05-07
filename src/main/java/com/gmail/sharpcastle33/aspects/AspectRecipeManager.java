@@ -27,6 +27,7 @@ public class AspectRecipeManager {
 			Bukkit.getLogger().info("DEBUGGING: " + recipes.get(0).primaryAspect);
 		} catch (IllegalArgumentException e) {
 			Bukkit.getLogger().severe("Recipes config does not exist.");
+			e.printStackTrace();
 		}
 	}
 	
