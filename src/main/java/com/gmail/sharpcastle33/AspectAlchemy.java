@@ -2,9 +2,9 @@ package com.gmail.sharpcastle33;
 
 import java.io.File;
 
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+
 import com.gmail.sharpcastle33.aspects.AspectManager;
 import com.gmail.sharpcastle33.aspects.AspectRecipeManager;
 import com.gmail.sharpcastle33.listeners.AlembicCreationListener;

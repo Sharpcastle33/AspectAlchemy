@@ -33,7 +33,7 @@ public class PotionManager {
 	}
 
 	private static Map<CustomPotion, ItemStack> loadPotions(FileConfiguration config) {
-		Map<CustomPotion, ItemStack> configPotions = new HashMap<>();
+		Map<CustomPotion, ItemStack> configPotions = new HashMap<CustomPotion, ItemStack>();
 		for (String potionKey : config.getKeys(false)) {
 			configPotions.put(CustomPotion.valueOf(potionKey),
 					loadPotionStack(potionConfig.getConfigurationSection(potionKey)));
@@ -60,7 +60,7 @@ public class PotionManager {
 	}
 
 	private static ArrayList<PotionEffect> loadPotionEffects(ConfigurationSection effectsSection) {
-		ArrayList<PotionEffect> potionEffects = new ArrayList<>();
+		ArrayList<PotionEffect> potionEffects = new ArrayList<PotionEffect>();
 
 		for (String effectKey : effectsSection.getKeys(false)) {
 			ConfigurationSection effect = effectsSection.getConfigurationSection(effectKey);

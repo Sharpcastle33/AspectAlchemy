@@ -31,7 +31,7 @@ public class AspectRecipeManager {
 	}
 	
 	private static ArrayList<AspectRecipe> loadRecipes(FileConfiguration config) {
-		ArrayList<AspectRecipe> configRecipes = new ArrayList<>();
+		ArrayList<AspectRecipe> configRecipes = new ArrayList<AspectRecipe>();
 		for(String recipeKey : config.getKeys(false)) {
 			ConfigurationSection recipeSection = config.getConfigurationSection(recipeKey);
 			

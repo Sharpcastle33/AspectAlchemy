@@ -1,11 +1,11 @@
 package com.gmail.sharpcastle33.util;
 
 import java.util.ArrayList;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.MaterialData;
 
 public class InventoryUtil {
   

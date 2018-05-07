@@ -1,10 +1,6 @@
 package com.gmail.sharpcastle33.listeners;
 
-import java.util.ArrayList;
-
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -18,15 +14,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
-import com.gmail.sharpcastle33.potions.CustomPotion;
-import com.gmail.sharpcastle33.potions.PotionManager;
 import com.gmail.sharpcastle33.util.InventoryUtil;
-import com.gmail.sharpcastle33.util.PotionUtil;
-import com.gmail.sharpcastle33.util.PotionUtil.PotionVariant;
 
 public class AlembicCreationListener implements Listener {
 

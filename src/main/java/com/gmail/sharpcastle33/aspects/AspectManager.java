@@ -15,9 +15,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class AspectManager {
 
-	Map<Material, Map> baseTypes;
-	Map<Aspect, Integer> aspects;
-
 	// Map of aspect data per item keyed by name in configuration
 	Map<String, AspectData> itemAspects;
 
