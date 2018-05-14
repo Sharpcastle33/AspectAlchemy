@@ -13,7 +13,7 @@ public class InventoryUtil {
     ItemStack stack = new ItemStack(Material.IRON_FENCE);
     //stack.setData(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 15));
     ItemMeta meta = stack.getItemMeta();
-  meta.setDisplayName(ChatColor.RED + "");
+    meta.setDisplayName(ChatColor.RED + "");
     stack.setItemMeta(meta);
     return stack;  
   }

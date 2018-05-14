@@ -101,18 +101,5 @@ public class AlembicGUI implements Listener{
     	AlembicHandler.startAlchemy(event.getInventory().getLocation().getBlock(), p.getName());
     }    
   }
-  
-  private Location findAlembicChest(Location loc) {
-	  switch (loc.getBlock().getType()) {
-	case BREWING_STAND:
-		return loc.add(new Vector(0, -1, 0));
-	case CHEST:
-		return loc;
-	case FURNACE:
-		return loc.add(new Vector(0, 1, 0));
-	default:
-		return null;
-	}
-  }
 
 }

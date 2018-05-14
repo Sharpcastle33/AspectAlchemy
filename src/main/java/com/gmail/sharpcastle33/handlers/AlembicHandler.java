@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.sql.rowset.FilteredRowSet;
+
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
@@ -38,6 +40,10 @@ public class AlembicHandler {
 	
 	public static void init(Plugin p) {
 		plugin = p;
+		
+		for(Location loc : AspectAlchemy.alembicMan.activeAlembics) {
+			BukkitTask tickTask =  new AlembicTickTask(loc).runTaskTimer(plugin, ALEMBIC_TICK_TIME, ALEMBIC_TICK_TIME);
+		}
 	}
 
 
@@ -99,9 +105,26 @@ public class AlembicHandler {
 		return bindingPoints;
 	}
 
+	public static void deactivateAlembic(Chest chest) {
+		AspectAlchemy.alembicMan.deactivateAlembic(chest.getLocation());
+		
+		ItemStack info = chest.getInventory().getItem(8);
+		ItemMeta infoMeta = info.hasItemMeta() ? info.getItemMeta() : Bukkit.getItemFactory().getItemMeta(info.getType());
+		ItemStack start = chest.getInventory().getItem(17);
+		ItemMeta startMeta = start.hasItemMeta() ? start.getItemMeta() : Bukkit.getItemFactory().getItemMeta(start.getType());
+		
+		startMeta.setDisplayName(ChatColor.GREEN + "Start Alchemy");
+		startMeta.setLore(null);
+		
+		infoMeta.setDisplayName(ChatColor.BLUE + "Information");
+		infoMeta.setLore(null);
+		
+		start.setItemMeta(startMeta);
+		info.setItemMeta(infoMeta);
+		
+	}
 	
 	public static List<ItemStack> evaluateAlembic(Chest chest) {
-		AspectAlchemy.alembicMan.deactivateAlembic(chest.getLocation());
 		
 		List<ItemStack> results = new ArrayList<>();
 		

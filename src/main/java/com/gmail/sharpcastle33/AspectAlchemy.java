@@ -25,8 +25,8 @@ public class AspectAlchemy extends JavaPlugin {
 
 		alembicMan = new AlembicManager(plugin);
 
-		AlembicHandler.init(this);
-		
+
+		AlembicHandler.init(plugin);
 		AspectManager.init(new File(this.getDataFolder(), "aspects.yaml"));
 		PotionManager.init(new File(this.getDataFolder(), "potions.yaml"));
 		AspectRecipeManager.init(new File(this.getDataFolder(), "recipes.yaml"));
