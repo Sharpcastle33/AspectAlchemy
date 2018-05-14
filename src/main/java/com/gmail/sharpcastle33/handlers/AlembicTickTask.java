@@ -56,24 +56,31 @@ public class AlembicTickTask extends BukkitRunnable {
 		tickAlembic();
 	}
 
+	// Tick the alembic
 	private void tickAlembic() {
+		// Alembic blocks
 		BrewingStand stand = (BrewingStand) standLocation.getBlock().getState();
 		Chest chest = (Chest) chestLocation.getBlock().getState();
 		Furnace furnace = (Furnace) furnaceLocation.getBlock().getState();
 
+		// Update time remaining
 		timeRemaining = getTimeRemaining(chest) - 1;
 		updateTimeRemaining(chest);
 
+		// If time is 0 or less evaluate recipe and deactivate alembic
 		if (timeRemaining <= 0) {
 			AlembicHandler.evaluateAlembic(chest);
 			AlembicHandler.deactivateAlembic(chest);
 			this.cancel();
 		}
 		
+		// Consume fuel and handle failure
 		if(!consumeFuel(furnace)) {
 			alembicFail(chest);
+			this.cancel();
 		}
 
+		// Consume binding agent. Maybe put in consume fuel?
 		ItemStack[] bindingAgent = AlembicHandler.getBindingAgents(chest);
 		for(int i=2; i >= 0; i--) {
 			if(bindingAgent[i] != null) {
@@ -85,14 +92,17 @@ public class AlembicTickTask extends BukkitRunnable {
 	}
 	
 	
+	// Consume fuel method
 	private boolean consumeFuel(Furnace furnace) {
 		return true;
 	}
 	
+	// Alembic failure method
 	private void alembicFail(Chest chest) {
 		
 	}
 
+	// Updates progress GUI item to correct time remaining
 	private void updateTimeRemaining(Chest chest) {
 		ItemStack progress = chest.getInventory().getItem(17);
 		ItemMeta progressMeta = progress.hasItemMeta() ? progress.getItemMeta() : null;
@@ -109,6 +119,7 @@ public class AlembicTickTask extends BukkitRunnable {
 		
 	}
 
+	// Get remaining time from progress GUI item
 	private int getTimeRemaining(Chest chest) {
 
 		int time = 0;
@@ -128,10 +139,8 @@ public class AlembicTickTask extends BukkitRunnable {
 		}
 		if (lore != null) {
 			String timeString = lore.split(" ")[2];
-			Bukkit.getLogger().info("DEBUG: getTimeRemaining::timeString = " + timeString);
 			time = Integer.parseInt(timeString.substring(0, timeString.length()-3));
 		}
-		Bukkit.getLogger().info("DEBUG: getTimeRemaining = " + time);
 		return time;
 	}
 

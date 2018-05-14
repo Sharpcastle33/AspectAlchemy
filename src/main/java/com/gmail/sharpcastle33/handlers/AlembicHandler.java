@@ -36,25 +36,43 @@ import org.bukkit.World;
 public class AlembicHandler {
 
 	static final int ALEMBIC_TICK_TIME = 1200; // 1200 MC Ticks in 1 minute
+	static Map<String, Integer> bindingAgentPoints;
 	static Plugin plugin;
 	
+	
+	// Initialization method. Need this to get reference of plugin
 	public static void init(Plugin p) {
 		plugin = p;
 		
+		// Restart tasks that for active alembics
 		for(Location loc : AspectAlchemy.alembicMan.activeAlembics) {
 			BukkitTask tickTask =  new AlembicTickTask(loc).runTaskTimer(plugin, ALEMBIC_TICK_TIME, ALEMBIC_TICK_TIME);
 		}
+		
+		bindingAgentPoints = new HashMap<>();
+		bindingAgentPoints.put("Binding Agent", 1);
 	}
 
 
 	public static void startAlchemy(Block b, String name) {
 		updateAlembicInfo((Chest) b.getState(), name);
+		
+		// Register alembic as active
 		AspectAlchemy.alembicMan.activateAlembic(b.getLocation());
+		
+		// Start alemchemy task
 		BukkitTask alebmicTask = new AlembicTickTask(b.getLocation()).runTaskTimer(plugin, ALEMBIC_TICK_TIME, ALEMBIC_TICK_TIME);
 		
 	}
 
 	public static void updateAlembicInfo(Chest c, String name) {
+		
+		if (getTotalBindingPoints(c) <= 0) {
+			Bukkit.getServer().getPlayer(name).sendMessage(ChatColor.RED + "No binding agent! Alechmy not started.");
+			return;
+		}
+		
+		// Update "Information" GUI item to reflect time started and who started
 		ItemStack info = c.getBlockInventory().getItem(8);
 		if (info.hasItemMeta()) {
 			ItemMeta meta = info.getItemMeta();
@@ -67,6 +85,7 @@ public class AlembicHandler {
 		}
 		c.getInventory().setItem(8, info);
 
+		// Update "Start" GUI item to show process is in prorgess and time left
 		ItemStack start = c.getBlockInventory().getItem(17);
 		if (start.hasItemMeta()) {
 			ItemMeta meta = start.getItemMeta();
@@ -96,8 +115,8 @@ public class AlembicHandler {
 		for (ItemStack agent : bindingAgents) {
 			if (agent != null && agent.hasItemMeta()) {
 				ItemMeta bindingMeta = agent.getItemMeta();
-				if (bindingMeta.hasDisplayName() && bindingMeta.getDisplayName().equals("Binding Agent")) {
-					bindingPoints += agent.getAmount();
+				if (bindingMeta.hasDisplayName()) {
+					bindingPoints += agent.getAmount() * bindingAgentPoints.getOrDefault(bindingMeta.getDisplayName(), 0);
 				}
 			}
 		}
@@ -105,6 +124,7 @@ public class AlembicHandler {
 		return bindingPoints;
 	}
 
+	// Remove alembic from active alembic list, revert alembic chest to idle state
 	public static void deactivateAlembic(Chest chest) {
 		AspectAlchemy.alembicMan.deactivateAlembic(chest.getLocation());
 		
