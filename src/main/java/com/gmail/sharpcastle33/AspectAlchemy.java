@@ -4,19 +4,19 @@ import java.io.File;
 
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.omg.CORBA.PUBLIC_MEMBER;
 
 import com.gmail.sharpcastle33.aspects.AspectManager;
 import com.gmail.sharpcastle33.aspects.AspectRecipeManager;
+import com.gmail.sharpcastle33.handlers.AlembicHandler;
 import com.gmail.sharpcastle33.listeners.AlembicCreationListener;
 import com.gmail.sharpcastle33.listeners.AlembicGUI;
 import com.gmail.sharpcastle33.potions.PotionManager;
 
 public class AspectAlchemy extends JavaPlugin {
 
-	AlembicManager alembicMan;
-	PotionManager potionMan;
-	AspectManager aspectMan;
-	AspectRecipeManager recipeMan;
+	public static AlembicManager alembicMan;
+
 	Plugin plugin;
 
 	public void onEnable() {
@@ -25,6 +25,8 @@ public class AspectAlchemy extends JavaPlugin {
 
 		alembicMan = new AlembicManager(plugin);
 
+		AlembicHandler.init(this);
+		
 		AspectManager.init(new File(this.getDataFolder(), "aspects.yaml"));
 		PotionManager.init(new File(this.getDataFolder(), "potions.yaml"));
 		AspectRecipeManager.init(new File(this.getDataFolder(), "recipes.yaml"));

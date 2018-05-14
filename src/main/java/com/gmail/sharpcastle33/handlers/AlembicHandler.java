@@ -1,54 +1,129 @@
 package com.gmail.sharpcastle33.handlers;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
+import org.bukkit.conversations.StringPrompt;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitTask;
+import org.junit.experimental.theories.Theories;
+
+import com.gmail.sharpcastle33.AlembicManager;
+import com.gmail.sharpcastle33.AspectAlchemy;
+import com.gmail.sharpcastle33.listeners.AlembicCreationListener;
+
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.World;
+
+
+// TODO: Add logic to restart alembics on server start
+
 
 public class AlembicHandler {
-  
-  public static void startAlchemy(Block b, String name){
-    updateAlembicInfo((Chest) b.getState(), name);
-  }
-  
-  public static void updateAlembicInfo(Chest c, String name){
-    ItemStack info = c.getBlockInventory().getItem(8);
-    if(info.hasItemMeta()){
-      ItemMeta meta = info.getItemMeta();
-      Date now = new Date();
-      SimpleDateFormat time = new SimpleDateFormat("HH:mm");
-      String lore[] = {ChatColor.BLUE + "Started by: " + ChatColor.GOLD + name, ChatColor.BLUE + "Began at: " + ChatColor.RED + time.format(now)};
-      meta.setLore(Arrays.asList(lore));
-    }
-    c.getInventory().setItem(8, info);
-  }
 
-  public static ItemStack[] getBindingAgents(Chest chest){
-    ItemStack[] ret = new ItemStack[3];
-    ret[0] = chest.getInventory().getItem(0);
-    ret[1] = chest.getInventory().getItem(9);
-    ret[2] = chest.getInventory().getItem(18);
-    return ret;
-  }
-  
-  public static ItemStack[] getIngredients(Chest chest){
-    ItemStack[] ret = new ItemStack[15];
-    
-    int slot = 2;
-    
-    for(int counter = 0; counter < 16; counter++){
-      ret[counter] = chest.getInventory().getItem(slot);
-      
-      if(slot == 6 || slot == 15){
-        slot+=4;
-        continue;
-      }
-      slot++;
-    }
-    return ret;
-  }
+	static final int ALEMBIC_TICK_TIME = 1200; // 1200 MC Ticks in 1 minute
+	static Plugin plugin;
+	
+	public static void init(Plugin p) {
+		plugin = p;
+	}
+
+
+	public static void startAlchemy(Block b, String name) {
+		updateAlembicInfo((Chest) b.getState(), name);
+		AspectAlchemy.alembicMan.activateAlembic(b.getLocation());
+		BukkitTask alebmicTask = new AlembicTickTask(b.getLocation()).runTaskTimer(plugin, ALEMBIC_TICK_TIME, ALEMBIC_TICK_TIME);
+		
+	}
+
+	public static void updateAlembicInfo(Chest c, String name) {
+		ItemStack info = c.getBlockInventory().getItem(8);
+		if (info.hasItemMeta()) {
+			ItemMeta meta = info.getItemMeta();
+			Date now = new Date();
+			SimpleDateFormat time = new SimpleDateFormat("HH:mm");
+			String lore[] = { ChatColor.BLUE + "Started by: " + ChatColor.GOLD + name,
+					ChatColor.BLUE + "Began at: " + ChatColor.RED + time.format(now) };
+			meta.setLore(Arrays.asList(lore));
+			info.setItemMeta(meta);
+		}
+		c.getInventory().setItem(8, info);
+
+		ItemStack start = c.getBlockInventory().getItem(17);
+		if (start.hasItemMeta()) {
+			ItemMeta meta = start.getItemMeta();
+			meta.setDisplayName(ChatColor.RED + "In Progress");
+			int time = getTotalBindingPoints(c) * ALEMBIC_TICK_TIME / 20 / 60;
+			List<String> lore = new ArrayList<>();
+			lore.add("Time Remaining: " + time + "min");
+			meta.setLore(lore);
+			start.setItemMeta(meta);
+		}
+		c.getInventory().setItem(17, start);
+
+	}
+
+	public static ItemStack[] getBindingAgents(Chest chest) {
+		ItemStack[] ret = new ItemStack[3];
+		ret[0] = chest.getInventory().getItem(0);
+		ret[1] = chest.getInventory().getItem(9);
+		ret[2] = chest.getInventory().getItem(18);
+		return ret;
+	}
+
+	public static int getTotalBindingPoints(Chest chest) {
+		int bindingPoints = 0;
+		
+		ItemStack[] bindingAgents = getBindingAgents(chest);
+		for (ItemStack agent : bindingAgents) {
+			if (agent != null && agent.hasItemMeta()) {
+				ItemMeta bindingMeta = agent.getItemMeta();
+				if (bindingMeta.hasDisplayName() && bindingMeta.getDisplayName().equals("Binding Agent")) {
+					bindingPoints += agent.getAmount();
+				}
+			}
+		}
+
+		return bindingPoints;
+	}
+
+	
+	public static List<ItemStack> evaluateAlembic(Chest chest) {
+		AspectAlchemy.alembicMan.deactivateAlembic(chest.getLocation());
+		
+		List<ItemStack> results = new ArrayList<>();
+		
+		
+		return results;
+	}
+	
+	public static ItemStack[] getIngredients(Chest chest) {
+		ItemStack[] ret = new ItemStack[15];
+
+		int slot = 2;
+
+		for (int counter = 0; counter < 16; counter++) {
+			ret[counter] = chest.getInventory().getItem(slot);
+
+			if (slot == 6 || slot == 15) {
+				slot += 4;
+				continue;
+			}
+			slot++;
+		}
+		return ret;
+	}
+
 }
