@@ -32,8 +32,6 @@ public class AlembicTickTask extends BukkitRunnable {
 		this.standLocation = ((Block) chest).getRelative(BlockFace.UP).getLocation();
 		this.chestLocation = chest.getLocation();
 		this.furnaceLocation = ((Block) chest).getRelative(BlockFace.DOWN).getLocation();
-		
-		Bukkit.getLogger().info("DEBUG: " + standLocation);
 	}
 
 	/*
@@ -46,13 +44,10 @@ public class AlembicTickTask extends BukkitRunnable {
 		this.standLocation = chest.getRelative(BlockFace.UP).getLocation();
 		this.chestLocation = chestLocation;
 		this.furnaceLocation = chest.getRelative(BlockFace.DOWN).getLocation();
-		Bukkit.getLogger().info("DEBUG: " + standLocation);
-		Bukkit.getLogger().info("DEBUG: " + this.chestLocation);
 	}
 
 	@Override
 	public void run() {
-		Bukkit.getLogger().info("Ticked alembic");
 		tickAlembic();
 	}
 

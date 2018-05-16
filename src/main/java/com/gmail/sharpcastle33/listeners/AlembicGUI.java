@@ -1,34 +1,25 @@
 package com.gmail.sharpcastle33.listeners;
 
-import org.bukkit.Nameable;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.BrewingStand;
-import org.bukkit.block.Chest;
-import org.bukkit.block.Furnace;
-import org.bukkit.entity.Item;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.util.Vector;
-
-import com.gmail.sharpcastle33.AspectAlchemy;
-import com.gmail.sharpcastle33.handlers.AlembicHandler;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.Chest;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import com.gmail.sharpcastle33.handlers.AlembicHandler;
 
 public class AlembicGUI implements Listener {
 
 	public static final String IN_PROGRESS = ChatColor.RED
 			+ "Inventories of Alembics cannot be modified while they are in progress!";
-
+	
 	@EventHandler
 	public void alembicGUI(InventoryClickEvent event) {
 		if (!(event.getWhoClicked() instanceof Player)) {
@@ -38,7 +29,6 @@ public class AlembicGUI implements Listener {
 		Player p = (Player) event.getWhoClicked();
 		ItemStack clicked = event.getCurrentItem();
 		String invName = event.getInventory().getName();
-		Chest alembicChest = null;
 
 		if (!(invName.equals(AlembicCreationListener.ALEMBIC_CHEST_NAME)
 				|| invName.equals(AlembicCreationListener.ALEMBIC_BREWINGSTAND_NAME)
@@ -47,6 +37,7 @@ public class AlembicGUI implements Listener {
 		}
 
 		// Determine whether the alembic assembly is active or not
+		Chest alembicChest = null;
 		if (invName.equals(AlembicCreationListener.ALEMBIC_CHEST_NAME)) {
 			alembicChest = (Chest) event.getInventory().getLocation().getBlock().getState();
 		} else if (invName.equals(AlembicCreationListener.ALEMBIC_BREWINGSTAND_NAME)) {
@@ -60,7 +51,7 @@ public class AlembicGUI implements Listener {
 
 		p.sendMessage(invName);
 		if (event.getClickedInventory().getName().equals(AlembicCreationListener.ALEMBIC_CHEST_NAME) || event.getClickedInventory().getName().equals(AlembicCreationListener.ALEMBIC_BREWINGSTAND_NAME)) {
-//			p.sendMessage("Alchemy: AlembicGUI");
+			p.sendMessage("Alchemy: AlembicGUI");
 			if (alembicChest.getInventory().getItem(17).hasItemMeta() && alembicChest.getInventory().getItem(17).getItemMeta().getDisplayName().equals(ChatColor.RED + "In Progress")) {
 				event.setCancelled(true);
 				p.closeInventory();
@@ -75,7 +66,7 @@ public class AlembicGUI implements Listener {
 		// Implement information thing
 		if (clicked.hasItemMeta() && clicked.getItemMeta().getDisplayName().equals(ChatColor.BLUE + "Information")) {
 			event.setCancelled(true);
-			p.sendMessage("Don't do that");
+			p.sendMessage("Information");
 			ItemStack bind = new ItemStack(Material.PAPER);
 			bind.setItemMeta(Bukkit.getItemFactory().getItemMeta(Material.PAPER));
 			ItemMeta meta = bind.getItemMeta();
