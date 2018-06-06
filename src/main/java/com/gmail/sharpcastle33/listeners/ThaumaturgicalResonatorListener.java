@@ -54,6 +54,7 @@ public class ThaumaturgicalResonatorListener {
 		        					aspects.containsKey(Aspect.PURE_WATER))
 		        			{
 		        				p.sendMessage(LARGE_ASPECTS);
+		        				return;
 		        			}else 	if(     aspects.containsKey(Aspect.CONCENTRATED_AIR) ||
 		        					aspects.containsKey(Aspect.CONCENTRATED_ARCANE) ||
 		        					aspects.containsKey(Aspect.CONCENTRATED_CORRUPT) ||
@@ -70,6 +71,7 @@ public class ThaumaturgicalResonatorListener {
 		        					aspects.containsKey(Aspect.CONCENTRATED_WATER))
 		        			{
 		        				p.sendMessage(MEDIUM_ASPECTS);
+		        				return;
 		        			}else 	if(     aspects.containsKey(Aspect.MUNDANE_AIR) ||
 		        					aspects.containsKey(Aspect.MUNDANE_ARCANE) ||
 		        					aspects.containsKey(Aspect.MUNDANE_CORRUPT) ||
@@ -86,8 +88,10 @@ public class ThaumaturgicalResonatorListener {
 		        					aspects.containsKey(Aspect.MUNDANE_WATER))
 		        			{
 		        				p.sendMessage(SMALL_ASPECTS);
+		        				return;
 		        			}else {
 		        				p.sendMessage("SOmething weird happened with Alchemy, PM the developers." );
+		        				return;
 		        			}
 		        			
 		        		}
