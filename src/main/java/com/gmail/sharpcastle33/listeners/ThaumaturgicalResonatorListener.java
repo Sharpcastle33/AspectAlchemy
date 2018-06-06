@@ -19,9 +19,9 @@ public class ThaumaturgicalResonatorListener {
 	private final Material RESONATOR_ITEM = Material.COMPASS;
 	private final String RESONATOR_NAME = ChatColor.YELLOW + "Thaumaturgical Resonator";
 	private final String NO_ASPECTS = ChatColor.RED + "This item does not appear to influence the resonator.";
-	private final String SMALL_ASPECTS = ChatColor.YELLOW + "small aspect";
-	private final String MEDIUM_ASPECTS = ChatColor.GOLD + "medium aspect";
-	private final String LARGE_ASPECTS = ChatColor.BLUE + "large aspect";
+	private final String SMALL_ASPECTS = ChatColor.YELLOW + "The dial hovers for a moment, then falters. This item contains a small amount of alchemical energy.";
+	private final String MEDIUM_ASPECTS = ChatColor.GOLD + "The dial hovers steadily above the baseline. This item certainly contains alchemical properties.";
+	private final String LARGE_ASPECTS = ChatColor.BLUE + "The resonator thrums with energy, and the dial flails wildly. This item must contain very powerful energies.";
 	
 	public void resonator(PlayerInteractEvent event) {
 		
