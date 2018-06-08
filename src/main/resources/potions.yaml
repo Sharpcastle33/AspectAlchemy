@@ -1,0 +1,37 @@
+# Key needs to match CustomPotion enum value
+HEALTH_TINCTURE:
+        display_name: §cFireball Potion
+        color: black
+        variant: SPLASH # Type of potion (SPLASH, LINGERING, POTION)
+        effects:
+            posion_effect:
+                type: POISON    # type: (enum) https://hub.spigotmc.org/javadocs/spigot/org/bukkit/potion/PotionEffectType.html
+                duration: 100   # duration: (int) ticks
+                amplifier: 0    # amplifier: (int) level of effect (starts at 0 = I) e.g. strength II would have amp of 1
+                ambient: false  # ambient: (bool) Makes potion effect produce more, translucent, particles.
+                particles: true # particles: (bool) Makes entity emit particles when potion consumed
+                color: GREEN    # color: (Color) Color of particles https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Color.html
+            invis_effect:
+                type: INVISIBILITY  # type: (enum) https://hub.spigotmc.org/javadocs/spigot/org/bukkit/potion/PotionEffectType.html
+                duration: 100       # duration: (int) ticks
+                amplifier: 0        # amplifier: (int) level of effect (starts at 0 = I) e.g. strength II would have amp of 1
+                ambient: false      # ambient: (bool) Makes potion effect produce more, translucent, particles.
+                particles: false    # particles: (bool) Makes entity emit particles when potion consumed
+HEALTH_VIAL:
+        display_name: §cHealing Salve
+        color: FUCHSIA
+        variant: SPLASH
+        effects:
+            posion_effect:
+                type: POISON
+                duration: 100
+                amplifier: 0
+                ambient: false
+                particles: true
+                color: GREEN
+            invis_effect:
+                type: INVISIBILITY
+                duration: 100
+                amplifier: 0
+                ambient: false
+                particles: false

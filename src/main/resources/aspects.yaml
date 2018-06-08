@@ -1,0 +1,59 @@
+flamegrassseeds:
+  aspects:
+    MUNDANE_FIRE: 3
+    MUNDANE_EARTH: 1
+    MUNDANE_LIFE: 1
+  package:
+    - ==: org.bukkit.inventory.ItemStack
+      type: SEEDS
+      meta:
+        ==: ItemMeta
+        meta-type: UNSPECIFIC
+        display-name: §eFlamegrass Seeds
+        lore:
+          - §eTier 1 Resource
+flamegrass:
+  aspects:
+    MUNDANE_FIRE: 3
+    MUNDANE_EARTH: 1
+    MUNDANE_LIFE: 1
+  package:
+    - ==: org.bukkit.inventory.ItemStack
+      type: SEEDS
+      meta:
+        ==: ItemMeta
+        meta-type: UNSPECIFIC
+        display-name: §eFlamegrasss
+        lore:
+          - §eTier 1 Resource
+emberpelt:
+  aspects:
+    MUNDANE_FIRE: 6
+    MUNDANE_EARTH: 3
+    MUNDANE_DEATH: 1
+  package:
+    - ==: org.bukkit.inventory.ItemStack
+      type: LEATHER
+      meta:
+        ==: ItemMeta
+        meta-type: UNSPECIFIC
+        display-name: §eEmber Pelt
+        lore:
+          - §eTier 0 Resource
+          - 
+          - §6§oThe burning pelt of an Ember Wolf.
+          - §6§oIt shimmers with streaks of golden flame.
+livingflame:
+  aspects:
+    MUNDANE_FIRE: 6
+    MUNDANE_EARTH: 1
+    MUNDANE_LIFE: 2
+  package:
+    - ==: org.bukkit.inventory.ItemStack
+      type: BLAZE_POWDER
+      meta:
+        ==: ItemMeta
+        meta-type: UNSPECIFIC
+        display-name: §eLiving Flame
+        lore:
+          - §eTier 0 Resource

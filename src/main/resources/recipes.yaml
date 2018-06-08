@@ -1,0 +1,16 @@
+# Recipes for potions
+fireball:
+    binding_agent: 100
+    primary_aspect: PURE_FIRE
+    aspects:  # Required aspect map
+        PURE_FIRE: 3
+        PURE_ARCANE: 1
+    result: FIREBALL
+
+freeze:
+    binding_agent: 100
+    primary_aspect: PURE_WATER
+    aspects:
+        PURE_WATER: 3
+        PURE_AIR: 1
+    result: FREEZE
