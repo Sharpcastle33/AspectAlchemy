@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import com.gmail.sharpcastle33.aspects.Aspect;
 import com.gmail.sharpcastle33.aspects.AspectItemData;
 import com.gmail.sharpcastle33.aspects.AspectManager;
+import com.gmail.sharpcastle33.aspects.AspectRecipeManager;
 
 import net.md_5.bungee.api.ChatColor;
 
@@ -45,6 +46,13 @@ public class ThaumaturgicalResonatorListener implements Listener {
 		        			for(String s : itemAspects.keySet()) {
 		        				p.sendMessage(s);
 		        			}
+		        			
+		        			if(AspectRecipeManager.recipes == null) {
+		        				p.sendMessage("AspectRecipes List is null");
+		        			}else {
+		        				p.sendMessage(AspectRecipeManager.recipes.size() + "= amt of recipes");
+		        			}
+		        			
 		        		}
 		        		
 		        		Map<Aspect, Integer> aspects = AspectManager.getAspects(off);
