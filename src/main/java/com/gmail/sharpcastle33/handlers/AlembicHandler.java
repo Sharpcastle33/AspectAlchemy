@@ -21,12 +21,19 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
 
 import com.gmail.sharpcastle33.AspectAlchemy;
+import com.gmail.sharpcastle33.aspects.Aspect;
+import com.gmail.sharpcastle33.aspects.AspectManager;
+import com.gmail.sharpcastle33.aspects.AspectRecipeManager;
+import com.gmail.sharpcastle33.potions.CustomPotion;
+import com.gmail.sharpcastle33.potions.PotionManager;
 
 
 // TODO: Add logic to restart alembics on server start
 
 
 public class AlembicHandler {
+	
+	static final String NOT_ENOUGH_WATER_BOTTLES_MSG = ChatColor.RED + "You must have all three brewing stand slots filled with water bottles to begin an alchemical reaction!";
 
 	static final int ALEMBIC_TICK_TIME = 1200; // 1200 MC Ticks in 1 minute
 	static Map<String, Integer> bindingAgentPoints;
@@ -66,6 +73,11 @@ public class AlembicHandler {
 
 
 	public static void startAlchemy(Block b, String name) {
+		if(!checkWaterBottles(b.getRelative(0, 1, 0))) {
+			Bukkit.getServer().getPlayer(name).sendMessage(NOT_ENOUGH_WATER_BOTTLES_MSG);
+			return;
+		} // if
+		
 		updateAlembicInfo((Chest) b.getState(), name);
 		
 		// Register alembic as active
@@ -155,12 +167,25 @@ public class AlembicHandler {
 		
 	}
 	
-	public static List<ItemStack> evaluateAlembic(Chest chest) {
+	public static void completeAlchemy(Chest chest, BrewingStand stand) {
+		Bukkit.getLogger().info("getting ingredients");
+		ItemStack[] ingredients = getIngredients(chest);
 		
-		List<ItemStack> results = new ArrayList<>();
+		Bukkit.getLogger().info("getting Aspect Totals");
+		Map<Aspect, Integer> aspectTotals = AspectManager.getAspectTotals(ingredients);
 		
+		Bukkit.getLogger().info("getting Binding Points");
+		int amountShamanSap = getTotalBindingPoints(chest);
 		
-		return results;
+		Bukkit.getLogger().info("Finding Resultant CustomPotion");
+		CustomPotion customPot = AspectRecipeManager.findResult(aspectTotals, amountShamanSap);
+		
+		Bukkit.getLogger().info("Getting Potion");
+		ItemStack result = PotionManager.getPotion(customPot);
+		
+		Bukkit.getLogger().info("Setting Contents");
+		ItemStack[] results = { result, result, result };
+		stand.getInventory().setContents(results);
 	}
 	
 	public static ItemStack[] getIngredients(Chest chest) {
