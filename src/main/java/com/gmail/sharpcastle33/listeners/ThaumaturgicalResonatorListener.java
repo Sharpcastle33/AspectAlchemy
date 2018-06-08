@@ -4,6 +4,8 @@ import java.util.Map;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
@@ -14,7 +16,7 @@ import com.gmail.sharpcastle33.aspects.AspectManager;
 
 import net.md_5.bungee.api.ChatColor;
 
-public class ThaumaturgicalResonatorListener {
+public class ThaumaturgicalResonatorListener implements Listener {
 	
 	private final Material RESONATOR_ITEM = Material.COMPASS;
 	private final String RESONATOR_NAME = ChatColor.YELLOW + "Thaumaturgical Resonator";
@@ -23,6 +25,7 @@ public class ThaumaturgicalResonatorListener {
 	private final String MEDIUM_ASPECTS = ChatColor.GOLD + "The dial hovers steadily above the baseline. This item certainly contains alchemical properties.";
 	private final String LARGE_ASPECTS = ChatColor.BLUE + "The resonator thrums with energy, and the dial flails wildly. This item must contain very powerful energies.";
 	
+	@EventHandler
 	public void resonator(PlayerInteractEvent event) {
 		
 		if(event.getHand() == EquipmentSlot.HAND && (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)){
