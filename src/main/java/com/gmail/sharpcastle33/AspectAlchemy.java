@@ -10,6 +10,7 @@ import com.gmail.sharpcastle33.aspects.AspectRecipeManager;
 import com.gmail.sharpcastle33.handlers.AlembicHandler;
 import com.gmail.sharpcastle33.listeners.AlembicBreakListener;
 import com.gmail.sharpcastle33.listeners.AlembicCreationListener;
+import com.gmail.sharpcastle33.listeners.AlembicExploitListener;
 import com.gmail.sharpcastle33.listeners.AlembicGUI;
 import com.gmail.sharpcastle33.listeners.ThaumaturgicalResonatorListener;
 import com.gmail.sharpcastle33.potions.PotionManager;
@@ -34,6 +35,7 @@ public class AspectAlchemy extends JavaPlugin {
 		
 		getServer().getPluginManager().registerEvents(new AlembicCreationListener(), plugin);
 		getServer().getPluginManager().registerEvents(new AlembicBreakListener(), plugin);
+		getServer().getPluginManager().registerEvents(new AlembicExploitListener(), plugin);
 		getServer().getPluginManager().registerEvents(new AlembicGUI(), plugin);
 		
 		getServer().getPluginManager().registerEvents(new ThaumaturgicalResonatorListener(), plugin);

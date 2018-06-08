@@ -17,7 +17,7 @@ import com.gmail.sharpcastle33.handlers.AlembicHandler;
 
 public class AlembicGUI implements Listener {
 
-	public static final String IN_PROGRESS = ChatColor.RED
+	public static final String IN_PROGRESS_MESSAGE = ChatColor.RED
 			+ "Inventories of Alembics cannot be modified while they are in progress!";
 	public static final String ENDER_PEARL_ERROR = ChatColor.RED + "The magics in this item conflict with the energies inside the Alembic.";
 	
@@ -56,7 +56,7 @@ public class AlembicGUI implements Listener {
 			if (alembicChest.getInventory().getItem(17).hasItemMeta() && alembicChest.getInventory().getItem(17).getItemMeta().getDisplayName().equals(ChatColor.RED + "In Progress")) {
 				event.setCancelled(true);
 				p.closeInventory();
-				p.sendMessage(IN_PROGRESS);
+				p.sendMessage(IN_PROGRESS_MESSAGE);
 			}
 		}
 		
