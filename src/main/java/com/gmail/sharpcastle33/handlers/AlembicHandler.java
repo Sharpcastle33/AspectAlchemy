@@ -211,7 +211,7 @@ public class AlembicHandler {
 	public static void clearIngredients(Chest chest) {
 		int slot = 2;
 		for (int counter = 0; counter < 15; counter++) {
-			chest.getInventory().getItem(slot).setAmount(0);;
+			if(chest.getInventory().getItem(slot) != null) chest.getInventory().getItem(slot).setAmount(0);
 			if (slot == 6 || slot == 15) {
 				slot += 4;
 				continue;
