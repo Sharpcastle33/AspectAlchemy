@@ -86,7 +86,11 @@ public class AspectManager {
 			if (getAspects(i) != null) {
 				Map<Aspect, Integer> temp = getAspects(i);
 				for (Aspect a : temp.keySet()) {
-					ret.put(a, ret.get(a) + temp.get(a));
+					if(ret.get(a) != null) {
+						ret.put(a, ret.get(a) + temp.get(a));
+					}else {
+						ret.put(a,  temp.get(a));
+					}
 				}
 			}
 		}
@@ -103,6 +107,10 @@ public class AspectManager {
 		
 		// Check if aspects have been loaded
 		if (itemAspects == null) {
+			return null;
+		}
+		
+		if(stack == null) {
 			return null;
 		}
 

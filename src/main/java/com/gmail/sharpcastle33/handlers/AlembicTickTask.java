@@ -64,9 +64,9 @@ public class AlembicTickTask extends BukkitRunnable {
 
 		// If time is 0 or less evaluate recipe and deactivate alembic
 		if (timeRemaining <= 0) {
+			this.cancel();
 			AlembicHandler.completeAlchemy(chest, stand);
 			AlembicHandler.deactivateAlembic(chest);
-			this.cancel();
 		}
 		
 		// Consume fuel and handle failure

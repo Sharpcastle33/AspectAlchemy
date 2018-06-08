@@ -57,9 +57,9 @@ public class AlembicHandler {
 		if(b.getType() == Material.BREWING_STAND) {
             BrewingStand brewingStandState = (BrewingStand) b.getState();	
             ItemStack[] arr = brewingStandState.getInventory().getContents();
-            ItemStack bottle = new ItemStack(Material.POTION, 1, ((byte)0));
+            //ItemStack bottle = new ItemStack(Material.POTION, 1, ((byte)0));
             for(int i = 0; i< 3; i++) {
-            	if(arr[i] != null && arr[i].isSimilar(bottle)) {
+            	if(arr[i] != null && arr[i].getType() == Material.POTION) {
             		
             	}else {
             		return false;
@@ -193,7 +193,7 @@ public class AlembicHandler {
 
 		int slot = 2;
 
-		for (int counter = 0; counter < 16; counter++) {
+		for (int counter = 0; counter < 15; counter++) {
 			ret[counter] = chest.getInventory().getItem(slot);
 
 			if (slot == 6 || slot == 15) {
