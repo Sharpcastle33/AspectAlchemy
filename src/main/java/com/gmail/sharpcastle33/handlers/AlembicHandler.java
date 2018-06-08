@@ -8,26 +8,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.sql.rowset.FilteredRowSet;
-
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
+import org.bukkit.block.BrewingStand;
 import org.bukkit.block.Chest;
-import org.bukkit.conversations.StringPrompt;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
-import org.junit.experimental.theories.Theories;
 
-import com.gmail.sharpcastle33.AlembicManager;
 import com.gmail.sharpcastle33.AspectAlchemy;
-import com.gmail.sharpcastle33.listeners.AlembicCreationListener;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.World;
 
 
 // TODO: Add logic to restart alembics on server start
@@ -51,6 +44,24 @@ public class AlembicHandler {
 		
 		bindingAgentPoints = new HashMap<>();
 		bindingAgentPoints.put("Binding Agent", 1);
+	}
+	
+	public static boolean checkWaterBottles(Block b) {
+		if(b.getType() == Material.BREWING_STAND) {
+            BrewingStand brewingStandState = (BrewingStand) b.getState();	
+            ItemStack[] arr = brewingStandState.getInventory().getContents();
+            ItemStack bottle = new ItemStack(Material.POTION, 1, ((byte)0));
+            for(int i = 0; i< 3; i++) {
+            	if(arr[i] != null && arr[i].isSimilar(bottle)) {
+            		
+            	}else {
+            		return false;
+            	}
+            }
+            return true;
+		}
+		Bukkit.getServer().getLogger().warning("Called checkWaterBottles on something that isn't a brewingstand!");
+		return false;
 	}
 
 
