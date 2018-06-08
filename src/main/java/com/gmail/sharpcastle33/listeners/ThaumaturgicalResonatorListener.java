@@ -12,19 +12,21 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import com.gmail.sharpcastle33.aspects.Aspect;
+import com.gmail.sharpcastle33.aspects.AspectItemData;
 import com.gmail.sharpcastle33.aspects.AspectManager;
 
 import net.md_5.bungee.api.ChatColor;
 
 public class ThaumaturgicalResonatorListener implements Listener {
 	
-	private final Material RESONATOR_ITEM = Material.COMPASS;
+	private final Material RESONATOR_ITEM = Material.WATCH;
 	private final String RESONATOR_NAME = ChatColor.YELLOW + "Thaumaturgical Resonator";
 	private final String NO_ASPECTS = ChatColor.RED + "This item does not appear to influence the resonator.";
 	private final String SMALL_ASPECTS = ChatColor.YELLOW + "The dial hovers for a moment, then falters. This item contains a small amount of alchemical energy.";
 	private final String MEDIUM_ASPECTS = ChatColor.GOLD + "The dial hovers steadily above the baseline. This item certainly contains alchemical properties.";
 	private final String LARGE_ASPECTS = ChatColor.BLUE + "The resonator thrums with energy, and the dial flails wildly. This item must contain very powerful energies.";
 	
+	private final String DEBUG_ITEM = ChatColor.RED + "Admin Debug Tool";
 	@EventHandler
 	public void resonator(PlayerInteractEvent event) {
 		
@@ -36,7 +38,16 @@ public class ThaumaturgicalResonatorListener implements Listener {
 		        //If the player is holding a resonator and an item.
 		        if(main.getType() == RESONATOR_ITEM && off != null) {
 		        	if(main.hasItemMeta() && main.getItemMeta().hasDisplayName() && main.getItemMeta().getDisplayName().equals(RESONATOR_NAME)) {
-		        		Map<Aspect, Integer> aspects = AspectManager.getAspects(main);
+		        		
+		        		if(off.hasItemMeta() && off.getItemMeta().hasDisplayName() && off.getItemMeta().getDisplayName().equals(DEBUG_ITEM)) {
+		        			Map<String, AspectItemData> itemAspects = AspectManager.getLoadedItemAspects();
+		        			p.sendMessage("There are " + itemAspects.size() + " itemaspect entries loaded");
+		        			for(String s : itemAspects.keySet()) {
+		        				p.sendMessage(s);
+		        			}
+		        		}
+		        		
+		        		Map<Aspect, Integer> aspects = AspectManager.getAspects(off);
 		        		if(aspects == null || aspects.size() == 0) {
 		        			p.sendMessage(NO_ASPECTS);
 		        			return;

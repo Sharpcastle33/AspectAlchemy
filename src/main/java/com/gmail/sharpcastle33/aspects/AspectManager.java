@@ -30,6 +30,10 @@ public class AspectManager {
 			e.printStackTrace();
 		}
 	}
+	
+	public static Map<String,AspectItemData> getLoadedItemAspects(){
+		return itemAspects;
+	}
 
 	/**
 	 * Loads the aspect values for each item in config section "items".
@@ -104,8 +108,28 @@ public class AspectManager {
 
 		// Get item meta data from ItemStack
 		ItemMeta meta = stack.hasItemMeta() ? stack.getItemMeta() : null;
-
-		// Get data that is used
+		
+		//For items without meta
+		if(meta == null) {
+			for (AspectItemData aspect : itemAspects.values()) {
+				if(aspect.itemMaterial == stack.getType()) {
+					if(aspect.displayName == null || aspect.displayName == "") {
+						if(aspect.itemLore == null || aspect.itemLore.size() == 0) {
+							Map<Aspect, Integer> stackAspects = new HashMap<Aspect, Integer>();
+							for (Aspect a : aspect.aspects.keySet()) {
+								stackAspects.put(a, stack.getAmount() * aspect.aspects.get(a));
+							}
+							return stackAspects;
+						}
+					}
+				}
+			}
+			
+			// If there was no match return null
+			return null;
+		}
+		//For items with meta
+	
 		Material stackMaterial = stack.getType();
 		String stackDisplayName = meta.hasDisplayName() ? meta.getDisplayName() : null;
 		List<String> stackLore = meta.hasLore() ? meta.getLore() : null;
