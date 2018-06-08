@@ -19,6 +19,7 @@ public class AlembicGUI implements Listener {
 
 	public static final String IN_PROGRESS = ChatColor.RED
 			+ "Inventories of Alembics cannot be modified while they are in progress!";
+	public static final String ENDER_PEARL_ERROR = ChatColor.RED + "The magics in this item conflict with the energies inside the Alembic.";
 	
 	@EventHandler
 	public void alembicGUI(InventoryClickEvent event) {
@@ -49,14 +50,19 @@ public class AlembicGUI implements Listener {
 		}
 
 
-		p.sendMessage(invName);
+		//p.sendMessage(invName);
 		if (event.getClickedInventory().getName().equals(AlembicCreationListener.ALEMBIC_CHEST_NAME) || event.getClickedInventory().getName().equals(AlembicCreationListener.ALEMBIC_BREWINGSTAND_NAME)) {
-			p.sendMessage("Alchemy: AlembicGUI");
+			//p.sendMessage("Alchemy: AlembicGUI");
 			if (alembicChest.getInventory().getItem(17).hasItemMeta() && alembicChest.getInventory().getItem(17).getItemMeta().getDisplayName().equals(ChatColor.RED + "In Progress")) {
 				event.setCancelled(true);
 				p.closeInventory();
 				p.sendMessage(IN_PROGRESS);
 			}
+		}
+		
+		if(clicked.getType() == Material.ENDER_PEARL) {
+			event.setCancelled(true);
+			p.sendMessage(ENDER_PEARL_ERROR);
 		}
 
 		if (clicked.hasItemMeta() && clicked.getItemMeta().getDisplayName().equals(ChatColor.RED + "")) {
