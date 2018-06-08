@@ -168,24 +168,27 @@ public class AlembicHandler {
 	}
 	
 	public static void completeAlchemy(Chest chest, BrewingStand stand) {
-		Bukkit.getLogger().info("getting ingredients");
+		//Bukkit.getLogger().info("getting ingredients");
 		ItemStack[] ingredients = getIngredients(chest);
 		
-		Bukkit.getLogger().info("getting Aspect Totals");
+		//Bukkit.getLogger().info("getting Aspect Totals");
 		Map<Aspect, Integer> aspectTotals = AspectManager.getAspectTotals(ingredients);
 		
-		Bukkit.getLogger().info("getting Binding Points");
+		//Bukkit.getLogger().info("getting Binding Points");
 		int amountShamanSap = getTotalBindingPoints(chest);
 		
-		Bukkit.getLogger().info("Finding Resultant CustomPotion");
+		//Bukkit.getLogger().info("Finding Resultant CustomPotion");
 		CustomPotion customPot = AspectRecipeManager.findResult(aspectTotals, amountShamanSap);
 		
-		Bukkit.getLogger().info("Getting Potion");
+		//Bukkit.getLogger().info("Getting Potion");
 		ItemStack result = PotionManager.getPotion(customPot);
 		
-		Bukkit.getLogger().info("Setting Contents");
+		//Bukkit.getLogger().info("Setting Contents");
 		ItemStack[] results = { result, result, result };
 		stand.getInventory().setContents(results);
+		
+		//Bukkit.getLogger().info("Clearing Ingredients");
+		clearIngredients(chest);
 	}
 	
 	public static ItemStack[] getIngredients(Chest chest) {
@@ -204,5 +207,17 @@ public class AlembicHandler {
 		}
 		return ret;
 	}
+	
+	public static void clearIngredients(Chest chest) {
+		int slot = 2;
+		for (int counter = 0; counter < 15; counter++) {
+			chest.getInventory().getItem(slot).setAmount(0);;
+			if (slot == 6 || slot == 15) {
+				slot += 4;
+				continue;
+			} // if
+			slot++;
+		} // for
+	} // clearIngredients
 
 }
