@@ -13,8 +13,10 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.BrewingStand;
 import org.bukkit.block.Chest;
+import org.bukkit.block.Furnace;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
@@ -34,6 +36,7 @@ import com.gmail.sharpcastle33.potions.PotionManager;
 public class AlembicHandler {
 	
 	static final String NOT_ENOUGH_WATER_BOTTLES_MSG = ChatColor.RED + "You must have all three brewing stand slots filled with water bottles to begin an alchemical reaction!";
+	static final String NOT_ENOUGH_FUEL_MSG = ChatColor.RED + "You must have some coal in the Alembic Bellows in order to begin an alchemical reaction!";
 	static final String SHAMAN_SAP_NAME = ChatColor.YELLOW + "Shaman Sap";
 
 	static final int ALEMBIC_TICK_TIME = 1200; // 1200 MC Ticks in 1 minute
@@ -76,6 +79,11 @@ public class AlembicHandler {
 	public static void startAlchemy(Block b, String name) {
 		if(!checkWaterBottles(b.getRelative(0, 1, 0))) {
 			Bukkit.getServer().getPlayer(name).sendMessage(NOT_ENOUGH_WATER_BOTTLES_MSG);
+			return;
+		} // if
+		
+		if(!(b.getRelative(BlockFace.DOWN).getLocation() instanceof Furnace) || ((Furnace) b).getInventory().getFuel() == null || ((Furnace) b).getInventory().getFuel().getAmount() < 1) {
+			Bukkit.getServer().getPlayer(name).sendMessage(NOT_ENOUGH_FUEL_MSG);
 			return;
 		} // if
 		
@@ -220,5 +228,17 @@ public class AlembicHandler {
 			slot++;
 		} // for
 	} // clearIngredients
+	
+	public static void clearFiftyFifty(Chest chest) {
+		int slot = 2;
+		for (int counter = 0; counter < 15; counter++) {
+			if(chest.getInventory().getItem(slot) != null) chest.getInventory().getItem(slot).setAmount(0);
+			if (slot == 6 || slot == 15) {
+				slot += 5;
+				continue;
+			} // if
+			slot++;
+		} // for
+	} // clearFiftyFifty
 
 }
