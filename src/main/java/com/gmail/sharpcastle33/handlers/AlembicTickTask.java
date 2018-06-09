@@ -86,8 +86,8 @@ public class AlembicTickTask extends BukkitRunnable {
 		if (timeRemaining <= 0) {
 			this.cancel();
 			AlembicHandler.completeAlchemy(chest, stand);
-			ItemStack[] bindingAgent = AlembicHandler.getBindingAgents(chest);
-			for(ItemStack itemStack: bindingAgent) if(itemStack != null) itemStack.setAmount(0);
+			ItemStack[] shamanSap = AlembicHandler.getShamanSaps(chest);
+			for(ItemStack itemStack: shamanSap) if(itemStack != null) itemStack.setAmount(0);
 			AlembicHandler.deactivateAlembic(chest);
 		}
 		

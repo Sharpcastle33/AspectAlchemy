@@ -80,7 +80,7 @@ public class AlembicGUI implements Listener {
 			ItemStack bind = new ItemStack(Material.PAPER);
 			bind.setItemMeta(Bukkit.getItemFactory().getItemMeta(Material.PAPER));
 			ItemMeta meta = bind.getItemMeta();
-			meta.setDisplayName("Binding Agent");
+			meta.setDisplayName("Shaman Sap");
 			bind.setItemMeta(meta);
 			p.getInventory().addItem(bind);
 		}

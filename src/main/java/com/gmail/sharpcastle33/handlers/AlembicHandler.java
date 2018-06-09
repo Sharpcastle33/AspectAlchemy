@@ -36,7 +36,7 @@ public class AlembicHandler {
 	static final String NOT_ENOUGH_WATER_BOTTLES_MSG = ChatColor.RED + "You must have all three brewing stand slots filled with water bottles to begin an alchemical reaction!";
 
 	static final int ALEMBIC_TICK_TIME = 1200; // 1200 MC Ticks in 1 minute
-	static Map<String, Integer> bindingAgentPoints;
+	static Map<String, Integer> shamanSapPoints;
 	static Plugin plugin;
 	
 	
@@ -49,8 +49,8 @@ public class AlembicHandler {
 			BukkitTask tickTask =  new AlembicTickTask(loc).runTaskTimer(plugin, ALEMBIC_TICK_TIME, ALEMBIC_TICK_TIME);
 		}
 		
-		bindingAgentPoints = new HashMap<>();
-		bindingAgentPoints.put("Binding Agent", 1);
+		shamanSapPoints = new HashMap<>();
+		shamanSapPoints.put("Shaman Sap", 1);
 	}
 	
 	public static boolean checkWaterBottles(Block b) {
@@ -90,8 +90,8 @@ public class AlembicHandler {
 
 	public static void updateAlembicInfo(Chest c, String name) {
 		
-		if (getTotalBindingPoints(c) <= 0) {
-			Bukkit.getServer().getPlayer(name).sendMessage(ChatColor.RED + "No binding agent! Alechmy not started.");
+		if (getTotalShamanSapPoints(c) <= 0) {
+			Bukkit.getServer().getPlayer(name).sendMessage(ChatColor.RED + "No Shaman Sap! Alechmy not started.");
 			return;
 		}
 		
@@ -113,7 +113,7 @@ public class AlembicHandler {
 		if (start.hasItemMeta()) {
 			ItemMeta meta = start.getItemMeta();
 			meta.setDisplayName(ChatColor.RED + "In Progress");
-			int time = getTotalBindingPoints(c) * ALEMBIC_TICK_TIME / 20 / 60;
+			int time = getTotalShamanSapPoints(c) * ALEMBIC_TICK_TIME / 20 / 60;
 			List<String> lore = new ArrayList<>();
 			lore.add("Time Remaining: " + time + "min");
 			meta.setLore(lore);
@@ -123,7 +123,7 @@ public class AlembicHandler {
 
 	}
 
-	public static ItemStack[] getBindingAgents(Chest chest) {
+	public static ItemStack[] getShamanSaps(Chest chest) {
 		ItemStack[] ret = new ItemStack[3];
 		ret[0] = chest.getInventory().getItem(0);
 		ret[1] = chest.getInventory().getItem(9);
@@ -131,20 +131,20 @@ public class AlembicHandler {
 		return ret;
 	}
 
-	public static int getTotalBindingPoints(Chest chest) {
-		int bindingPoints = 0;
+	public static int getTotalShamanSapPoints(Chest chest) {
+		int sapPoints = 0;
 		
-		ItemStack[] bindingAgents = getBindingAgents(chest);
-		for (ItemStack agent : bindingAgents) {
-			if (agent != null && agent.hasItemMeta()) {
-				ItemMeta bindingMeta = agent.getItemMeta();
-				if (bindingMeta.hasDisplayName()) {
-					bindingPoints += agent.getAmount() * bindingAgentPoints.getOrDefault(bindingMeta.getDisplayName(), 0);
+		ItemStack[] shamanSaps = getShamanSaps(chest);
+		for (ItemStack sap : shamanSaps) {
+			if (sap != null && sap.hasItemMeta()) {
+				ItemMeta sapMeta = sap.getItemMeta();
+				if (sapMeta.hasDisplayName()) {
+					sapPoints += sap.getAmount() * shamanSapPoints.getOrDefault(sapMeta.getDisplayName(), 0);
 				}
 			}
 		}
 
-		return bindingPoints;
+		return sapPoints;
 	}
 
 	// Remove alembic from active alembic list, revert alembic chest to idle state
@@ -175,7 +175,7 @@ public class AlembicHandler {
 		Map<Aspect, Integer> aspectTotals = AspectManager.getAspectTotals(ingredients);
 		
 		//Bukkit.getLogger().info("getting Binding Points");
-		int amountShamanSap = getTotalBindingPoints(chest);
+		int amountShamanSap = getTotalShamanSapPoints(chest);
 		
 		//Bukkit.getLogger().info("Finding Resultant CustomPotion");
 		CustomPotion customPot = AspectRecipeManager.findResult(aspectTotals, amountShamanSap);
