@@ -14,9 +14,6 @@ import org.bukkit.block.Furnace;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.Vector;
-
-import com.gmail.sharpcastle33.AlembicManager;
 
 public class AlembicTickTask extends BukkitRunnable {
 

@@ -17,18 +17,14 @@ import com.gmail.sharpcastle33.potions.PotionManager;
 
 public class AspectAlchemy extends JavaPlugin {
 
-	public static AlembicManager alembicMan;
-
-	Plugin plugin;
+	public static Plugin plugin;
 
 	public void onEnable() {
-
 		plugin = this;
 
-		alembicMan = new AlembicManager(plugin);
-
-
 		AlembicHandler.init(plugin);
+		
+		AlembicManager.init(new File(this.getDataFolder(), "alembics.yaml"));
 		AspectManager.init(new File(this.getDataFolder(), "aspects.yaml"));
 		PotionManager.init(new File(this.getDataFolder(), "potions.yaml"));
 		AspectRecipeManager.init(new File(this.getDataFolder(), "recipes.yaml"));
@@ -40,12 +36,10 @@ public class AspectAlchemy extends JavaPlugin {
 		
 		getServer().getPluginManager().registerEvents(new ThaumaturgicalResonatorListener(), plugin);
 
-
 	}
 
 	public void onDisable() {
-		alembicMan.saveActiveAlembics(plugin);
-
+		AlembicManager.saveAlembics();
 		saveConfig();
 	}
 }

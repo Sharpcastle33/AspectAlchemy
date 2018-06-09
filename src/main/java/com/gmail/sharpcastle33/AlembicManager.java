@@ -1,60 +1,92 @@
 package com.gmail.sharpcastle33;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.plugin.Plugin;
+import org.bukkit.World;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 public class AlembicManager {
-  
-  public ArrayList<Location> activeAlembics;
-  
-  public AlembicManager(Plugin plugin){
-    activeAlembics = loadActiveAlembics(plugin);
-  }
- 
-  public ArrayList<Location> loadActiveAlembics(Plugin plugin){
-    ArrayList<Location> ret = new ArrayList<Location>();
+	
+	private static File configFile;
+	private static FileConfiguration config;
+	
+	public static List<Location> alembics;
+	
+	public static void init(File file) {
+		configFile = file;
+		
+		try {
+			config = YamlConfiguration.loadConfiguration(configFile);
+			alembics = loadAlembics();
+		} catch (IllegalArgumentException e1) {
+			Bukkit.getLogger().severe("Alembics config does not exist! Creating...");
+			try {
+				configFile.createNewFile();
+			} catch(IOException e2) {
+				Bukkit.getLogger().severe("Unable to create Alembics config!");
+				e2.printStackTrace();
+			}
+			e1.printStackTrace();
+		} // try/catch
+	} // init
+	
+	public static void saveAlembics() {
+		config = new YamlConfiguration();
+		
+		for(Location location: alembics) {
+			String world = location.getWorld().getName();
+			double x = location.getX();
+			double y = location.getY();
+			double z = location.getZ();
+			
+			Map<String, Object> values = new HashMap<>();
+			values.put("world", world);
+			values.put("x", x);
+			values.put("y", y);
+			values.put("z", z);
+			
+			config.createSection(x + " " + y + " " + z, values);
+		} // for
+		
+		try {
+			config.save(configFile);
+		} catch (IOException e) {
+			Bukkit.getLogger().severe("Unable to save Alembics config!");
+			e.printStackTrace();
+		} // try/catch
+	} // saveAlembics
+	
+	private static List<Location> loadAlembics() {
+		List<Location> configAlembics = new ArrayList<>();
+		for(String alembicKey : config.getKeys(false)) {
+			ConfigurationSection alembicSection = config.getConfigurationSection(alembicKey);
+			
+			World world = Bukkit.getWorld(alembicSection.getString("world"));
+			double x = alembicSection.getDouble("x");
+			double y = alembicSection.getDouble("y");
+			double z = alembicSection.getDouble("z");
+			
+			configAlembics.add(new Location(world, x, y, z));
+		} // for
 
-    ArrayList<HashMap<String, Object>> serializedAlembics = (ArrayList<HashMap<String, Object>>) plugin.getConfig().get("active_alembics");
-    if(serializedAlembics == null) return ret;
-
-    for(HashMap<String, Object> map: serializedAlembics) {
-	double x = (double) map.get("x");
-	double y = (double) map.get("y");
-	double z = (double) map.get("z");
-	String world = (String) map.get("world");
-	ret.add(new Location(plugin.getServer().getWorld(world), x, y, z));
-    } // for
-    
-    return ret;
-  }
-  
-  public void saveActiveAlembics(Plugin plugin){
-      ArrayList<HashMap<String, Object>> serializedAlembics = new ArrayList<>();
-      for(Location loc: activeAlembics) {
-	  HashMap<String, Object> map = new HashMap<>();
-	  map.put("x", loc.getX());
-	  map.put("y", loc.getY());
-	  map.put("z", loc.getZ());
-	  map.put("world", loc.getWorld().getName());
-	  serializedAlembics.add(map);
-      } // for
-
-      plugin.getConfig().set("active_alembics", serializedAlembics);
-  } // saveActiveAlembics
-  
-  public void activateAlembic(Location loc){
-    activeAlembics.add(loc);
-    System.out.println("Alembic Activated");
-  }
-  
-  public void deactivateAlembic(Location loc){
-    for(Location compare: activeAlembics) {
-	if(loc.getBlockX() == compare.getBlockX() && loc.getBlockY() == compare.getBlockY() && loc.getBlockZ() == compare.getBlockZ() && loc.getWorld().getName().equals(compare.getWorld().getName())) {
-	    activeAlembics.remove(compare);
-	    break;
+		return configAlembics;
+	} // loadAlembics
+	
+	public static void activateAlembic(Location location) {
+		if(!alembics.contains(location)) alembics.add(location);
+	} // activateAlembic
+	
+	public static void deactivateAlembic(Location location) {
+		if(alembics.contains(location)) alembics.remove(location);
 	}
-    }
-  }
-}
+	
+} // class

@@ -20,9 +20,8 @@ import org.bukkit.block.Furnace;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitTask;
 
-import com.gmail.sharpcastle33.AspectAlchemy;
+import com.gmail.sharpcastle33.AlembicManager;
 import com.gmail.sharpcastle33.aspects.Aspect;
 import com.gmail.sharpcastle33.aspects.AspectManager;
 import com.gmail.sharpcastle33.aspects.AspectRecipeManager;
@@ -49,8 +48,8 @@ public class AlembicHandler {
 		plugin = p;
 		
 		// Restart tasks that for active alembics
-		for(Location loc : AspectAlchemy.alembicMan.activeAlembics) {
-			BukkitTask tickTask =  new AlembicTickTask(loc).runTaskTimer(plugin, ALEMBIC_TICK_TIME, ALEMBIC_TICK_TIME);
+		for(Location loc : AlembicManager.alembics) {
+			new AlembicTickTask(loc).runTaskTimer(plugin, ALEMBIC_TICK_TIME, ALEMBIC_TICK_TIME);
 		}
 		
 		shamanSapPoints = new HashMap<>();
@@ -90,10 +89,10 @@ public class AlembicHandler {
 		updateAlembicInfo((Chest) b.getState(), name);
 		
 		// Register alembic as active
-		AspectAlchemy.alembicMan.activateAlembic(b.getLocation());
+		AlembicManager.activateAlembic(b.getLocation());
 		
 		// Start alemchemy task
-		BukkitTask alebmicTask = new AlembicTickTask(b.getLocation()).runTaskTimer(plugin, ALEMBIC_TICK_TIME, ALEMBIC_TICK_TIME);
+		new AlembicTickTask(b.getLocation()).runTaskTimer(plugin, ALEMBIC_TICK_TIME, ALEMBIC_TICK_TIME);
 		
 	}
 
@@ -158,7 +157,7 @@ public class AlembicHandler {
 
 	// Remove alembic from active alembic list, revert alembic chest to idle state
 	public static void deactivateAlembic(Chest chest) {
-		AspectAlchemy.alembicMan.deactivateAlembic(chest.getLocation());
+		AlembicManager.deactivateAlembic(chest.getLocation());
 		
 		ItemStack info = chest.getInventory().getItem(8);
 		ItemMeta infoMeta = info.hasItemMeta() ? info.getItemMeta() : Bukkit.getItemFactory().getItemMeta(info.getType());
