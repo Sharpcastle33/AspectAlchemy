@@ -50,9 +50,29 @@ public class AlembicTickTask extends BukkitRunnable {
 	public void run() {
 		tickAlembic();
 	}
+	
+	/**
+	 * Checks some errors related to block states not being correct
+	 */
+	private void checkErrors() {
+		if(!(standLocation.getBlock().getState() instanceof BrewingStand)) {
+			Bukkit.getLogger().severe("Error while ticking alembic: BrewingStand Block is Not a BrewingStand (" + standLocation + ")");
+			this.cancel();
+		} // if
+		if(!(chestLocation.getBlock().getState() instanceof Chest)) {
+			Bukkit.getLogger().severe("Error while ticking alembic: Chest Block is Not a Chest (" + chestLocation + ")");
+			this.cancel();
+		} // if
+		if(!(furnaceLocation.getBlock().getState() instanceof Furnace)) {
+			Bukkit.getLogger().severe("Error while ticking alembic: Furnace Block is Not a Furnace (" + furnaceLocation + ")");
+			this.cancel();
+		} // if
+	} // checkErrors
 
 	// Tick the alembic
 	private void tickAlembic() {
+		checkErrors(); // checks some errors related to block states not being correct
+		
 		// Alembic blocks
 		BrewingStand stand = (BrewingStand) standLocation.getBlock().getState();
 		Chest chest = (Chest) chestLocation.getBlock().getState();
@@ -66,6 +86,8 @@ public class AlembicTickTask extends BukkitRunnable {
 		if (timeRemaining <= 0) {
 			this.cancel();
 			AlembicHandler.completeAlchemy(chest, stand);
+			ItemStack[] bindingAgent = AlembicHandler.getBindingAgents(chest);
+			for(ItemStack itemStack: bindingAgent) if(itemStack != null) itemStack.setAmount(0);
 			AlembicHandler.deactivateAlembic(chest);
 		}
 		
@@ -73,15 +95,6 @@ public class AlembicTickTask extends BukkitRunnable {
 		if(!consumeFuel(furnace)) {
 			alembicFail(chest);
 			this.cancel();
-		}
-
-		// Consume binding agent. Maybe put in consume fuel?
-		ItemStack[] bindingAgent = AlembicHandler.getBindingAgents(chest);
-		for(int i=2; i >= 0; i--) {
-			if(bindingAgent[i] != null) {
-				bindingAgent[i].setAmount(bindingAgent[i].getAmount() - 1);
-				break;
-			}
 		}
 
 	}
