@@ -155,7 +155,9 @@ public class AspectManager {
 					itemLoreMatch = false;
 				} else if (stackLore == null && aspect.itemLore == null) {
 					itemLoreMatch = true;
-				} else {
+				} else if(stackLore.size() != aspect.itemLore.size()){
+					itemLoreMatch = false;
+				}else {
 					// Check if the lore lists have the same entries.
 					for (int i = 0; i < stackLore.size(); i++) {
 						if (!stackLore.contains(aspect.itemLore.get(i))) {
