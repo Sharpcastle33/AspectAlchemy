@@ -34,6 +34,7 @@ import com.gmail.sharpcastle33.potions.PotionManager;
 public class AlembicHandler {
 	
 	static final String NOT_ENOUGH_WATER_BOTTLES_MSG = ChatColor.RED + "You must have all three brewing stand slots filled with water bottles to begin an alchemical reaction!";
+	static final String SHAMAN_SAP_NAME = ChatColor.YELLOW + "Shaman Sap";
 
 	static final int ALEMBIC_TICK_TIME = 1200; // 1200 MC Ticks in 1 minute
 	static Map<String, Integer> shamanSapPoints;
@@ -50,7 +51,7 @@ public class AlembicHandler {
 		}
 		
 		shamanSapPoints = new HashMap<>();
-		shamanSapPoints.put("Shaman Sap", 1);
+		shamanSapPoints.put(SHAMAN_SAP_NAME, 1);
 	}
 	
 	public static boolean checkWaterBottles(Block b) {
