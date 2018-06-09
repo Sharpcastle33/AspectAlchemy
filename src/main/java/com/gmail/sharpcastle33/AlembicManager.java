@@ -21,6 +21,10 @@ public class AlembicManager {
 	
 	public static List<Location> alembics;
 	
+	/**
+	 * Loads from config and creates the alembics List
+	 * @param file config File
+	 */
 	public static void init(File file) {
 		configFile = file;
 		
@@ -39,6 +43,9 @@ public class AlembicManager {
 		} // try/catch
 	} // init
 	
+	/**
+	 * Saves the alembics List to the config
+	 */
 	public static void saveAlembics() {
 		config = new YamlConfiguration();
 		
@@ -65,6 +72,10 @@ public class AlembicManager {
 		} // try/catch
 	} // saveAlembics
 	
+	/**
+	 * Loads the alembics from config
+	 * @return alembics List (of locations)
+	 */
 	private static List<Location> loadAlembics() {
 		List<Location> configAlembics = new ArrayList<>();
 		for(String alembicKey : config.getKeys(false)) {
@@ -81,12 +92,20 @@ public class AlembicManager {
 		return configAlembics;
 	} // loadAlembics
 	
+	/**
+	 * Activates an alembic (saves its location while the alembic is active)
+	 * @param location Location of Alembic
+	 */
 	public static void activateAlembic(Location location) {
 		if(!alembics.contains(location)) alembics.add(location);
 	} // activateAlembic
 	
+	/**
+	 * Deactivates and alembic (dereferences its location since the alembic reaction is complete)
+	 * @param location Location of Alembic
+	 */
 	public static void deactivateAlembic(Location location) {
 		if(alembics.contains(location)) alembics.remove(location);
-	}
+	} // deactivateAlembic
 	
 } // class
