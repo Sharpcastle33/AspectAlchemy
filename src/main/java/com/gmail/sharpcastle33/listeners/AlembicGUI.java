@@ -77,12 +77,6 @@ public class AlembicGUI implements Listener {
 		if (clicked.hasItemMeta() && clicked.getItemMeta().hasDisplayName() && clicked.getItemMeta().getDisplayName().equals(ChatColor.BLUE + "Information")) {
 			event.setCancelled(true);
 			p.sendMessage("Information");
-			ItemStack bind = new ItemStack(Material.PAPER);
-			bind.setItemMeta(Bukkit.getItemFactory().getItemMeta(Material.PAPER));
-			ItemMeta meta = bind.getItemMeta();
-			meta.setDisplayName("Shaman Sap");
-			bind.setItemMeta(meta);
-			p.getInventory().addItem(bind);
 		}
 
 		// Implement tutorial
