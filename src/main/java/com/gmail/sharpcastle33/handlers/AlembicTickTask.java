@@ -24,11 +24,14 @@ public class AlembicTickTask extends BukkitRunnable {
 	Location standLocation;
 	Location chestLocation;
 	Location furnaceLocation;
+	
+	int fuelTick;
 
 	/*
 	 * Set up tick task by chest block
 	 */
 	public AlembicTickTask(Chest chest) {
+		fuelTick = 0;
 
 		this.standLocation = ((Block) chest).getRelative(BlockFace.UP).getLocation();
 		this.chestLocation = chest.getLocation();
@@ -92,11 +95,14 @@ public class AlembicTickTask extends BukkitRunnable {
 			AlembicHandler.deactivateAlembic(chest);
 		}
 		
+		fuelTick++;
 		// Consume fuel and handle failure
-		if(!consumeFuel(furnace)) {
+		if(fuelTick >= 4 && !consumeFuel(furnace)) {
 			alembicFail(chest, stand);
 			this.cancel();
 		}
+		
+		if(fuelTick >= 4) fuelTick = 0;
 
 	}
 	
