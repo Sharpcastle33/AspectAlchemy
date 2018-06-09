@@ -1,7 +1,6 @@
 package com.gmail.sharpcastle33.aspects;
 
 import java.util.Map;
-import org.bukkit.inventory.ItemStack;
 
 import com.gmail.sharpcastle33.potions.CustomPotion;
 

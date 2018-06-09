@@ -10,10 +10,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.inventory.ItemStack;
 
 import com.gmail.sharpcastle33.potions.CustomPotion;
-import com.gmail.sharpcastle33.potions.PotionManager;
 
 public class AspectRecipeManager {
 	

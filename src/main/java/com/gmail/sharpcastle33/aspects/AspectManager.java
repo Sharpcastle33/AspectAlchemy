@@ -1,7 +1,6 @@
 package com.gmail.sharpcastle33.aspects;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
@@ -48,6 +47,7 @@ public class AspectManager {
 				ConfigurationSection itemSection = config.getConfigurationSection(key);
 
 				// Get item data
+				@SuppressWarnings("unchecked")
 				ItemStack itemStack = ((List<ItemStack>) itemSection.getList("package")).get(0);
 				ItemMeta meta = itemStack.hasItemMeta() ? itemStack.getItemMeta() : null;
 				
