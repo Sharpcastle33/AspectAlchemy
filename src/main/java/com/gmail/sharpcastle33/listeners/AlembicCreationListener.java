@@ -28,15 +28,15 @@ public class AlembicCreationListener implements Listener{
   @EventHandler
   public void alembicPlaceEvent(BlockPlaceEvent event){
     Block b = event.getBlock();
-    ItemStack chest = event.getItemInHand();
+    ItemStack item = event.getItemInHand();
     Player p = event.getPlayer();
 
     p.sendMessage("Alchemy: p");
     
-    if(chest.getType() == Material.CHEST){
+    if(item.getType() == Material.OBSERVER){
       p.sendMessage("Alchemy: Chest in hand");
-      if(chest.hasItemMeta()){
-        ItemMeta meta = chest.getItemMeta();
+      if(item.hasItemMeta()){
+        ItemMeta meta = item.getItemMeta();
         p.sendMessage("Alchemy: hasMeta");
         if(meta.hasDisplayName() && meta.getDisplayName().equals(ALEMBIC_ITEM_NAME)){
           p.sendMessage("Alchemy: right name");

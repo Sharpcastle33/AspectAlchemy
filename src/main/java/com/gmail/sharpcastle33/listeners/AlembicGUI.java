@@ -26,6 +26,10 @@ public class AlembicGUI implements Listener {
 		if (!(event.getWhoClicked() instanceof Player)) {
 			return;
 		}
+		
+		if(event.getClickedInventory() == null) {
+			return;
+		}
 
 		Player p = (Player) event.getWhoClicked();
 		ItemStack clicked = event.getCurrentItem();
@@ -65,12 +69,12 @@ public class AlembicGUI implements Listener {
 			p.sendMessage(ENDER_PEARL_ERROR);
 		}
 
-		if (clicked.hasItemMeta() && clicked.getItemMeta().getDisplayName().equals(ChatColor.RED + "")) {
+		if (clicked.hasItemMeta() && clicked.getItemMeta().hasDisplayName() && clicked.getItemMeta().getDisplayName().equals(ChatColor.RED + "")) {
 			event.setCancelled(true);
 		}
 
 		// Implement information thing
-		if (clicked.hasItemMeta() && clicked.getItemMeta().getDisplayName().equals(ChatColor.BLUE + "Information")) {
+		if (clicked.hasItemMeta() && clicked.getItemMeta().hasDisplayName() && clicked.getItemMeta().getDisplayName().equals(ChatColor.BLUE + "Information")) {
 			event.setCancelled(true);
 			p.sendMessage("Information");
 			ItemStack bind = new ItemStack(Material.PAPER);
@@ -82,13 +86,13 @@ public class AlembicGUI implements Listener {
 		}
 
 		// Implement tutorial
-		if (clicked.hasItemMeta() && clicked.getItemMeta().getDisplayName().equals(ChatColor.BLUE + "Alembic Tutorial")) {
+		if (clicked.hasItemMeta() && clicked.getItemMeta().hasDisplayName() && clicked.getItemMeta().getDisplayName().equals(ChatColor.BLUE + "Alembic Tutorial")) {
 			event.setCancelled(true);
 			p.sendMessage("You've clicked the tutorial button");
 		}
 
 		// Implement start alchemy
-		if (clicked.hasItemMeta() && clicked.getItemMeta().getDisplayName().equals(ChatColor.GREEN + "Start Alchemy")) {
+		if (clicked.hasItemMeta() && clicked.getItemMeta().hasDisplayName() && clicked.getItemMeta().getDisplayName().equals(ChatColor.GREEN + "Start Alchemy")) {
 			event.setCancelled(true);
 
 			if (!(event.getInventory().getHolder() instanceof Chest)) {
