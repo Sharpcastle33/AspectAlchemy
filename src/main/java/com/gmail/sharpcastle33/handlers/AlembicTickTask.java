@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BrewingStand;
@@ -93,7 +94,7 @@ public class AlembicTickTask extends BukkitRunnable {
 		
 		// Consume fuel and handle failure
 		if(!consumeFuel(furnace)) {
-			alembicFail(chest);
+			alembicFail(chest, stand);
 			this.cancel();
 		}
 
@@ -102,12 +103,20 @@ public class AlembicTickTask extends BukkitRunnable {
 	
 	// Consume fuel method
 	private boolean consumeFuel(Furnace furnace) {
+		if(furnace.getInventory().getFuel() == null || furnace.getInventory().getFuel().getAmount() == 0) return false;
+		if(!furnace.getInventory().getFuel().getType().equals(Material.COAL)) return false;
+		furnace.getInventory().getFuel().setAmount(furnace.getInventory().getFuel().getAmount() - 1);
 		return true;
 	}
 	
 	// Alembic failure method
-	private void alembicFail(Chest chest) {
-		
+	private void alembicFail(Chest chest, BrewingStand stand) {
+		ItemStack result = new ItemStack(Material.GLASS_BOTTLE);
+		ItemStack[] results = { result, result, result };
+		stand.getInventory().setContents(results);
+		ItemStack[] shamanSap = AlembicHandler.getShamanSaps(chest);
+		for(ItemStack itemStack: shamanSap) if(itemStack != null) itemStack.setAmount(0);
+		AlembicHandler.deactivateAlembic(chest);
 	}
 
 	// Updates progress GUI item to correct time remaining
