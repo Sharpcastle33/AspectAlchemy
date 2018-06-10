@@ -98,7 +98,7 @@ public class AlembicTickTask extends BukkitRunnable {
 		// Consume fuel and handle failure
 		if(fuelTick >= 4 && !consumeFuel(furnace)) {
 			alembicFail(chest, stand);
-			AlembicHandler.clearFiftyFifty(chest);
+			AlembicHandler.clearRand(chest);
 			this.cancel();
 		}
 		

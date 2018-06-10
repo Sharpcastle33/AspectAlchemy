@@ -28,37 +28,43 @@ import com.gmail.sharpcastle33.aspects.AspectRecipeManager;
 import com.gmail.sharpcastle33.potions.CustomPotion;
 import com.gmail.sharpcastle33.potions.PotionManager;
 
-
-// TODO: Add logic to restart alembics on server start
-
-
 public class AlembicHandler {
 	static final int INGREDIENTS_MINIMUM = 3;
+	static final int ALEMBIC_TICK_TIME = 1200; // 1200 MC Ticks in 1 minute
+	
+	static final String SHAMAN_SAP_NAME = ChatColor.YELLOW + "Shaman Sap";
 	
 	static final String NOT_ENOUGH_INGREDIENTS_MSG = ChatColor.RED + "You must have at least "+INGREDIENTS_MINIMUM+" different types of ingredients for an alchemical reaction!";
 	static final String NOT_ENOUGH_WATER_BOTTLES_MSG = ChatColor.RED + "You must have all three brewing stand slots filled with water bottles to begin an alchemical reaction!";
 	static final String NOT_ENOUGH_FUEL_MSG = ChatColor.RED + "You must have some coal in the Alembic Bellows in order to begin an alchemical reaction!";
-	static final String SHAMAN_SAP_NAME = ChatColor.YELLOW + "Shaman Sap";
+	static final String NOT_ENOUGH_SAP_MSG = ChatColor.RED + "No "+SHAMAN_SAP_NAME+ChatColor.RED+"! Alechmy not started.";
 
-	
-	static final int ALEMBIC_TICK_TIME = 1200; // 1200 MC Ticks in 1 minute
 	static Map<String, Integer> shamanSapPoints;
 	static Plugin plugin;
 	
 	
 	// Initialization method. Need this to get reference of plugin
+	/**
+	 * Initialization method. Gets a reference of plugin and initializes active Alembic AlembicTickTasks
+	 * @param p AspectAlchemy Plugin
+	 */
 	public static void init(Plugin p) {
 		plugin = p;
 		
 		// Restart tasks that for active alembics
 		for(Location loc : AlembicManager.alembics) {
 			new AlembicTickTask(loc).runTaskTimer(plugin, ALEMBIC_TICK_TIME, ALEMBIC_TICK_TIME);
-		}
+		} // for
 		
 		shamanSapPoints = new HashMap<>();
 		shamanSapPoints.put(SHAMAN_SAP_NAME, 1);
-	}
+	} // init
 	
+	/**
+	 * Checks to ensure that the minimum number of water bottles are present
+	 * @param b Alembic Stand
+	 * @return false if there are not enough water bottles (all three slots must be filled)
+	 */
 	public static boolean checkWaterBottles(Block b) {
 		if(b.getType() == Material.BREWING_STAND) {
             BrewingStand brewingStandState = (BrewingStand) b.getState();	
@@ -75,42 +81,62 @@ public class AlembicHandler {
 		}
 		Bukkit.getServer().getLogger().warning("Called checkWaterBottles on something that isn't a brewingstand!");
 		return false;
-	}
+	} // checkWaterBottles
 
-
-	public static void startAlchemy(Block b, String name) {
+	/**
+	 * Runs all of the beginning checks before starting Alchemy
+	 * @param b Alembic Chest Block
+	 * @param name String name of Player
+	 * @return false if any othe the checks fail
+	 */
+	public static boolean runChecks(Block b, String name) {
 		if(!checkWaterBottles(b.getRelative(0, 1, 0))) {
 			Bukkit.getServer().getPlayer(name).sendMessage(NOT_ENOUGH_WATER_BOTTLES_MSG);
-			return;
+			return false;
 		} // if
 		
 		if(!(b.getRelative(BlockFace.DOWN).getState() instanceof Furnace) || ((Furnace) b.getRelative(BlockFace.DOWN).getState()).getInventory().getFuel() == null || ((Furnace) b.getRelative(BlockFace.DOWN).getState()).getInventory().getFuel().getAmount() < 1) {
 			Bukkit.getServer().getPlayer(name).sendMessage(NOT_ENOUGH_FUEL_MSG);
-			return;
+			return false;
 		} // if
 		
 		if(!minimumIngredientsCheck((Chest) b.getState())) {
 			Bukkit.getServer().getPlayer(name).sendMessage(NOT_ENOUGH_INGREDIENTS_MSG);
-			return;
+			return false;
 		} // if
+		
+		if (getTotalShamanSapPoints((Chest) b.getState()) <= 0) {
+			Bukkit.getServer().getPlayer(name).sendMessage(NOT_ENOUGH_SAP_MSG);
+			return false;
+		} // if
+		
+		return true;
+	} // runChecks
+
+	/**
+	 * Ensures that there are enough water bottles, fuel, and ingredients to begin alchemcy, then begins Alchemy
+	 * @param b Alembic Chest (as a Block)
+	 * @param name String name of Player
+	 */
+	public static void startAlchemy(Block b, String name) {
+		if(!runChecks(b, name)) return; // runs all checks necessary before starting Alchemy
 		
 		updateAlembicInfo((Chest) b.getState(), name);
 		
 		// Register alembic as active
 		AlembicManager.activateAlembic(b.getLocation());
 		
-		// Start alemchemy task
+		// Start alchemy task
 		new AlembicTickTask(b.getLocation()).runTaskTimer(plugin, ALEMBIC_TICK_TIME, ALEMBIC_TICK_TIME);
 		
-	}
+	} // startAlchemy
 
+	/**
+	 * Gets the Alembic GUI into the in-progress display
+	 * @param c Alembic Chest
+	 * @param name String name of Player (player than began the process)
+	 */
 	public static void updateAlembicInfo(Chest c, String name) {
-		
-		if (getTotalShamanSapPoints(c) <= 0) {
-			Bukkit.getServer().getPlayer(name).sendMessage(ChatColor.RED + "No Shaman Sap! Alechmy not started.");
-			return;
-		}
-		
 		// Update "Information" GUI item to reflect time started and who started
 		ItemStack info = c.getBlockInventory().getItem(8);
 		if (info.hasItemMeta()) {
@@ -137,16 +163,26 @@ public class AlembicHandler {
 		}
 		c.getInventory().setItem(17, start);
 
-	}
+	} // updateAlembicInfo
 
+	/**
+	 * Gets an array of ItemStack for all the ShamanSaps in an Alembic
+	 * @param chest Alembic Chest
+	 * @return array of ItemStack of ShamanSaps
+	 */
 	public static ItemStack[] getShamanSaps(Chest chest) {
 		ItemStack[] ret = new ItemStack[3];
 		ret[0] = chest.getInventory().getItem(0);
 		ret[1] = chest.getInventory().getItem(9);
 		ret[2] = chest.getInventory().getItem(18);
 		return ret;
-	}
+	} // getShamanSaps
 
+	/**
+	 * Gets the total number of ShamanSapPoints in an Alembic Chest
+	 * @param chest Alembic Chest
+	 * @return int number of ShamanSaps in the Alembic
+	 */
 	public static int getTotalShamanSapPoints(Chest chest) {
 		int sapPoints = 0;
 		
@@ -161,9 +197,12 @@ public class AlembicHandler {
 		}
 
 		return sapPoints;
-	}
+	} // getTotalShamanSapPoints
 
-	// Remove alembic from active alembic list, revert alembic chest to idle state
+	/**
+	 * Removes an Alembic from the active list and reverts it to its idle state
+	 * @param chest Alembic Chest
+	 */
 	public static void deactivateAlembic(Chest chest) {
 		AlembicManager.deactivateAlembic(chest.getLocation());
 		
@@ -181,32 +220,35 @@ public class AlembicHandler {
 		start.setItemMeta(startMeta);
 		info.setItemMeta(infoMeta);
 		
-	}
+	} // deactivateAlembic
 	
+	/**
+	 * Run at the end of Alchemy before disabling the Alembic, determines the result of the alchemical reaction and outputs it to the Alembic Stand
+	 * @param chest Alembic Chest
+	 * @param stand Alembic Stand
+	 */
 	public static void completeAlchemy(Chest chest, BrewingStand stand) {
-		//Bukkit.getLogger().info("getting ingredients");
 		ItemStack[] ingredients = getIngredients(chest);
 		
-		//Bukkit.getLogger().info("getting Aspect Totals");
 		Map<Aspect, Integer> aspectTotals = AspectManager.getAspectTotals(ingredients);
 		
-		//Bukkit.getLogger().info("getting Binding Points");
 		int amountShamanSap = getTotalShamanSapPoints(chest);
 		
-		//Bukkit.getLogger().info("Finding Resultant CustomPotion");
 		CustomPotion customPot = AspectRecipeManager.findResult(aspectTotals, amountShamanSap);
 		
-		//Bukkit.getLogger().info("Getting Potion");
 		ItemStack result = PotionManager.getPotion(customPot);
 		
-		//Bukkit.getLogger().info("Setting Contents");
 		ItemStack[] results = { result, result, result };
 		stand.getInventory().setContents(results);
 		
-		//Bukkit.getLogger().info("Clearing Ingredients");
 		clearIngredients(chest);
-	}
+	} // completeAlchemy
 	
+	/**
+	 * Gets all the ingredients from the Alembic as an array of ItemStack
+	 * @param chest Alembic Chest
+	 * @return array of ItemStack
+	 */
 	public static ItemStack[] getIngredients(Chest chest) {
 		ItemStack[] ret = new ItemStack[15];
 
@@ -222,8 +264,12 @@ public class AlembicHandler {
 			slot++;
 		}
 		return ret;
-	}
+	} // getIngredients
 	
+	/**
+	 * Clears all of the ingredients from the Alembic
+	 * @param chest Alembic Chest
+	 */
 	public static void clearIngredients(Chest chest) {
 		int slot = 2;
 		for (int counter = 0; counter < 15; counter++) {
@@ -236,18 +282,27 @@ public class AlembicHandler {
 		} // for
 	} // clearIngredients
 	
-	public static void clearFiftyFifty(Chest chest) {
+	/**
+	 * Clears a random number of the ingredients from the Alembic
+	 * @param chest Alembic Chest
+	 */
+	public static void clearRand(Chest chest) {
 		int slot = 2;
 		for (int counter = 0; counter < 15; counter++) {
-			if(chest.getInventory().getItem(slot) != null) chest.getInventory().getItem(slot).setAmount(0);
+			if(chest.getInventory().getItem(slot) != null) chest.getInventory().getItem(slot).setAmount((int) (Math.random() * chest.getInventory().getItem(slot).getAmount()));
 			if (slot == 6 || slot == 15) {
 				slot += 5;
 				continue;
 			} // if
 			slot++;
 		} // for
-	} // clearFiftyFifty
+	} // clearRand
 	
+	/**
+	 * Checks to ensure that the minimum amount of ingredients are present (only counts unique ingredients with aspects)
+	 * @param chest Alembic Chest
+	 * @return false if there are fewer than INGREDIENTS_MINIMUM different ingredients present
+	 */
 	public static boolean minimumIngredientsCheck(Chest chest) {
 		List<String> uniques = new ArrayList<>();
 		int slot = 2;
@@ -267,4 +322,4 @@ public class AlembicHandler {
 		return false;
 	} // minimumIngredientsCheck
 
-}
+} // class
