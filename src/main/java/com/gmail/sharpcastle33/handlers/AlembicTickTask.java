@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -134,7 +135,7 @@ public class AlembicTickTask extends BukkitRunnable {
 		}
 
 		List<String> lore = new ArrayList<>();
-		lore.add("Time Remaining: " + timeRemaining + "min");
+		lore.add(ChatColor.RED+"Time Remaining: " + timeRemaining + "min");
 		
 		progressMeta.setLore(lore);
 		progress.setItemMeta(progressMeta);
@@ -155,7 +156,7 @@ public class AlembicTickTask extends BukkitRunnable {
 
 		String lore = null;
 		for(String loreItem : progressMeta.getLore()) {
-			if (loreItem.contains("Time Remaining:")) {
+			if (loreItem.contains(ChatColor.RED+"Time Remaining:")) {
 				lore = loreItem;
 			}
 		}
