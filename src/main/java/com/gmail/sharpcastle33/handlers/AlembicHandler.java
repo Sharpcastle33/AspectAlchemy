@@ -392,6 +392,11 @@ public class AlembicHandler {
 		} // for
 	} // clearRand
 	
+	/**
+	 * Checks to see whether a given block is an Alembic chamber (Alembic Chest)
+	 * @param block Block to check
+	 * @return false if the Block is not an Alembic chamber
+	 */
 	public static boolean isAlembic(Block block) {
 		if(block instanceof Chest) {
 			Chest chest = (Chest) block;
