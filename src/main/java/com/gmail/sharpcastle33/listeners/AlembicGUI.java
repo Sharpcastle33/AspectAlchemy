@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
@@ -70,8 +71,11 @@ public class AlembicGUI implements Listener {
 				Player player = (Player) event.getWhoClicked();
 				if(player.getOpenInventory().getTopInventory().getName().equals(AlembicCreationListener.ALEMBIC_CHEST_NAME)
 						|| player.getOpenInventory().getTopInventory().getName().equals(AlembicCreationListener.ALEMBIC_BREWINGSTAND_NAME)) {
-					p.closeInventory();
-					p.sendMessage(IN_PROGRESS_MESSAGE);
+					Inventory inventory = player.getOpenInventory().getTopInventory();
+					if(inventory.getItem(17).hasItemMeta() && inventory.getItem(17).getItemMeta().getDisplayName().equals(ChatColor.RED + "In Progress")) {
+						p.closeInventory();
+						p.sendMessage(IN_PROGRESS_MESSAGE);
+					} // if
 				} // if
 			} // if
 		} // if
