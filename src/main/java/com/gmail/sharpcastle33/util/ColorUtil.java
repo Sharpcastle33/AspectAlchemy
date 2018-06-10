@@ -5,11 +5,13 @@ import java.util.Map;
 
 import org.bukkit.Color;
 
+/**
+ * Colors availilbe utility
+ */
 public class ColorUtil {
-	
+
 	public static Map<String, Color> colors;
-	
-	
+
 	static {
 		colors = new HashMap<>();
 		colors.put("AQUA", Color.AQUA);
@@ -31,4 +33,4 @@ public class ColorUtil {
 		colors.put("YELLOW", Color.YELLOW);
 		colors.put(null, null);
 	}
-}
+} // class

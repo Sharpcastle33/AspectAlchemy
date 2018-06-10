@@ -1,6 +1,5 @@
 package com.gmail.sharpcastle33.listeners;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -10,25 +9,28 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import com.gmail.sharpcastle33.handlers.AlembicHandler;
 
+/**
+ * Handles the Alembic GUI
+ */
 public class AlembicGUI implements Listener {
 
 	public static final String IN_PROGRESS_MESSAGE = ChatColor.RED
 			+ "Inventories of Alembics cannot be modified while they are in progress!";
-	public static final String ENDER_PEARL_ERROR = ChatColor.RED + "The magics in this item conflict with the energies inside the Alembic.";
-	
+	public static final String ENDER_PEARL_ERROR = ChatColor.RED
+			+ "The magics in this item conflict with the energies inside the Alembic.";
+
 	@EventHandler
 	public void alembicGUI(InventoryClickEvent event) {
 		if (!(event.getWhoClicked() instanceof Player)) {
 			return;
 		}
-		
-		if(event.getClickedInventory() == null) {
+
+		if (event.getClickedInventory() == null) {
 			return;
 		}
 
@@ -51,57 +53,64 @@ public class AlembicGUI implements Listener {
 			alembicChest = (Chest) chestLoc.getBlock().getState();
 		} else if (invName.equals(AlembicCreationListener.ALEMBIC_FURNACE_NAME)) {
 			Location chestLoc = event.getInventory().getLocation().getBlock().getRelative(BlockFace.UP).getLocation();
-			alembicChest = (Chest) chestLoc.getBlock().getState(); 
+			alembicChest = (Chest) chestLoc.getBlock().getState();
 		}
 
-
-		//p.sendMessage(invName);
-		if (event.getClickedInventory().getName().equals(AlembicCreationListener.ALEMBIC_CHEST_NAME) 
+		// p.sendMessage(invName);
+		if (event.getClickedInventory().getName().equals(AlembicCreationListener.ALEMBIC_CHEST_NAME)
 				|| event.getClickedInventory().getName().equals(AlembicCreationListener.ALEMBIC_BREWINGSTAND_NAME)) {
-			//p.sendMessage("Alchemy: AlembicGUI");
-			if (alembicChest.getInventory().getItem(17).hasItemMeta() && alembicChest.getInventory().getItem(17).getItemMeta().getDisplayName().equals(ChatColor.RED + "In Progress")) {
+			// p.sendMessage("Alchemy: AlembicGUI");
+			if (alembicChest.getInventory().getItem(17).hasItemMeta() && alembicChest.getInventory().getItem(17)
+					.getItemMeta().getDisplayName().equals(ChatColor.RED + "In Progress")) {
 				event.setCancelled(true);
 				p.closeInventory();
 				p.sendMessage(IN_PROGRESS_MESSAGE);
 			}
 		}
-		
-		if(event.getClickedInventory() instanceof PlayerInventory) {
-			if(event.getWhoClicked() instanceof Player) {
+
+		if (event.getClickedInventory() instanceof PlayerInventory) {
+			if (event.getWhoClicked() instanceof Player) {
 				Player player = (Player) event.getWhoClicked();
-				if(player.getOpenInventory().getTopInventory().getName().equals(AlembicCreationListener.ALEMBIC_CHEST_NAME)
-						|| player.getOpenInventory().getTopInventory().getName().equals(AlembicCreationListener.ALEMBIC_BREWINGSTAND_NAME)) {
-					if(alembicChest.getInventory().getItem(17).hasItemMeta() && alembicChest.getInventory().getItem(17).getItemMeta().getDisplayName().equals(ChatColor.RED + "In Progress")) {
+				if (player.getOpenInventory().getTopInventory().getName()
+						.equals(AlembicCreationListener.ALEMBIC_CHEST_NAME)
+						|| player.getOpenInventory().getTopInventory().getName()
+								.equals(AlembicCreationListener.ALEMBIC_BREWINGSTAND_NAME)) {
+					if (alembicChest.getInventory().getItem(17).hasItemMeta() && alembicChest.getInventory().getItem(17)
+							.getItemMeta().getDisplayName().equals(ChatColor.RED + "In Progress")) {
 						p.closeInventory();
 						p.sendMessage(IN_PROGRESS_MESSAGE);
 					} // if
 				} // if
 			} // if
 		} // if
-		
-		if(clicked.getType() == Material.ENDER_PEARL) {
+
+		if (clicked.getType() == Material.ENDER_PEARL) {
 			event.setCancelled(true);
 			p.sendMessage(ENDER_PEARL_ERROR);
 		}
 
-		if (clicked.hasItemMeta() && clicked.getItemMeta().hasDisplayName() && clicked.getItemMeta().getDisplayName().equals(ChatColor.RED + "")) {
+		if (clicked.hasItemMeta() && clicked.getItemMeta().hasDisplayName()
+				&& clicked.getItemMeta().getDisplayName().equals(ChatColor.RED + "")) {
 			event.setCancelled(true);
 		}
 
 		// Implement information thing
-		if (clicked.hasItemMeta() && clicked.getItemMeta().hasDisplayName() && clicked.getItemMeta().getDisplayName().equals(ChatColor.BLUE + "Information")) {
+		if (clicked.hasItemMeta() && clicked.getItemMeta().hasDisplayName()
+				&& clicked.getItemMeta().getDisplayName().equals(ChatColor.BLUE + "Information")) {
 			event.setCancelled(true);
 			p.sendMessage("Information");
 		}
 
 		// Implement tutorial
-		if (clicked.hasItemMeta() && clicked.getItemMeta().hasDisplayName() && clicked.getItemMeta().getDisplayName().equals(ChatColor.BLUE + "Alembic Tutorial")) {
+		if (clicked.hasItemMeta() && clicked.getItemMeta().hasDisplayName()
+				&& clicked.getItemMeta().getDisplayName().equals(ChatColor.BLUE + "Alembic Tutorial")) {
 			event.setCancelled(true);
 			p.sendMessage("You've clicked the tutorial button");
 		}
 
 		// Implement start alchemy
-		if (clicked.hasItemMeta() && clicked.getItemMeta().hasDisplayName() && clicked.getItemMeta().getDisplayName().equals(ChatColor.GREEN + "Start Alchemy")) {
+		if (clicked.hasItemMeta() && clicked.getItemMeta().hasDisplayName()
+				&& clicked.getItemMeta().getDisplayName().equals(ChatColor.GREEN + "Start Alchemy")) {
 			event.setCancelled(true);
 
 			if (!(event.getInventory().getHolder() instanceof Chest)) {
@@ -111,6 +120,6 @@ public class AlembicGUI implements Listener {
 			p.sendMessage(ChatColor.GREEN + "Alchemy started");
 			AlembicHandler.startAlchemy(event.getInventory().getLocation().getBlock(), p.getName());
 		}
-	}
+	} // alembicGUI
 
-}
+} // class

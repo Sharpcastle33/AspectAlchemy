@@ -7,6 +7,9 @@ import java.util.Map;
 
 import org.bukkit.Material;
 
+/**
+ * Holds the Aspects list for a given custom item
+ */
 public class AspectItemData {
 	public String configName;
 	public String displayName;

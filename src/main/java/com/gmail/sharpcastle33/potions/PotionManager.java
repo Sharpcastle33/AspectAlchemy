@@ -18,11 +18,24 @@ import com.gmail.sharpcastle33.util.ColorUtil;
 import com.gmail.sharpcastle33.util.PotionUtil;
 import com.gmail.sharpcastle33.util.PotionUtil.PotionVariant;
 
+/**
+ * Manages the potions.yaml which holds the details and effects of all
+ * CustomPotions, and allows for matching CustomPotion enums with their
+ * ItemStack counterparts
+ * 
+ * @author adamdusty
+ */
 public class PotionManager {
 
 	static FileConfiguration potionConfig;
 	private static Map<CustomPotion, ItemStack> potions;
 
+	/**
+	 * Initialization method. Loads the potions.yaml and initialized the potions Map
+	 * 
+	 * @param configFile
+	 *            File representing potions.yaml
+	 */
 	public static void init(File configFile) {
 		try {
 			potionConfig = YamlConfiguration.loadConfiguration(configFile);
@@ -31,8 +44,16 @@ public class PotionManager {
 			Bukkit.getLogger().severe("Potions config does not exist.");
 			e.printStackTrace();
 		}
-	}
+	} // init
 
+	/**
+	 * Called by initialization method, loads the potions from the configuration
+	 * into a Map
+	 * 
+	 * @param config
+	 *            FileConfiguration loaded potions.yaml configuration
+	 * @return Map of CustomPotion to ItemStack
+	 */
 	private static Map<CustomPotion, ItemStack> loadPotions(FileConfiguration config) {
 		Map<CustomPotion, ItemStack> configPotions = new HashMap<CustomPotion, ItemStack>();
 		for (String potionKey : config.getKeys(false)) {
@@ -41,8 +62,16 @@ public class PotionManager {
 		}
 
 		return configPotions;
-	}
+	} // loadPotions
 
+	/**
+	 * Called by loadPotions method, loads the details of a given subsection of the
+	 * potion config
+	 * 
+	 * @param potionSection
+	 *            ConfigurationSection section representing the potion
+	 * @return ItemStack represented by the section
+	 */
 	private static ItemStack loadPotionStack(ConfigurationSection potionSection) {
 		Color color = null;
 		PotionVariant variant = null;
@@ -58,8 +87,16 @@ public class PotionManager {
 		ItemStack potion = PotionUtil.createPotion(potionSection.getString("display_name"),
 				loadPotionEffects(potionSection.getConfigurationSection("effects")), variant, color);
 		return potion;
-	}
+	} // loadPotionStack
 
+	/**
+	 * Called by loadPotionStack method, loads the specific effects of the potion
+	 * 
+	 * @param effectsSection
+	 *            ConfigurationSection subsection representing the effects of the
+	 *            potion
+	 * @return ArrayList of PotionEffect
+	 */
 	private static ArrayList<PotionEffect> loadPotionEffects(ConfigurationSection effectsSection) {
 		ArrayList<PotionEffect> potionEffects = new ArrayList<PotionEffect>();
 
@@ -84,10 +121,17 @@ public class PotionManager {
 		}
 
 		return potionEffects;
-	}
+	} // loadPotionEffects
 
+	/**
+	 * Gets the ItemStack correspondent to a given CustomPotion enum
+	 * 
+	 * @param p
+	 *            CustomPotion desired
+	 * @return ItemStack potion
+	 */
 	public static ItemStack getPotion(CustomPotion p) {
 		return potions.get(p);
-	}
+	} // getPotion
 
-}
+} // class

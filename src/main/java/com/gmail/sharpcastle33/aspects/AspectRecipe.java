@@ -4,6 +4,9 @@ import java.util.Map;
 
 import com.gmail.sharpcastle33.potions.CustomPotion;
 
+/**
+ * Holds the recipe for a given CustomPotion
+ */
 public class AspectRecipe {
 
 	public Map<Aspect, Integer> aspects;

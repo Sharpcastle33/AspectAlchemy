@@ -1,5 +1,8 @@
 package com.gmail.sharpcastle33.aspects;
 
+/**
+ * An enum of all Aspects in AspectAlchemy
+ */
 public enum Aspect {
   
   MUNDANE_WATER,
@@ -50,4 +53,4 @@ public enum Aspect {
   PURE_MECHANIC,
   PURE_ESSENCE,
 
-}
+} // enum
