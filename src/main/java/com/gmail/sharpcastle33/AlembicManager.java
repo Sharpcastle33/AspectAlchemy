@@ -35,6 +35,7 @@ public class AlembicManager {
 			Bukkit.getLogger().severe("Alembics config does not exist! Creating...");
 			try {
 				configFile.createNewFile();
+				alembics = new ArrayList<>();
 			} catch(IOException e2) {
 				Bukkit.getLogger().severe("Unable to create Alembics config!");
 				e2.printStackTrace();
