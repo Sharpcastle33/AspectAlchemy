@@ -253,7 +253,7 @@ public class AlembicHandler {
 		int slot = 2;
 		for (int counter = 0; counter < 15; counter++) {
 			if(chest.getInventory().getItem(slot) != null) if(!uniques.contains(chest.getInventory().getItem(slot).getItemMeta().getDisplayName())) {
-				if(AspectManager.getAspects(chest.getInventory().getItem(slot)).size() > 0)
+				if(AspectManager.getAspects(chest.getInventory().getItem(slot)) != null)
 					uniques.add(chest.getInventory().getItem(slot).getItemMeta().getDisplayName());
 			}
 			if(uniques.size() >= INGREDIENTS_MINIMUM) return true;
