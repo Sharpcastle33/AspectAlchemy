@@ -398,8 +398,8 @@ public class AlembicHandler {
 	 * @return false if the Block is not an Alembic chamber
 	 */
 	public static boolean isAlembic(Block block) {
-		if(block instanceof Chest) {
-			Chest chest = (Chest) block;
+		if(block.getState() instanceof Chest) {
+			Chest chest = (Chest) block.getState();
 			if(chest.getInventory().getName().equals(AlembicCreationListener.ALEMBIC_CHEST_NAME)) return true;
 		} // if
 		
