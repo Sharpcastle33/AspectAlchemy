@@ -16,6 +16,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.gmail.sharpcastle33.util.AmbianceUtil;
+
 /**
  * Handles Alembic Ticks (each minute this checks various things, performs
  * various actions, and decreases the time remaining)
@@ -108,6 +110,8 @@ public class AlembicTickTask extends BukkitRunnable {
 				if (itemStack != null)
 					itemStack.setAmount(0);
 			AlembicHandler.deactivateAlembic(chest);
+		}else {
+			AmbianceUtil.alembicTickAmbiance(chest.getBlock());
 		}
 
 		fuelTick++;
