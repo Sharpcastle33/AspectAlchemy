@@ -17,6 +17,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
 import com.gmail.sharpcastle33.AlembicManager;
+import com.gmail.sharpcastle33.handlers.AlembicHandler;
 import com.gmail.sharpcastle33.util.InventoryUtil;
 
 /**
@@ -40,17 +41,13 @@ public class AlembicCreationListener implements Listener {
 		if(item.getType() == Material.CHEST) {
 			for (int x = -1; x <= 1; x++) {
 				for (int z = -1; z <= 1; z++) {
-					for (int y = 0; y < 3; y++) {
-						if (z != 0 || x != 0) {
-							Block block = b.getRelative(x, y, z);
-							for(Location location: AlembicManager.alembics) {
-								if(block.getLocation().equals(location)) { 
-									event.setCancelled(true);
-									return;
-								}
-							} // for
+					if (z != 0 || x != 0) {
+						Block block = b.getRelative(x, 0, z);
+						if(AlembicHandler.isAlembic(block)) { 
+							event.setCancelled(true);
+							return;
 						} // if
-					} // for
+					} // if
 				} // for
 			} // for
 		} // if
@@ -133,9 +130,7 @@ public class AlembicCreationListener implements Listener {
 					if (z != 0 || x != 0) {
 						Block block = loc.getBlock().getRelative(x, y, z);
 						if(block instanceof Chest) return false;
-						for(Location location: AlembicManager.alembics) {
-							if(block.getLocation().equals(location)) return false;
-						} // for
+						if(AlembicHandler.isAlembic(block)) return false;
 					} // if
 				} // for
 			} // for
