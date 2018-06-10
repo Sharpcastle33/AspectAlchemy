@@ -66,7 +66,7 @@ public class AlembicCreationListener implements Listener{
               
               Chest chestState = (Chest) alembicChest.getState();
               chestState.setCustomName(ALEMBIC_CHEST_NAME);
-              p.sendMessage(chestState.getCustomName() + "_" + chestState.getInventory().getName());
+             // p.sendMessage(chestState.getCustomName() + "_" + chestState.getInventory().getName());
               chestState.update(true);
             
               ItemStack ni = InventoryUtil.constructNullItem();

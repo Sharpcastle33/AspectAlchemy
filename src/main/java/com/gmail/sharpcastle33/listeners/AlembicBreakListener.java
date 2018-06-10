@@ -35,7 +35,10 @@ public class AlembicBreakListener implements Listener{
 						event.setCancelled(true);
 						event.getPlayer().sendMessage(IN_PROGRESS_MESSAGE);
 					}else {
-						
+						breakAlembicChest(b.getRelative(BlockFace.UP));
+						breakAlembicStand(b.getRelative(BlockFace.UP).getRelative(BlockFace.UP));
+						breakAlembicBellows(b);
+						event.setCancelled(true);
 					}
 				}
 			}
@@ -53,7 +56,10 @@ public class AlembicBreakListener implements Listener{
 						event.setCancelled(true);
 						event.getPlayer().sendMessage(IN_PROGRESS_MESSAGE);
 					}else {
-						
+						breakAlembicChest(b.getRelative(BlockFace.DOWN));
+						breakAlembicStand(b);
+						breakAlembicBellows(b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN));
+						event.setCancelled(true);
 					}
 				}
 			}
@@ -73,6 +79,7 @@ public class AlembicBreakListener implements Listener{
 					breakAlembicChest(b);
 					breakAlembicStand(b.getRelative(BlockFace.UP));
 					breakAlembicBellows(b.getRelative(BlockFace.DOWN));
+					event.setCancelled(true);
 				}
 			}
 		}
@@ -92,9 +99,9 @@ public class AlembicBreakListener implements Listener{
 				b.getLocation().getWorld().dropItemNaturally(b.getLocation(), i);
 			}
 			
-			chestState.getInventory().clear();
-			chestState.update();
-			b.setType(Material.AIR);
+			chestState.getBlockInventory().clear();
+			//chestState.update(true);
+			chestState.getBlock().setType(Material.AIR);
 		}else {
 			Bukkit.getServer().getLogger().warning("breakAlembicChest was called, but the block is not a chest!" + b.getLocation().toString());
 		}
@@ -109,6 +116,8 @@ public class AlembicBreakListener implements Listener{
 				b.getLocation().getWorld().dropItemNaturally(b.getLocation(), i);
 			}
 			
+			bs.getInventory().clear();
+			
 			b.setType(Material.AIR);
 		}
 	}
@@ -121,6 +130,8 @@ public class AlembicBreakListener implements Listener{
 				if(i != null)
 				b.getLocation().getWorld().dropItemNaturally(b.getLocation(), i);
 			}
+			
+			fur.getInventory().clear();
 			
 			b.setType(Material.AIR);
 		}
