@@ -1,5 +1,6 @@
 package com.gmail.sharpcastle33.listeners;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -10,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import com.gmail.sharpcastle33.handlers.AlembicHandler;
 
@@ -54,10 +56,7 @@ public class AlembicGUI implements Listener {
 
 		//p.sendMessage(invName);
 		if (event.getClickedInventory().getName().equals(AlembicCreationListener.ALEMBIC_CHEST_NAME) 
-				|| event.getClickedInventory().getName().equals(AlembicCreationListener.ALEMBIC_BREWINGSTAND_NAME)
-				|| (event.getClickedInventory().equals(event.getWhoClicked().getInventory()) 
-				&& (event.getWhoClicked().getOpenInventory().getTitle().equals(AlembicCreationListener.ALEMBIC_CHEST_NAME)
-						|| event.getWhoClicked().getOpenInventory().getTitle().equals(AlembicCreationListener.ALEMBIC_BREWINGSTAND_NAME)))) {
+				|| event.getClickedInventory().getName().equals(AlembicCreationListener.ALEMBIC_BREWINGSTAND_NAME)) {
 			//p.sendMessage("Alchemy: AlembicGUI");
 			if (alembicChest.getInventory().getItem(17).hasItemMeta() && alembicChest.getInventory().getItem(17).getItemMeta().getDisplayName().equals(ChatColor.RED + "In Progress")) {
 				event.setCancelled(true);
@@ -65,6 +64,17 @@ public class AlembicGUI implements Listener {
 				p.sendMessage(IN_PROGRESS_MESSAGE);
 			}
 		}
+		
+		if(event.getClickedInventory() instanceof PlayerInventory) {
+			if(event.getWhoClicked() instanceof Player) {
+				Player player = (Player) event.getWhoClicked();
+				if(player.getOpenInventory().getTopInventory().getName().equals(AlembicCreationListener.ALEMBIC_CHEST_NAME)
+						|| player.getOpenInventory().getTopInventory().getName().equals(AlembicCreationListener.ALEMBIC_BREWINGSTAND_NAME)) {
+					p.closeInventory();
+					p.sendMessage(IN_PROGRESS_MESSAGE);
+				} // if
+			} // if
+		} // if
 		
 		if(clicked.getType() == Material.ENDER_PEARL) {
 			event.setCancelled(true);
