@@ -30,16 +30,11 @@ public class AlembicCreationListener implements Listener{
     Block b = event.getBlock();
     ItemStack item = event.getItemInHand();
     Player p = event.getPlayer();
-
-    p.sendMessage("Alchemy: p");
     
     if(item.getType() == Material.OBSERVER){
-      p.sendMessage("Alchemy: Chest in hand");
       if(item.hasItemMeta()){
         ItemMeta meta = item.getItemMeta();
-        p.sendMessage("Alchemy: hasMeta");
         if(meta.hasDisplayName() && meta.getDisplayName().equals(ALEMBIC_ITEM_NAME)){
-          p.sendMessage("Alchemy: right name");
           if(isValidAlembicPosition(b.getLocation())){
             //Begin alembic placement
             if(event.isCancelled() == false){
