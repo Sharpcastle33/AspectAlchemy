@@ -71,8 +71,8 @@ public class AlembicBreakListener implements Listener{
 					event.getPlayer().sendMessage(IN_PROGRESS_MESSAGE);
 				}else {
 					breakAlembicChest(b);
-					b.getRelative(BlockFace.UP).breakNaturally();
-					b.getRelative(BlockFace.DOWN).breakNaturally();
+					breakAlembicStand(b.getRelative(BlockFace.UP));
+					breakAlembicBellows(b.getRelative(BlockFace.DOWN));
 				}
 			}
 		}
@@ -83,18 +83,47 @@ public class AlembicBreakListener implements Listener{
 			Chest chestState = (Chest) b.getState();
 		
 			for(ItemStack i : AlembicHandler.getIngredients(chestState)) {
+				if(i != null)
 				b.getLocation().getWorld().dropItemNaturally(b.getLocation(), i);
 			}
 			
 			for(ItemStack i : AlembicHandler.getShamanSaps(chestState)) {
+				if(i != null)
 				b.getLocation().getWorld().dropItemNaturally(b.getLocation(), i);
 			}
 			
 			chestState.getInventory().clear();
-			
-			b.breakNaturally();
+			chestState.update();
+			b.setType(Material.AIR);
 		}else {
 			Bukkit.getServer().getLogger().warning("breakAlembicChest was called, but the block is not a chest!" + b.getLocation().toString());
 		}
+	}
+	
+	public void breakAlembicStand(Block b) {
+		if(b.getState() instanceof BrewingStand) {
+			BrewingStand bs = (BrewingStand) b.getState();
+			
+			for(ItemStack i : bs.getInventory().getContents()) {
+				if(i != null)
+				b.getLocation().getWorld().dropItemNaturally(b.getLocation(), i);
+			}
+			
+			b.setType(Material.AIR);
+		}
+	}
+	
+	public void breakAlembicBellows(Block b) {
+		if(b.getState() instanceof Furnace) {
+			Furnace fur = (Furnace) b.getState();
+			
+			for(ItemStack i : fur.getInventory().getContents()) {
+				if(i != null)
+				b.getLocation().getWorld().dropItemNaturally(b.getLocation(), i);
+			}
+			
+			b.setType(Material.AIR);
+		}
+		
 	}
 }
