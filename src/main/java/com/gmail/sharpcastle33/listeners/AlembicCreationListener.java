@@ -39,17 +39,23 @@ public class AlembicCreationListener implements Listener {
 		Player p = event.getPlayer();
 		
 		// Ensure that no chest is placed next to an alembic
-		if(item.getType() == Material.CHEST) {
-			p.sendMessage("Chest = YES");
+		if(item.getType() == Material.CHEST || (item.getType() == Material.OBSERVER && item.hasItemMeta() && item.getItemMeta().getDisplayName().equals(ALEMBIC_ITEM_NAME))) {
+			if(item.getType() == Material.OBSERVER && item.hasItemMeta() && item.getItemMeta().getDisplayName().equals(ALEMBIC_ITEM_NAME)) {
+				b = b.getRelative(BlockFace.UP);
+			} // if
+			
 			Block north = b.getRelative(BlockFace.NORTH);
 			Block east  = b.getRelative(BlockFace.EAST);
 			Block south = b.getRelative(BlockFace.SOUTH);
 			Block west  = b.getRelative(BlockFace.WEST);
 			
 			if(AlembicHandler.isAlembic(north) || AlembicHandler.isAlembic(east) || AlembicHandler.isAlembic(south) || AlembicHandler.isAlembic(west)) {
-				p.sendMessage("There's an alembic, cancelling...");
 				event.setCancelled(true);
 				return;
+			} // if
+			
+			if(item.getType() == Material.OBSERVER && item.hasItemMeta() && item.getItemMeta().getDisplayName().equals(ALEMBIC_ITEM_NAME)) {
+				b = b.getRelative(BlockFace.DOWN);
 			} // if
 		} // if
 
@@ -124,19 +130,6 @@ public class AlembicCreationListener implements Listener {
 	 * @return false if the location is invalid
 	 */
 	private boolean isValidAlembicPosition(Location loc) {
-		// Ensure there are no chests or alembics immediately next to the location
-		for (int x = -1; x <= 1; x++) {
-			for (int z = -1; z <= 1; z++) {
-				for (int y = 0; y < 3; y++) {
-					if (z != 0 || x != 0) {
-						Block block = loc.getBlock().getRelative(x, y, z);
-						if(block instanceof Chest) return false;
-						if(AlembicHandler.isAlembic(block)) return false;
-					} // if
-				} // for
-			} // for
-		} // for
-		
 		// Ensure the two blocks above the location are air
 		if (loc.getWorld().getBlockAt(loc.getBlockX(), loc.getBlockY() + 1, loc.getBlockZ())
 				.getType() == Material.AIR) {
