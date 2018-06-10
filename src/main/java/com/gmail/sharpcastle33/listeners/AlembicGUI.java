@@ -53,7 +53,11 @@ public class AlembicGUI implements Listener {
 
 
 		//p.sendMessage(invName);
-		if (event.getClickedInventory().getName().equals(AlembicCreationListener.ALEMBIC_CHEST_NAME) || event.getClickedInventory().getName().equals(AlembicCreationListener.ALEMBIC_BREWINGSTAND_NAME)) {
+		if (event.getClickedInventory().getName().equals(AlembicCreationListener.ALEMBIC_CHEST_NAME) 
+				|| event.getClickedInventory().getName().equals(AlembicCreationListener.ALEMBIC_BREWINGSTAND_NAME)
+				|| (event.getClickedInventory().equals(event.getWhoClicked().getInventory()) 
+				&& (event.getWhoClicked().getOpenInventory().getTitle().equals(AlembicCreationListener.ALEMBIC_CHEST_NAME)
+						|| event.getWhoClicked().getOpenInventory().getTitle().equals(AlembicCreationListener.ALEMBIC_BREWINGSTAND_NAME)))) {
 			//p.sendMessage("Alchemy: AlembicGUI");
 			if (alembicChest.getInventory().getItem(17).hasItemMeta() && alembicChest.getInventory().getItem(17).getItemMeta().getDisplayName().equals(ChatColor.RED + "In Progress")) {
 				event.setCancelled(true);
