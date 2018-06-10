@@ -1,6 +1,7 @@
 package com.gmail.sharpcastle33.util;
 
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -26,6 +27,7 @@ public class AmbianceUtil {
 		Location bellowsLoc = b.getRelative(BlockFace.DOWN).getLocation();
 		
 		w.playSound(standLoc, Sound.BLOCK_BREWING_STAND_BREW, 1, 1);
+		w.spawnParticle(Particle.SMOKE_NORMAL, standLoc, 4, 0, 0, 0, 0.1);
 		
 		
 	}
