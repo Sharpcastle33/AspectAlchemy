@@ -252,8 +252,10 @@ public class AlembicHandler {
 		List<String> uniques = new ArrayList<>();
 		int slot = 2;
 		for (int counter = 0; counter < 15; counter++) {
-			if(chest.getInventory().getItem(slot) != null) if(!uniques.contains(chest.getInventory().getItem(slot).getItemMeta().getDisplayName()))
-				uniques.add(chest.getInventory().getItem(slot).getItemMeta().getDisplayName());
+			if(chest.getInventory().getItem(slot) != null) if(!uniques.contains(chest.getInventory().getItem(slot).getItemMeta().getDisplayName())) {
+				if(AspectManager.getAspects(chest.getInventory().getItem(slot)).size() > 0)
+					uniques.add(chest.getInventory().getItem(slot).getItemMeta().getDisplayName());
+			}
 			if(uniques.size() >= INGREDIENTS_MINIMUM) return true;
 			if (slot == 6 || slot == 15) {
 				slot += 5;
