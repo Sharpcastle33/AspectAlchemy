@@ -62,7 +62,7 @@ public class AlembicManager {
 			values.put("y", y);
 			values.put("z", z);
 			
-			config.createSection(x + "" + y + "" + z, values);
+			config.createSection(((int)x) + "_" + ((int)y) + "_" + ((int)z), values);
 		} // for
 		
 		try {
