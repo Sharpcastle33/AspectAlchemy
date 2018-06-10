@@ -33,11 +33,14 @@ import com.gmail.sharpcastle33.potions.PotionManager;
 
 
 public class AlembicHandler {
+	static final int INGREDIENTS_MINIMUM = 3;
 	
+	static final String NOT_ENOUGH_INGREDIENTS_MSG = ChatColor.RED + "You must have at least "+INGREDIENTS_MINIMUM+" different types of ingredients for an alchemical reaction!";
 	static final String NOT_ENOUGH_WATER_BOTTLES_MSG = ChatColor.RED + "You must have all three brewing stand slots filled with water bottles to begin an alchemical reaction!";
 	static final String NOT_ENOUGH_FUEL_MSG = ChatColor.RED + "You must have some coal in the Alembic Bellows in order to begin an alchemical reaction!";
 	static final String SHAMAN_SAP_NAME = ChatColor.YELLOW + "Shaman Sap";
 
+	
 	static final int ALEMBIC_TICK_TIME = 1200; // 1200 MC Ticks in 1 minute
 	static Map<String, Integer> shamanSapPoints;
 	static Plugin plugin;
@@ -81,14 +84,13 @@ public class AlembicHandler {
 			return;
 		} // if
 		
-		/* BEGIN TEST CODE */
-		if(!(b.getRelative(BlockFace.DOWN).getState() instanceof Furnace)) Bukkit.getPlayer(name).sendMessage("NOT A FURNACE!");
-		else if(((Furnace) b.getRelative(BlockFace.DOWN).getState()).getInventory().getFuel() == null) Bukkit.getPlayer(name).sendMessage("FUEL IS NULL!");
-		else if(((Furnace) b.getRelative(BlockFace.DOWN).getState()).getInventory().getFuel().getAmount() < 1) Bukkit.getPlayer(name).sendMessage("FUEL AMOUNT LESS THAN ONE!");
-		/* END TEST CODE */
-		
 		if(!(b.getRelative(BlockFace.DOWN).getState() instanceof Furnace) || ((Furnace) b.getRelative(BlockFace.DOWN).getState()).getInventory().getFuel() == null || ((Furnace) b.getRelative(BlockFace.DOWN).getState()).getInventory().getFuel().getAmount() < 1) {
 			Bukkit.getServer().getPlayer(name).sendMessage(NOT_ENOUGH_FUEL_MSG);
+			return;
+		} // if
+		
+		if(!minimumIngredientsCheck((Chest) b.getState())) {
+			Bukkit.getServer().getPlayer(name).sendMessage(NOT_ENOUGH_INGREDIENTS_MSG);
 			return;
 		} // if
 		
@@ -245,5 +247,22 @@ public class AlembicHandler {
 			slot++;
 		} // for
 	} // clearFiftyFifty
+	
+	public static boolean minimumIngredientsCheck(Chest chest) {
+		List<String> uniques = new ArrayList<>();
+		int slot = 2;
+		for (int counter = 0; counter < 15; counter++) {
+			if(chest.getInventory().getItem(slot) != null) if(!uniques.contains(chest.getInventory().getItem(slot).getItemMeta().getDisplayName()))
+				uniques.add(chest.getInventory().getItem(slot).getItemMeta().getDisplayName());
+			if(uniques.size() >= INGREDIENTS_MINIMUM) return true;
+			if (slot == 6 || slot == 15) {
+				slot += 5;
+				continue;
+			} // if
+			slot++;
+		} // for
+		
+		return false;
+	} // minimumIngredientsCheck
 
 }
