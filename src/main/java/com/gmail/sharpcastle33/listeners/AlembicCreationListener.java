@@ -15,6 +15,8 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
+
+import com.gmail.sharpcastle33.AlembicManager;
 import com.gmail.sharpcastle33.util.InventoryUtil;
 
 /**
@@ -33,7 +35,27 @@ public class AlembicCreationListener implements Listener {
 		Block b = event.getBlock();
 		ItemStack item = event.getItemInHand();
 		Player p = event.getPlayer();
+		
+		// Ensure that no chest is placed next to an alembic
+		if(item.getType() == Material.CHEST) {
+			for (int x = -1; x <= 1; x++) {
+				for (int z = -1; z <= 1; z++) {
+					for (int y = 0; y < 3; y++) {
+						if (z != 0 || x != 0) {
+							Block block = b.getRelative(x, y, z);
+							for(Location location: AlembicManager.alembics) {
+								if(block.getLocation().equals(location)) { 
+									event.setCancelled(true);
+									return;
+								}
+							} // for
+						} // if
+					} // for
+				} // for
+			} // for
+		} // if
 
+		// Alembic Creation Check
 		if (item.getType() == Material.OBSERVER) {
 			if (item.hasItemMeta()) {
 				ItemMeta meta = item.getItemMeta();
@@ -104,14 +126,31 @@ public class AlembicCreationListener implements Listener {
 	 * @return false if the location is invalid
 	 */
 	private boolean isValidAlembicPosition(Location loc) {
+		// Ensure there are no chests or alembics immediately next to the location
+		for (int x = -1; x <= 1; x++) {
+			for (int z = -1; z <= 1; z++) {
+				for (int y = 0; y < 3; y++) {
+					if (z != 0 || x != 0) {
+						Block block = loc.getBlock().getRelative(x, y, z);
+						if(block instanceof Chest) return false;
+						for(Location location: AlembicManager.alembics) {
+							if(block.getLocation().equals(location)) return false;
+						} // for
+					} // if
+				} // for
+			} // for
+		} // for
+		
+		// Ensure the two blocks above the location are air
 		if (loc.getWorld().getBlockAt(loc.getBlockX(), loc.getBlockY() + 1, loc.getBlockZ())
 				.getType() == Material.AIR) {
 			if (loc.getWorld().getBlockAt(loc.getBlockX(), loc.getBlockY() + 2, loc.getBlockZ())
 					.getType() == Material.AIR) {
 				return true;
-			}
-		}
+			} // if
+		} // if
+
 		return false;
 	} // isValidAlembicPosition
 
-}
+} // class
