@@ -25,6 +25,7 @@ import com.gmail.sharpcastle33.AlembicManager;
 import com.gmail.sharpcastle33.aspects.Aspect;
 import com.gmail.sharpcastle33.aspects.AspectManager;
 import com.gmail.sharpcastle33.aspects.AspectRecipeManager;
+import com.gmail.sharpcastle33.listeners.AlembicCreationListener;
 import com.gmail.sharpcastle33.potions.CustomPotion;
 import com.gmail.sharpcastle33.potions.PotionManager;
 
@@ -390,5 +391,14 @@ public class AlembicHandler {
 			slot++;
 		} // for
 	} // clearRand
+	
+	public static boolean isAlembic(Block block) {
+		if(block instanceof Chest) {
+			Chest chest = (Chest) block;
+			if(chest.getCustomName().equals(AlembicCreationListener.ALEMBIC_CHEST_NAME)) return true;
+		} // if
+		
+		return false;
+	} // isAlembic
 
 } // class
