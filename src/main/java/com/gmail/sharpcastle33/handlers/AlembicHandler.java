@@ -129,7 +129,7 @@ public class AlembicHandler {
 			meta.setDisplayName(ChatColor.RED + "In Progress");
 			int time = getTotalShamanSapPoints(c) * ALEMBIC_TICK_TIME / 20 / 60;
 			List<String> lore = new ArrayList<>();
-			lore.add("Time Remaining: " + time + "min");
+			lore.add(ChatColor.RED+"Time Remaining: " + time + "min");
 			meta.setLore(lore);
 			start.setItemMeta(meta);
 		}
