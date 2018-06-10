@@ -400,7 +400,7 @@ public class AlembicHandler {
 	public static boolean isAlembic(Block block) {
 		if(block instanceof Chest) {
 			Chest chest = (Chest) block;
-			if(chest.getCustomName().equals(AlembicCreationListener.ALEMBIC_CHEST_NAME)) return true;
+			if(chest.getInventory().getName().equals(AlembicCreationListener.ALEMBIC_CHEST_NAME)) return true;
 		} // if
 		
 		return false;

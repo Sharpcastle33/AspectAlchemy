@@ -39,11 +39,14 @@ public class AlembicCreationListener implements Listener {
 		
 		// Ensure that no chest is placed next to an alembic
 		if(item.getType() == Material.CHEST) {
+			p.sendMessage("Chest = YES");
 			for (int x = -1; x <= 1; x++) {
 				for (int z = -1; z <= 1; z++) {
 					if (z != 0 || x != 0) {
 						Block block = b.getRelative(x, 0, z);
+						p.sendMessage("For block at x: "+block.getX()+", z: "+block.getZ());
 						if(AlembicHandler.isAlembic(block)) { 
+							p.sendMessage("There's an alembic, cancelling...");
 							event.setCancelled(true);
 							return;
 						} // if
