@@ -39,6 +39,7 @@ public class AlembicTickTask extends BukkitRunnable {
 	 * Set up tick task by chest location
 	 */
 	public AlembicTickTask(Location chestLocation) {
+		fuelTick = 4;
 
 		Block chest = chestLocation.getBlock();
 		
