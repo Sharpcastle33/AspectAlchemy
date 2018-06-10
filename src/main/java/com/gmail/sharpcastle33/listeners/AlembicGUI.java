@@ -71,8 +71,7 @@ public class AlembicGUI implements Listener {
 				Player player = (Player) event.getWhoClicked();
 				if(player.getOpenInventory().getTopInventory().getName().equals(AlembicCreationListener.ALEMBIC_CHEST_NAME)
 						|| player.getOpenInventory().getTopInventory().getName().equals(AlembicCreationListener.ALEMBIC_BREWINGSTAND_NAME)) {
-					Inventory inventory = player.getOpenInventory().getTopInventory();
-					if(inventory.getItem(17).hasItemMeta() && inventory.getItem(17).getItemMeta().getDisplayName().equals(ChatColor.RED + "In Progress")) {
+					if(alembicChest.getInventory().getItem(17).hasItemMeta() && alembicChest.getInventory().getItem(17).getItemMeta().getDisplayName().equals(ChatColor.RED + "In Progress")) {
 						p.closeInventory();
 						p.sendMessage(IN_PROGRESS_MESSAGE);
 					} // if
