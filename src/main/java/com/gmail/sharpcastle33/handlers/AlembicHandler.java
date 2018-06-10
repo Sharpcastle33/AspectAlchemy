@@ -61,59 +61,6 @@ public class AlembicHandler {
 	} // init
 	
 	/**
-	 * Checks to ensure that the minimum number of water bottles are present
-	 * @param b Alembic Stand
-	 * @return false if there are not enough water bottles (all three slots must be filled)
-	 */
-	public static boolean checkWaterBottles(Block b) {
-		if(b.getType() == Material.BREWING_STAND) {
-            BrewingStand brewingStandState = (BrewingStand) b.getState();	
-            ItemStack[] arr = brewingStandState.getInventory().getContents();
-            //ItemStack bottle = new ItemStack(Material.POTION, 1, ((byte)0));
-            for(int i = 0; i< 3; i++) {
-            	if(arr[i] != null && arr[i].getType() == Material.POTION) {
-            		
-            	}else {
-            		return false;
-            	}
-            }
-            return true;
-		}
-		Bukkit.getServer().getLogger().warning("Called checkWaterBottles on something that isn't a brewingstand!");
-		return false;
-	} // checkWaterBottles
-
-	/**
-	 * Runs all of the beginning checks before starting Alchemy
-	 * @param b Alembic Chest Block
-	 * @param name String name of Player
-	 * @return false if any othe the checks fail
-	 */
-	public static boolean runChecks(Block b, String name) {
-		if(!checkWaterBottles(b.getRelative(0, 1, 0))) {
-			Bukkit.getServer().getPlayer(name).sendMessage(NOT_ENOUGH_WATER_BOTTLES_MSG);
-			return false;
-		} // if
-		
-		if(!(b.getRelative(BlockFace.DOWN).getState() instanceof Furnace) || ((Furnace) b.getRelative(BlockFace.DOWN).getState()).getInventory().getFuel() == null || ((Furnace) b.getRelative(BlockFace.DOWN).getState()).getInventory().getFuel().getAmount() < 1) {
-			Bukkit.getServer().getPlayer(name).sendMessage(NOT_ENOUGH_FUEL_MSG);
-			return false;
-		} // if
-		
-		if(!minimumIngredientsCheck((Chest) b.getState())) {
-			Bukkit.getServer().getPlayer(name).sendMessage(NOT_ENOUGH_INGREDIENTS_MSG);
-			return false;
-		} // if
-		
-		if (getTotalShamanSapPoints((Chest) b.getState()) <= 0) {
-			Bukkit.getServer().getPlayer(name).sendMessage(NOT_ENOUGH_SAP_MSG);
-			return false;
-		} // if
-		
-		return true;
-	} // runChecks
-
-	/**
 	 * Ensures that there are enough water bottles, fuel, and ingredients to begin alchemcy, then begins Alchemy
 	 * @param b Alembic Chest (as a Block)
 	 * @param name String name of Player
@@ -132,11 +79,100 @@ public class AlembicHandler {
 	} // startAlchemy
 
 	/**
+	 * Runs all of the beginning checks before starting Alchemy
+	 * @param b Alembic Chest Block
+	 * @param name String name of Player
+	 * @return false if any othe the checks fail
+	 */
+	private static boolean runChecks(Block b, String name) {
+		if(!checkWaterBottles(b.getRelative(0, 1, 0))) {
+			Bukkit.getServer().getPlayer(name).sendMessage(NOT_ENOUGH_WATER_BOTTLES_MSG);
+			return false;
+		} // if
+		
+		if(!checkFuel(b)) {
+			Bukkit.getServer().getPlayer(name).sendMessage(NOT_ENOUGH_FUEL_MSG);
+			return false;
+		} // if
+		
+		if(!minimumIngredientsCheck((Chest) b.getState())) {
+			Bukkit.getServer().getPlayer(name).sendMessage(NOT_ENOUGH_INGREDIENTS_MSG);
+			return false;
+		} // if
+		
+		if(getTotalShamanSapPoints((Chest) b.getState()) <= 0) {
+			Bukkit.getServer().getPlayer(name).sendMessage(NOT_ENOUGH_SAP_MSG);
+			return false;
+		} // if
+		
+		return true;
+	} // runChecks
+	
+	/**
+	 * Checks to ensure that the minimum number of water bottles are present
+	 * @param b Alembic Stand
+	 * @return false if there are not enough water bottles (all three slots must be filled)
+	 */
+	private static boolean checkWaterBottles(Block b) {
+		if(b.getType() == Material.BREWING_STAND) {
+            BrewingStand brewingStandState = (BrewingStand) b.getState();	
+            ItemStack[] arr = brewingStandState.getInventory().getContents();
+            for(int i = 0; i< 3; i++) {
+            	if(arr[i] != null && arr[i].getType() == Material.POTION) {
+            		
+            	}else {
+            		return false;
+            	}
+            }
+            return true;
+		}
+		Bukkit.getServer().getLogger().warning("Called checkWaterBottles on something that isn't a brewingstand!");
+		return false;
+	} // checkWaterBottles
+	
+	/**
+	 * Checks the fuel to insure there is at least one coal available for an alchemical reaction
+	 * @param b Alembic Chest Block
+	 * @return false if there is no furnace or no fuel present
+	 */
+	private static boolean checkFuel(Block b) {
+		if(!(b.getRelative(BlockFace.DOWN).getState() instanceof Furnace) 
+				|| ((Furnace) b.getRelative(BlockFace.DOWN).getState()).getInventory().getFuel() == null 
+				|| ((Furnace) b.getRelative(BlockFace.DOWN).getState()).getInventory().getFuel().getAmount() < 1)
+			return false;
+		return true;
+	} // checkFuel
+	
+	/**
+	 * Checks to ensure that the minimum amount of ingredients are present (only counts unique ingredients with aspects)
+	 * @param chest Alembic Chest
+	 * @return false if there are fewer than INGREDIENTS_MINIMUM different ingredients present
+	 */
+	private static boolean minimumIngredientsCheck(Chest chest) {
+		List<String> uniques = new ArrayList<>();
+		int slot = 2;
+		for (int counter = 0; counter < 15; counter++) {
+			if(chest.getInventory().getItem(slot) != null) if(!uniques.contains(chest.getInventory().getItem(slot).getItemMeta().getDisplayName())) {
+				if(AspectManager.getAspects(chest.getInventory().getItem(slot)) != null)
+					uniques.add(chest.getInventory().getItem(slot).getItemMeta().getDisplayName());
+			}
+			if(uniques.size() >= INGREDIENTS_MINIMUM) return true;
+			if (slot == 6 || slot == 15) {
+				slot += 5;
+				continue;
+			} // if
+			slot++;
+		} // for
+		
+		return false;
+	} // minimumIngredientsCheck
+
+	/**
 	 * Gets the Alembic GUI into the in-progress display
 	 * @param c Alembic Chest
 	 * @param name String name of Player (player than began the process)
 	 */
-	public static void updateAlembicInfo(Chest c, String name) {
+	private static void updateAlembicInfo(Chest c, String name) {
 		// Update "Information" GUI item to reflect time started and who started
 		ItemStack info = c.getBlockInventory().getItem(8);
 		if (info.hasItemMeta()) {
@@ -297,29 +333,5 @@ public class AlembicHandler {
 			slot++;
 		} // for
 	} // clearRand
-	
-	/**
-	 * Checks to ensure that the minimum amount of ingredients are present (only counts unique ingredients with aspects)
-	 * @param chest Alembic Chest
-	 * @return false if there are fewer than INGREDIENTS_MINIMUM different ingredients present
-	 */
-	public static boolean minimumIngredientsCheck(Chest chest) {
-		List<String> uniques = new ArrayList<>();
-		int slot = 2;
-		for (int counter = 0; counter < 15; counter++) {
-			if(chest.getInventory().getItem(slot) != null) if(!uniques.contains(chest.getInventory().getItem(slot).getItemMeta().getDisplayName())) {
-				if(AspectManager.getAspects(chest.getInventory().getItem(slot)) != null)
-					uniques.add(chest.getInventory().getItem(slot).getItemMeta().getDisplayName());
-			}
-			if(uniques.size() >= INGREDIENTS_MINIMUM) return true;
-			if (slot == 6 || slot == 15) {
-				slot += 5;
-				continue;
-			} // if
-			slot++;
-		} // for
-		
-		return false;
-	} // minimumIngredientsCheck
 
 } // class
