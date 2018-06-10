@@ -83,11 +83,11 @@ public class AlembicHandler {
 		
 		/* BEGIN TEST CODE */
 		if(!(b.getRelative(BlockFace.DOWN).getState() instanceof Furnace)) Bukkit.getPlayer(name).sendMessage("NOT A FURNACE!");
-		else if(((Furnace) b.getState()).getInventory().getFuel() == null) Bukkit.getPlayer(name).sendMessage("FUEL IS NULL!");
-		else if(((Furnace) b.getState()).getInventory().getFuel().getAmount() < 1) Bukkit.getPlayer(name).sendMessage("FUEL AMOUNT LESS THAN ONE!");
+		else if(((Furnace) b.getRelative(BlockFace.DOWN).getState()).getInventory().getFuel() == null) Bukkit.getPlayer(name).sendMessage("FUEL IS NULL!");
+		else if(((Furnace) b.getRelative(BlockFace.DOWN).getState()).getInventory().getFuel().getAmount() < 1) Bukkit.getPlayer(name).sendMessage("FUEL AMOUNT LESS THAN ONE!");
 		/* END TEST CODE */
 		
-		if(!(b.getRelative(BlockFace.DOWN).getState() instanceof Furnace) || ((Furnace) b.getState()).getInventory().getFuel() == null || ((Furnace) b.getState()).getInventory().getFuel().getAmount() < 1) {
+		if(!(b.getRelative(BlockFace.DOWN).getState() instanceof Furnace) || ((Furnace) b.getRelative(BlockFace.DOWN).getState()).getInventory().getFuel() == null || ((Furnace) b.getRelative(BlockFace.DOWN).getState()).getInventory().getFuel().getAmount() < 1) {
 			Bukkit.getServer().getPlayer(name).sendMessage(NOT_ENOUGH_FUEL_MSG);
 			return;
 		} // if
