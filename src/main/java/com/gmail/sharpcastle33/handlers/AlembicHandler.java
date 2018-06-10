@@ -81,6 +81,12 @@ public class AlembicHandler {
 			return;
 		} // if
 		
+		/* BEGIN TEST CODE */
+		if(!(b.getRelative(BlockFace.DOWN).getLocation() instanceof Furnace)) Bukkit.getPlayer(name).sendMessage("NOT A FURNACE!");
+		if(((Furnace) b).getInventory().getFuel() == null) Bukkit.getPlayer(name).sendMessage("FUEL IS NULL!");
+		if(((Furnace) b).getInventory().getFuel().getAmount() < 1) Bukkit.getPlayer(name).sendMessage("FUEL AMOUNT LESS THAN ONE!");
+		/* END TEST CODE */
+		
 		if(!(b.getRelative(BlockFace.DOWN).getLocation() instanceof Furnace) || ((Furnace) b).getInventory().getFuel() == null || ((Furnace) b).getInventory().getFuel().getAmount() < 1) {
 			Bukkit.getServer().getPlayer(name).sendMessage(NOT_ENOUGH_FUEL_MSG);
 			return;
