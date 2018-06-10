@@ -14,6 +14,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.gmail.sharpcastle33.handlers.AlembicHandler;
+import com.gmail.sharpcastle33.util.InventoryUtil;
 
 public class AlembicBreakListener implements Listener{
 	
@@ -38,6 +39,7 @@ public class AlembicBreakListener implements Listener{
 						breakAlembicChest(b.getRelative(BlockFace.UP));
 						breakAlembicStand(b.getRelative(BlockFace.UP).getRelative(BlockFace.UP));
 						breakAlembicBellows(b);
+						b.getWorld().dropItemNaturally(b.getLocation(), InventoryUtil.createGuiItem(ChatColor.YELLOW + "Alembic", Material.OBSERVER));
 						event.setCancelled(true);
 					}
 				}
@@ -59,6 +61,7 @@ public class AlembicBreakListener implements Listener{
 						breakAlembicChest(b.getRelative(BlockFace.DOWN));
 						breakAlembicStand(b);
 						breakAlembicBellows(b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN));
+						b.getWorld().dropItemNaturally(b.getLocation(), InventoryUtil.createGuiItem(ChatColor.YELLOW + "Alembic", Material.OBSERVER));
 						event.setCancelled(true);
 					}
 				}
@@ -79,6 +82,7 @@ public class AlembicBreakListener implements Listener{
 					breakAlembicChest(b);
 					breakAlembicStand(b.getRelative(BlockFace.UP));
 					breakAlembicBellows(b.getRelative(BlockFace.DOWN));
+					b.getWorld().dropItemNaturally(b.getLocation(), InventoryUtil.createGuiItem(ChatColor.YELLOW + "Alembic", Material.OBSERVER));
 					event.setCancelled(true);
 				}
 			}
@@ -137,4 +141,5 @@ public class AlembicBreakListener implements Listener{
 		}
 		
 	}
+	
 }
