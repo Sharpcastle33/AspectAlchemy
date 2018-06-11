@@ -110,6 +110,7 @@ public class AlembicTickTask extends BukkitRunnable {
 				if (itemStack != null)
 					itemStack.setAmount(0);
 			AlembicHandler.deactivateAlembic(chest);
+			AmbianceUtil.alembicSuccessAmbiance(chest.getBlock());
 		}else {
 			AmbianceUtil.alembicTickAmbiance(chest.getBlock());
 		}
