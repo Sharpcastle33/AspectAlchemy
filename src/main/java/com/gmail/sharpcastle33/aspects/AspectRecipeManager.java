@@ -26,7 +26,7 @@ public class AspectRecipeManager {
 																// requirement
 	public static final int BAD_ASPECT_TOLERANCE = 2; // number added to tolerance for each additional aspect of an
 														// incorrect type (by the recipe)
-	public static final int SHAMAN_SAP_VALUE = 2; // magnitude of sap effect on tolerance
+	public static final int SHAMAN_SAP_VALUE = 6; // magnitude of sap effect on tolerance
 
 	private static FileConfiguration config;
 	public static List<AspectRecipe> recipes;
