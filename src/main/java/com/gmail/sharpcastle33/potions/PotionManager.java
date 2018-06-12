@@ -55,10 +55,13 @@ public class PotionManager {
 	 * @return Map of CustomPotion to ItemStack
 	 */
 	private static Map<CustomPotion, ItemStack> loadPotions(FileConfiguration config) {
+		Bukkit.getServer().getLogger().info("Loading potions...");
 		Map<CustomPotion, ItemStack> configPotions = new HashMap<CustomPotion, ItemStack>();
 		for (String potionKey : config.getKeys(false)) {
-			configPotions.put(CustomPotion.valueOf(potionKey),
+			CustomPotion pot = CustomPotion.valueOf(potionKey);
+			configPotions.put(pot,
 					loadPotionStack(potionConfig.getConfigurationSection(potionKey)));
+			Bukkit.getServer().getLogger().info("Loaded potion: " + pot.name());
 		}
 
 		return configPotions;
