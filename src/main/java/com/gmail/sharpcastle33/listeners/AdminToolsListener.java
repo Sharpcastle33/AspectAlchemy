@@ -3,6 +3,7 @@ package com.gmail.sharpcastle33.listeners;
 import java.util.Map;
 
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -19,13 +20,18 @@ import net.md_5.bungee.api.ChatColor;
 
 public class AdminToolsListener implements Listener{
 
-	
+	@EventHandler
 	public void resonator(PlayerInteractEvent event) {
 		
 		final String ASPECT_ADMIN_TOOL = ChatColor.RED + "Secret Admin Aspect Tool";
 		final String POTION_ADMIN_TOOL = ChatColor.RED + "Secret Admin Potion Tool";
 		final String INSTANT_ADMIN_TOOL = ChatColor.RED + "Secret Admin Brewing Tool";
 
+		/* DEBUG CODE 
+		if(event.getHand() == EquipmentSlot.HAND) event.getPlayer().sendMessage(ChatColor.DARK_PURPLE+"YOUR HAND IS A HAND!");
+		if(event.getAction() == Action.RIGHT_CLICK_AIR) event.getPlayer().sendMessage(ChatColor.DARK_PURPLE+"YOU RIGHT CLICKED THE AIR!");
+		if(event.getAction() == Action.RIGHT_CLICK_BLOCK) event.getPlayer().sendMessage(ChatColor.DARK_PURPLE+"YOU RIGHT CLICKED A BLOCK!");
+		/* END DEBUG CODE */
 		
 		if (event.getHand() == EquipmentSlot.HAND
 				&& (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
