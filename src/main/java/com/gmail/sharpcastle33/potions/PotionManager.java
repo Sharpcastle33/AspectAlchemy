@@ -28,7 +28,7 @@ import com.gmail.sharpcastle33.util.PotionUtil.PotionVariant;
 public class PotionManager {
 
 	static FileConfiguration potionConfig;
-	private static Map<CustomPotion, ItemStack> potions;
+	public static Map<CustomPotion, ItemStack> potions;
 
 	/**
 	 * Initialization method. Loads the potions.yaml and initialized the potions Map

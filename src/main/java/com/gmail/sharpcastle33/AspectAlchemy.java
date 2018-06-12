@@ -8,6 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.gmail.sharpcastle33.aspects.AspectManager;
 import com.gmail.sharpcastle33.aspects.AspectRecipeManager;
 import com.gmail.sharpcastle33.handlers.AlembicHandler;
+import com.gmail.sharpcastle33.listeners.AdminToolsListener;
 import com.gmail.sharpcastle33.listeners.AlembicBreakListener;
 import com.gmail.sharpcastle33.listeners.AlembicCreationListener;
 import com.gmail.sharpcastle33.listeners.AlembicExploitListener;
@@ -34,6 +35,7 @@ public class AspectAlchemy extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new AlembicGUI(), plugin);						// Handles alembic GUI
 
 		getServer().getPluginManager().registerEvents(new ThaumaturgicalResonatorListener(), plugin);	// Handles Thaumaturgical Resonator
+		getServer().getPluginManager().registerEvents(new AdminToolsListener(), plugin);	
 
 	} // onEnable
 
