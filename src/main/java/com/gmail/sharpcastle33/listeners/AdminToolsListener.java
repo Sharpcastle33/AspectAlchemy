@@ -1,7 +1,13 @@
 package com.gmail.sharpcastle33.listeners;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
+import org.bukkit.Bukkit;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.BrewingStand;
+import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,6 +19,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import com.gmail.sharpcastle33.aspects.Aspect;
 import com.gmail.sharpcastle33.aspects.AspectManager;
+import com.gmail.sharpcastle33.handlers.AlembicHandler;
 import com.gmail.sharpcastle33.potions.CustomPotion;
 import com.gmail.sharpcastle33.potions.PotionManager;
 
@@ -61,7 +68,22 @@ public class AdminToolsListener implements Listener{
 				}
 				
 				if(mainMeta.hasDisplayName() && mainMeta.getDisplayName() == INSTANT_ADMIN_TOOL) {
-					
+					if(AlembicHandler.isAlembic(event.getClickedBlock())) {
+						
+						Chest chest = (Chest) event.getClickedBlock().getState();
+						
+						ItemStack progress = chest.getInventory().getItem(17);
+						ItemMeta progressMeta = progress.hasItemMeta() ? progress.getItemMeta() : null;
+						if (progressMeta == null) {
+							AlembicHandler.completeAlchemy((Chest) event.getClickedBlock().getState(), (BrewingStand) event.getClickedBlock().getRelative(BlockFace.UP).getState());
+						} else {
+							List<String> lore = new ArrayList<>();
+							lore.add(ChatColor.RED + "Time Remaining: " + 1 + "min");
+
+							progressMeta.setLore(lore);
+							progress.setItemMeta(progressMeta);
+						} // if/else
+					}
 				}
 			}
 		}	
