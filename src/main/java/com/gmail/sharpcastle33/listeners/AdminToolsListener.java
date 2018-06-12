@@ -37,7 +37,7 @@ public class AdminToolsListener implements Listener{
 				ItemMeta mainMeta = main.getItemMeta();
 				ItemMeta offMeta = off.getItemMeta();
 				
-				if(mainMeta.hasDisplayName() && mainMeta.getDisplayName() == ASPECT_ADMIN_TOOL) {
+				if(mainMeta.hasDisplayName() && mainMeta.getDisplayName().equals(ASPECT_ADMIN_TOOL)) {
 					if(offMeta.hasDisplayName()) {
 						Map<Aspect, Integer> temp = AspectManager.getAspects(off);
 						p.sendMessage(ChatColor.BLUE + "This item has the following aspects:");
@@ -47,14 +47,14 @@ public class AdminToolsListener implements Listener{
 					}
 				}
 				
-				if(mainMeta.hasDisplayName() && mainMeta.getDisplayName() == POTION_ADMIN_TOOL) {
+				if(mainMeta.hasDisplayName() && mainMeta.getDisplayName().equals(POTION_ADMIN_TOOL)) {
 					p.sendMessage(ChatColor.BLUE + "There are " + PotionManager.potions.size() + " potions loaded.");
 					for(CustomPotion pot : PotionManager.potions.keySet()) {
 						p.sendMessage(ChatColor.GOLD + pot.name());
 					}
 				}
 				
-				if(mainMeta.hasDisplayName() && mainMeta.getDisplayName() == INSTANT_ADMIN_TOOL) {
+				if(mainMeta.hasDisplayName() && mainMeta.getDisplayName().equals(INSTANT_ADMIN_TOOL)) {
 					
 				}
 			}
