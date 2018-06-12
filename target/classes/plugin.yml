@@ -2,3 +2,7 @@ name: Alchemy
 version: 1.12
 author: bms_
 main: com.gmail.sharpcastle33.AspectAlchemy
+commands:
+    getpotion:
+        description: Gets a potion from AspectAlchemy (DEBUG COMMAND)
+        usage: /getpotion <CUSTOMPOTION>
