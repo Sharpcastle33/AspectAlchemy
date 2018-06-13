@@ -11,12 +11,18 @@ import com.gmail.sharpcastle33.potions.CustomPotion;
 import com.gmail.sharpcastle33.potions.PotionManager;
 
 public class DebugGetPotionCommand implements CommandExecutor {
+	
+	public static final String INSUFFICIENT_PERMISSIONS = ChatColor.RED+"[AspectAlchemy] You do not have permission to use this command!";
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		
 		if(sender instanceof Player && args.length > 0) {
 			Player player = (Player) sender;
+			
+			if(!player.isOp()) {
+				player.sendMessage(INSUFFICIENT_PERMISSIONS);
+			} // if
 			
 			if(CustomPotion.valueOf(args[0]) != null) {
 				ItemStack potion = PotionManager.getPotion(CustomPotion.valueOf(args[0]));
