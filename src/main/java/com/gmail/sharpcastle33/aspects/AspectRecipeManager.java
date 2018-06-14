@@ -127,7 +127,7 @@ public class AspectRecipeManager {
 			if (recipe.primaryAspect.equals(primary)) {
 				for (Aspect aspect : recipe.aspects.keySet()) {
 					if (!aspectTotals.containsKey(aspect)
-							&& recipe.aspects.get(aspect).intValue() > aspectTotals.get(aspect).intValue())
+							|| recipe.aspects.get(aspect).intValue() > aspectTotals.get(aspect).intValue())
 						continue shortlister;
 				} // for
 				shortlist.add(recipe);
