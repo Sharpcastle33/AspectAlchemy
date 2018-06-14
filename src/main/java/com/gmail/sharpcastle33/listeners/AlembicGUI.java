@@ -77,6 +77,7 @@ public class AlembicGUI implements Listener {
 								.equals(AlembicCreationListener.ALEMBIC_BREWINGSTAND_NAME)) {
 					if (alembicChest.getInventory().getItem(17).hasItemMeta() && alembicChest.getInventory().getItem(17)
 							.getItemMeta().getDisplayName().equals(ChatColor.RED + "In Progress")) {
+						event.setCancelled(true);
 						p.closeInventory();
 						p.sendMessage(IN_PROGRESS_MESSAGE);
 					} // if
