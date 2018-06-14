@@ -126,6 +126,7 @@ public class AspectRecipeManager {
 		shortlister: for (AspectRecipe recipe : recipes) {
 			if (recipe.primaryAspect.equals(primary)) {
 				for (Aspect aspect : recipe.aspects.keySet()) {
+					Bukkit.getServer().getLogger().info("Recipe contains: " + aspect.name() + " Solution contains?: " + aspectTotals.containsKey(aspect));
 					if (!aspectTotals.containsKey(aspect)
 							|| recipe.aspects.get(aspect).intValue() > aspectTotals.get(aspect).intValue())
 						continue shortlister;
