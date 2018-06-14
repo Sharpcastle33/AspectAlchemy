@@ -8,6 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.gmail.sharpcastle33.aspects.AspectManager;
 import com.gmail.sharpcastle33.aspects.AspectRecipeManager;
 import com.gmail.sharpcastle33.commands.DebugGetPotionCommand;
+import com.gmail.sharpcastle33.commands.DebugGetRecipeCommand;
 import com.gmail.sharpcastle33.handlers.AlembicHandler;
 import com.gmail.sharpcastle33.listeners.AdminToolsListener;
 import com.gmail.sharpcastle33.listeners.AlembicBreakListener;
@@ -38,6 +39,7 @@ public class AspectAlchemy extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new AdminToolsListener(), plugin);				// Handles admin tools
 		
 		getCommand("getpotion").setExecutor(new DebugGetPotionCommand());								// Handles getpotion command
+		getCommand("getrecipe").setExecutor(new DebugGetRecipeCommand());								// Handles getrecipe command
 
 	} // onEnable
 

@@ -6,3 +6,6 @@ commands:
     getpotion:
         description: Gets a potion from AspectAlchemy (DEBUG COMMAND)
         usage: /getpotion <CUSTOMPOTION>
+    getrecipe:
+        description: Gets the minimum recipe for a potion from AspectAlchemy (DEBUG COMMAND)
+        usage: /getrecipe <CUSTOMPOTION>
