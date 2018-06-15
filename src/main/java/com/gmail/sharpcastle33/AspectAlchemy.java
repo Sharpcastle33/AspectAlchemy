@@ -9,6 +9,7 @@ import com.gmail.sharpcastle33.aspects.AspectManager;
 import com.gmail.sharpcastle33.aspects.AspectRecipeManager;
 import com.gmail.sharpcastle33.commands.DebugGetPotionCommand;
 import com.gmail.sharpcastle33.commands.DebugGetRecipeCommand;
+import com.gmail.sharpcastle33.commands.DebugListPotsCommand;
 import com.gmail.sharpcastle33.handlers.AlembicHandler;
 import com.gmail.sharpcastle33.listeners.AdminToolsListener;
 import com.gmail.sharpcastle33.listeners.AlembicBreakListener;
@@ -40,6 +41,7 @@ public class AspectAlchemy extends JavaPlugin {
 		
 		getCommand("getpotion").setExecutor(new DebugGetPotionCommand());								// Handles getpotion command
 		getCommand("getrecipe").setExecutor(new DebugGetRecipeCommand());								// Handles getrecipe command
+		getCommand("listpots").setExecutor(new DebugListPotsCommand());									// Handles listpots command
 
 	} // onEnable
 

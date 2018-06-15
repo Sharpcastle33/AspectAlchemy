@@ -27,7 +27,7 @@ public class DebugGetRecipeCommand implements CommandExecutor {
 			if(CustomPotion.valueOf(args[0]) != null) {
 				for(AspectRecipe recipe: AspectRecipeManager.recipes) {
 					if(recipe.result.equals(CustomPotion.valueOf(args[0]))) {
-						player.sendMessage(ChatColor.YELLOW+"RECIPE FOR "+recipe.result);
+						player.sendMessage(ChatColor.DARK_PURPLE+"RECIPE FOR "+recipe.result);
 						for(Aspect aspect: recipe.aspects.keySet()) {
 							player.sendMessage(ChatColor.YELLOW+""+recipe.aspects.get(aspect).intValue()+" "+aspect);
 						} // for

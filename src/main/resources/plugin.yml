@@ -4,8 +4,11 @@ author: bms_
 main: com.gmail.sharpcastle33.AspectAlchemy
 commands:
     getpotion:
-        description: Gets a potion from AspectAlchemy (DEBUG COMMAND)
+        description: (DEBUG) Gets a potion from AspectAlchemy
         usage: /getpotion <CUSTOMPOTION>
     getrecipe:
-        description: Gets the minimum recipe for a potion from AspectAlchemy (DEBUG COMMAND)
+        description: (DEBUG) Gets the minimum recipe for a potion from AspectAlchemy
         usage: /getrecipe <CUSTOMPOTION>
+    listpots:
+        description: (DEBUG) Lists all potions loaded from the potions.yaml
+        usage: /listpots
