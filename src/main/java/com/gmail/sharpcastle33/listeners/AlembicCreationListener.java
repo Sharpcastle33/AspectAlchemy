@@ -17,7 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
-import com.gmail.sharpcastle33.AlembicManager;
+import com.gmail.sharpcastle33.Constants;
 import com.gmail.sharpcastle33.handlers.AlembicHandler;
 import com.gmail.sharpcastle33.util.InventoryUtil;
 
@@ -26,12 +26,6 @@ import com.gmail.sharpcastle33.util.InventoryUtil;
  */
 public class AlembicCreationListener implements Listener {
 
-	public static final String ALEMBIC_ITEM_NAME = ChatColor.YELLOW + "Alembic";
-	public static final String ALEMBIC_CONSTRUCTION = ChatColor.RED + "Constructing Alembic...";
-	public static final String ALEMBIC_CHEST_NAME = ChatColor.BLUE + "Alembic Chamber";
-	public static final String ALEMBIC_FURNACE_NAME = ChatColor.BLUE + "Alembic Bellows";
-	public static final String ALEMBIC_BREWINGSTAND_NAME = ChatColor.BLUE + "Alembic Stand";
-
 	@EventHandler
 	public void alembicPlaceEvent(BlockPlaceEvent event) {
 		Block b = event.getBlock();
@@ -39,8 +33,8 @@ public class AlembicCreationListener implements Listener {
 		Player p = event.getPlayer();
 		
 		// Ensure that no chest is placed next to an alembic
-		if(item.getType() == Material.CHEST || (item.getType() == Material.OBSERVER && item.hasItemMeta() && item.getItemMeta().getDisplayName().equals(ALEMBIC_ITEM_NAME))) {
-			if(item.getType() == Material.OBSERVER && item.hasItemMeta() && item.getItemMeta().getDisplayName().equals(ALEMBIC_ITEM_NAME)) {
+		if(item.getType() == Material.CHEST || (item.getType() == Material.OBSERVER && item.hasItemMeta() && item.getItemMeta().getDisplayName().equals(Constants.ALEMBIC_ITEM_NAME))) {
+			if(item.getType() == Material.OBSERVER && item.hasItemMeta() && item.getItemMeta().getDisplayName().equals(Constants.ALEMBIC_ITEM_NAME)) {
 				b = b.getRelative(BlockFace.UP);
 			} // if
 			
@@ -54,7 +48,7 @@ public class AlembicCreationListener implements Listener {
 				return;
 			} // if
 			
-			if(item.getType() == Material.OBSERVER && item.hasItemMeta() && item.getItemMeta().getDisplayName().equals(ALEMBIC_ITEM_NAME)) {
+			if(item.getType() == Material.OBSERVER && item.hasItemMeta() && item.getItemMeta().getDisplayName().equals(Constants.ALEMBIC_ITEM_NAME)) {
 				b = b.getRelative(BlockFace.DOWN);
 			} // if
 		} // if
@@ -63,11 +57,11 @@ public class AlembicCreationListener implements Listener {
 		if (item.getType() == Material.OBSERVER) {
 			if (item.hasItemMeta()) {
 				ItemMeta meta = item.getItemMeta();
-				if (meta.hasDisplayName() && meta.getDisplayName().equals(ALEMBIC_ITEM_NAME)) {
+				if (meta.hasDisplayName() && meta.getDisplayName().equals(Constants.ALEMBIC_ITEM_NAME)) {
 					if (isValidAlembicPosition(b.getLocation())) {
 						// Begin alembic placement
 						if (event.isCancelled() == false) {
-							p.sendMessage(ALEMBIC_CONSTRUCTION);
+							p.sendMessage(Constants.ALEMBIC_CONSTRUCTION);
 
 							World world = b.getWorld();
 							Location loc = b.getLocation();
@@ -83,18 +77,18 @@ public class AlembicCreationListener implements Listener {
 
 							Furnace furnaceState = (Furnace) world.getBlockAt(loc.add(new Vector(0, -2, 0))).getState();
 							furnaceState.update(true);
-							furnaceState.setCustomName(ALEMBIC_FURNACE_NAME);
+							furnaceState.setCustomName(Constants.ALEMBIC_FURNACE_NAME);
 							furnaceState.getInventory().setSmelting(InventoryUtil.constructNullItem());
 							furnaceState.update(true);
 
 							BrewingStand brewingStandState = (BrewingStand) alembicBrewingstand.getState();
-							brewingStandState.setCustomName(ALEMBIC_BREWINGSTAND_NAME);
+							brewingStandState.setCustomName(Constants.ALEMBIC_BREWINGSTAND_NAME);
 							brewingStandState.getInventory().setFuel(InventoryUtil.constructNullItem());
 							brewingStandState.getInventory().setIngredient(InventoryUtil.constructNullItem());
 							brewingStandState.update(true);
 
 							Chest chestState = (Chest) alembicChest.getState();
-							chestState.setCustomName(ALEMBIC_CHEST_NAME);
+							chestState.setCustomName(Constants.ALEMBIC_CHEST_NAME);
 							// p.sendMessage(chestState.getCustomName() + "_" +
 							// chestState.getInventory().getName());
 							chestState.update(true);

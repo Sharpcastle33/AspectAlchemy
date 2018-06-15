@@ -22,10 +22,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 
 import com.gmail.sharpcastle33.AlembicManager;
+import com.gmail.sharpcastle33.Constants;
 import com.gmail.sharpcastle33.aspects.Aspect;
 import com.gmail.sharpcastle33.aspects.AspectManager;
 import com.gmail.sharpcastle33.aspects.AspectRecipeManager;
-import com.gmail.sharpcastle33.listeners.AlembicCreationListener;
 import com.gmail.sharpcastle33.potions.CustomPotion;
 import com.gmail.sharpcastle33.potions.PotionManager;
 
@@ -33,20 +33,6 @@ import com.gmail.sharpcastle33.potions.PotionManager;
  * Handles Alembic logic (the AlembicManager handles the active locations!)
  */
 public class AlembicHandler {
-	static final int INGREDIENTS_MINIMUM = 3;
-	static final int ALEMBIC_TICK_TIME = 1200; // 1200 MC Ticks in 1 minute
-
-	static final String SHAMAN_SAP_NAME = ChatColor.YELLOW + "Shaman Sap";
-
-	static final String NOT_ENOUGH_INGREDIENTS_MSG = ChatColor.RED + "You must have at least " + INGREDIENTS_MINIMUM
-			+ " different types of ingredients for an alchemical reaction!";
-	static final String NOT_ENOUGH_WATER_BOTTLES_MSG = ChatColor.RED
-			+ "You must have all three brewing stand slots filled with water bottles to begin an alchemical reaction!";
-	static final String NOT_ENOUGH_FUEL_MSG = ChatColor.RED
-			+ "You must have some coal in the Alembic Bellows in order to begin an alchemical reaction!";
-	static final String NOT_ENOUGH_SAP_MSG = ChatColor.RED + "No " + SHAMAN_SAP_NAME + ChatColor.RED
-			+ "! Alechmy not started.";
-
 	static Map<String, Integer> shamanSapPoints;
 	static Plugin plugin;
 
@@ -63,11 +49,11 @@ public class AlembicHandler {
 
 		// Restart tasks that for active alembics
 		for (Location loc : AlembicManager.alembics) {
-			new AlembicTickTask(loc).runTaskTimer(plugin, ALEMBIC_TICK_TIME, ALEMBIC_TICK_TIME);
+			new AlembicTickTask(loc).runTaskTimer(plugin, Constants.ALEMBIC_TICK_TIME, Constants.ALEMBIC_TICK_TIME);
 		} // for
 
 		shamanSapPoints = new HashMap<>();
-		shamanSapPoints.put(SHAMAN_SAP_NAME, 1);
+		shamanSapPoints.put(Constants.SHAMAN_SAP_NAME, 1);
 	} // init
 
 	/**
@@ -89,7 +75,7 @@ public class AlembicHandler {
 		AlembicManager.activateAlembic(b.getLocation());
 
 		// Start alchemy task
-		new AlembicTickTask(b.getLocation()).runTaskTimer(plugin, ALEMBIC_TICK_TIME, ALEMBIC_TICK_TIME);
+		new AlembicTickTask(b.getLocation()).runTaskTimer(plugin, Constants.ALEMBIC_TICK_TIME, Constants.ALEMBIC_TICK_TIME);
 
 	} // startAlchemy
 
@@ -104,22 +90,22 @@ public class AlembicHandler {
 	 */
 	private static boolean runChecks(Block b, String name) {
 		if (!checkWaterBottles(b.getRelative(0, 1, 0))) {
-			Bukkit.getServer().getPlayer(name).sendMessage(NOT_ENOUGH_WATER_BOTTLES_MSG);
+			Bukkit.getServer().getPlayer(name).sendMessage(Constants.NOT_ENOUGH_WATER_BOTTLES_MSG);
 			return false;
 		} // if
 
 		if (!checkFuel(b)) {
-			Bukkit.getServer().getPlayer(name).sendMessage(NOT_ENOUGH_FUEL_MSG);
+			Bukkit.getServer().getPlayer(name).sendMessage(Constants.NOT_ENOUGH_FUEL_MSG);
 			return false;
 		} // if
 
 		if (!minimumIngredientsCheck((Chest) b.getState())) {
-			Bukkit.getServer().getPlayer(name).sendMessage(NOT_ENOUGH_INGREDIENTS_MSG);
+			Bukkit.getServer().getPlayer(name).sendMessage(Constants.NOT_ENOUGH_INGREDIENTS_MSG);
 			return false;
 		} // if
 
 		if (getTotalShamanSapPoints((Chest) b.getState()) <= 0) {
-			Bukkit.getServer().getPlayer(name).sendMessage(NOT_ENOUGH_SAP_MSG);
+			Bukkit.getServer().getPlayer(name).sendMessage(Constants.NOT_ENOUGH_SAP_MSG);
 			return false;
 		} // if
 
@@ -185,7 +171,7 @@ public class AlembicHandler {
 					if (AspectManager.getAspects(chest.getInventory().getItem(slot)) != null)
 						uniques.add(chest.getInventory().getItem(slot).getItemMeta().getDisplayName());
 				}
-			if (uniques.size() >= INGREDIENTS_MINIMUM)
+			if (uniques.size() >= Constants.INGREDIENTS_MINIMUM)
 				return true;
 			if (slot == 6 || slot == 15) {
 				slot += 5;
@@ -224,7 +210,7 @@ public class AlembicHandler {
 		if (start.hasItemMeta()) {
 			ItemMeta meta = start.getItemMeta();
 			meta.setDisplayName(ChatColor.RED + "In Progress");
-			int time = getTotalShamanSapPoints(c) * ALEMBIC_TICK_TIME / 20 / 60;
+			int time = getTotalShamanSapPoints(c) * Constants.ALEMBIC_TICK_TIME / 20 / 60;
 			List<String> lore = new ArrayList<>();
 			lore.add(ChatColor.RED + "Time Remaining: " + time + "min");
 			meta.setLore(lore);
@@ -400,7 +386,7 @@ public class AlembicHandler {
 	public static boolean isAlembic(Block block) {
 		if(block.getState() instanceof Chest) {
 			Chest chest = (Chest) block.getState();
-			if(chest.getInventory().getName().equals(AlembicCreationListener.ALEMBIC_CHEST_NAME)) return true;
+			if(chest.getInventory().getName().equals(Constants.ALEMBIC_CHEST_NAME)) return true;
 		} // if
 		
 		return false;

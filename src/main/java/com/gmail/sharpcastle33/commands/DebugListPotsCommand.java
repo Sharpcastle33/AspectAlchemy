@@ -6,6 +6,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.gmail.sharpcastle33.Constants;
 import com.gmail.sharpcastle33.potions.CustomPotion;
 import com.gmail.sharpcastle33.potions.PotionManager;
 
@@ -18,7 +19,7 @@ public class DebugListPotsCommand implements CommandExecutor {
 			Player player = (Player) sender;
 			
 			if(!player.isOp()) {
-				player.sendMessage(DebugGetPotionCommand.INSUFFICIENT_PERMISSIONS);
+				player.sendMessage(Constants.INSUFFICIENT_PERMISSIONS);
 				return true;
 			} // if
 			

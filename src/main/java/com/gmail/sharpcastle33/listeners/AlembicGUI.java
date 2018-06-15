@@ -12,17 +12,13 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
+import com.gmail.sharpcastle33.Constants;
 import com.gmail.sharpcastle33.handlers.AlembicHandler;
 
 /**
  * Handles the Alembic GUI
  */
 public class AlembicGUI implements Listener {
-
-	public static final String IN_PROGRESS_MESSAGE = ChatColor.RED
-			+ "Inventories of Alembics cannot be modified while they are in progress!";
-	public static final String ENDER_PEARL_ERROR = ChatColor.RED
-			+ "The magics in this item conflict with the energies inside the Alembic.";
 
 	@EventHandler
 	public void alembicGUI(InventoryClickEvent event) {
@@ -38,33 +34,33 @@ public class AlembicGUI implements Listener {
 		ItemStack clicked = event.getCurrentItem();
 		String invName = event.getInventory().getName();
 
-		if (!(invName.equals(AlembicCreationListener.ALEMBIC_CHEST_NAME)
-				|| invName.equals(AlembicCreationListener.ALEMBIC_BREWINGSTAND_NAME)
-				|| invName.equals(AlembicCreationListener.ALEMBIC_FURNACE_NAME))) {
+		if (!(invName.equals(Constants.ALEMBIC_CHEST_NAME)
+				|| invName.equals(Constants.ALEMBIC_BREWINGSTAND_NAME)
+				|| invName.equals(Constants.ALEMBIC_FURNACE_NAME))) {
 			return;
 		}
 
 		// Determine whether the alembic assembly is active or not
 		Chest alembicChest = null;
-		if (invName.equals(AlembicCreationListener.ALEMBIC_CHEST_NAME)) {
+		if (invName.equals(Constants.ALEMBIC_CHEST_NAME)) {
 			alembicChest = (Chest) event.getInventory().getLocation().getBlock().getState();
-		} else if (invName.equals(AlembicCreationListener.ALEMBIC_BREWINGSTAND_NAME)) {
+		} else if (invName.equals(Constants.ALEMBIC_BREWINGSTAND_NAME)) {
 			Location chestLoc = event.getInventory().getLocation().getBlock().getRelative(BlockFace.DOWN).getLocation();
 			alembicChest = (Chest) chestLoc.getBlock().getState();
-		} else if (invName.equals(AlembicCreationListener.ALEMBIC_FURNACE_NAME)) {
+		} else if (invName.equals(Constants.ALEMBIC_FURNACE_NAME)) {
 			Location chestLoc = event.getInventory().getLocation().getBlock().getRelative(BlockFace.UP).getLocation();
 			alembicChest = (Chest) chestLoc.getBlock().getState();
 		}
 
 		// p.sendMessage(invName);
-		if (event.getClickedInventory().getName().equals(AlembicCreationListener.ALEMBIC_CHEST_NAME)
-				|| event.getClickedInventory().getName().equals(AlembicCreationListener.ALEMBIC_BREWINGSTAND_NAME)) {
+		if (event.getClickedInventory().getName().equals(Constants.ALEMBIC_CHEST_NAME)
+				|| event.getClickedInventory().getName().equals(Constants.ALEMBIC_BREWINGSTAND_NAME)) {
 			// p.sendMessage("Alchemy: AlembicGUI");
 			if (alembicChest.getInventory().getItem(17).hasItemMeta() && alembicChest.getInventory().getItem(17)
 					.getItemMeta().getDisplayName().equals(ChatColor.RED + "In Progress")) {
 				event.setCancelled(true);
 				p.closeInventory();
-				p.sendMessage(IN_PROGRESS_MESSAGE);
+				p.sendMessage(Constants.IN_PROGRESS_INVENTORY_MESSAGE);
 			}
 		}
 
@@ -72,14 +68,14 @@ public class AlembicGUI implements Listener {
 			if (event.getWhoClicked() instanceof Player) {
 				Player player = (Player) event.getWhoClicked();
 				if (player.getOpenInventory().getTopInventory().getName()
-						.equals(AlembicCreationListener.ALEMBIC_CHEST_NAME)
+						.equals(Constants.ALEMBIC_CHEST_NAME)
 						|| player.getOpenInventory().getTopInventory().getName()
-								.equals(AlembicCreationListener.ALEMBIC_BREWINGSTAND_NAME)) {
+								.equals(Constants.ALEMBIC_BREWINGSTAND_NAME)) {
 					if (alembicChest.getInventory().getItem(17).hasItemMeta() && alembicChest.getInventory().getItem(17)
 							.getItemMeta().getDisplayName().equals(ChatColor.RED + "In Progress")) {
 						event.setCancelled(true);
 						p.closeInventory();
-						p.sendMessage(IN_PROGRESS_MESSAGE);
+						p.sendMessage(Constants.IN_PROGRESS_INVENTORY_MESSAGE);
 					} // if
 				} // if
 			} // if
@@ -87,7 +83,7 @@ public class AlembicGUI implements Listener {
 
 		if (clicked.getType() == Material.ENDER_PEARL) {
 			event.setCancelled(true);
-			p.sendMessage(ENDER_PEARL_ERROR);
+			p.sendMessage(Constants.ENDER_PEARL_ERROR);
 		}
 
 		if (clicked.hasItemMeta() && clicked.getItemMeta().hasDisplayName()

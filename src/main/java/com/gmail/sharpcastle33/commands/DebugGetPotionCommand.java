@@ -7,13 +7,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import com.gmail.sharpcastle33.Constants;
 import com.gmail.sharpcastle33.potions.CustomPotion;
 import com.gmail.sharpcastle33.potions.PotionManager;
 
 public class DebugGetPotionCommand implements CommandExecutor {
 	
-	public static final String INSUFFICIENT_PERMISSIONS = ChatColor.RED+"[AspectAlchemy] You do not have permission to use this command!";
-
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		
@@ -21,7 +20,7 @@ public class DebugGetPotionCommand implements CommandExecutor {
 			Player player = (Player) sender;
 			
 			if(!player.isOp()) {
-				player.sendMessage(INSUFFICIENT_PERMISSIONS);
+				player.sendMessage(Constants.INSUFFICIENT_PERMISSIONS);
 				return true;
 			} // if
 			

@@ -11,6 +11,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import com.gmail.sharpcastle33.Constants;
 import com.gmail.sharpcastle33.potions.CustomPotion;
 
 /**
@@ -19,15 +20,6 @@ import com.gmail.sharpcastle33.potions.CustomPotion;
  * findResult method
  */
 public class AspectRecipeManager {
-
-	// NOTE: Tolerance must be NONPOSITIVE for an alchemical reaction to succeed
-	public static final int ADDITIONAL_ASPECT_TOLERANCE = 1; // number added to tolerance for each additional aspect of
-																// a correct type (by the recipe) beyond the base
-																// requirement
-	public static final int BAD_ASPECT_TOLERANCE = 2; // number added to tolerance for each additional aspect of an
-														// incorrect type (by the recipe)
-	public static final int SHAMAN_SAP_VALUE = 6; // magnitude of sap effect on tolerance
-
 	private static FileConfiguration config;
 	public static List<AspectRecipe> recipes;
 
@@ -147,9 +139,9 @@ public class AspectRecipeManager {
 				int tolerance = 0;
 				if (recipe.aspects.containsKey(aspect)) {
 					tolerance += (aspectTotals.get(aspect).intValue() - recipe.aspects.get(aspect).intValue())
-							* ADDITIONAL_ASPECT_TOLERANCE;
+							* Constants.ADDITIONAL_ASPECT_TOLERANCE;
 				} else {
-					tolerance += aspectTotals.get(aspect).intValue() * BAD_ASPECT_TOLERANCE;
+					tolerance += aspectTotals.get(aspect).intValue() * Constants.BAD_ASPECT_TOLERANCE;
 				} // if/else
 				tolerancies.put(recipe, tolerance);
 			} // for
@@ -158,7 +150,7 @@ public class AspectRecipeManager {
 		/* Remove Shortlisted Recipes with Positive Tolerance - Sap Effect */ // =======================================================================//
 
 		for (AspectRecipe recipe : tolerancies.keySet()) {
-			if (tolerancies.get(recipe).intValue() - (amountShamanSap - recipe.time) * SHAMAN_SAP_VALUE > 0)
+			if (tolerancies.get(recipe).intValue() - (amountShamanSap - recipe.time) * Constants.SHAMAN_SAP_VALUE > 0)
 				shortlist.remove(recipe);
 		} // for
 

@@ -2,7 +2,6 @@ package com.gmail.sharpcastle33.listeners;
 
 import java.util.Map;
 
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,12 +10,11 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
+import com.gmail.sharpcastle33.Constants;
 import com.gmail.sharpcastle33.aspects.Aspect;
 import com.gmail.sharpcastle33.aspects.AspectItemData;
 import com.gmail.sharpcastle33.aspects.AspectManager;
 import com.gmail.sharpcastle33.aspects.AspectRecipeManager;
-
-import net.md_5.bungee.api.ChatColor;
 
 /**
  * Handles the use of the ThaumaturgicalResonator which is used to ascertain the
@@ -25,18 +23,6 @@ import net.md_5.bungee.api.ChatColor;
  * @author Sharpcastle33
  */
 public class ThaumaturgicalResonatorListener implements Listener {
-
-	private final Material RESONATOR_ITEM = Material.WATCH;
-	private final String RESONATOR_NAME = ChatColor.YELLOW + "Thaumaturgical Resonator";
-	private final String NO_ASPECTS = ChatColor.RED + "This item does not appear to influence the resonator.";
-	private final String SMALL_ASPECTS = ChatColor.YELLOW
-			+ "The dial hovers for a moment, then falters. This item contains a small amount of alchemical energy.";
-	private final String MEDIUM_ASPECTS = ChatColor.GOLD
-			+ "The dial hovers steadily above the baseline. This item certainly contains alchemical properties.";
-	private final String LARGE_ASPECTS = ChatColor.BLUE
-			+ "The resonator thrums with energy, and the dial flails wildly. This item must contain very powerful energies.";
-
-	private final String DEBUG_ITEM = ChatColor.RED + "Admin Debug Tool";
 
 	@EventHandler
 	public void resonator(PlayerInteractEvent event) {
@@ -48,12 +34,12 @@ public class ThaumaturgicalResonatorListener implements Listener {
 			ItemStack off = p.getInventory().getItemInOffHand();
 
 			// If the player is holding a resonator and an item.
-			if (main.getType() == RESONATOR_ITEM && off != null) {
+			if (main.getType() == Constants.RESONATOR_ITEM && off != null) {
 				if (main.hasItemMeta() && main.getItemMeta().hasDisplayName()
-						&& main.getItemMeta().getDisplayName().equals(RESONATOR_NAME)) {
+						&& main.getItemMeta().getDisplayName().equals(Constants.RESONATOR_NAME)) {
 
 					if (off.hasItemMeta() && off.getItemMeta().hasDisplayName()
-							&& off.getItemMeta().getDisplayName().equals(DEBUG_ITEM)) {
+							&& off.getItemMeta().getDisplayName().equals(Constants.DEBUG_ITEM)) {
 						Map<String, AspectItemData> itemAspects = AspectManager.getLoadedItemAspects();
 						p.sendMessage("There are " + itemAspects.size() + " itemaspect entries loaded");
 						for (String s : itemAspects.keySet()) {
@@ -70,7 +56,7 @@ public class ThaumaturgicalResonatorListener implements Listener {
 
 					Map<Aspect, Integer> aspects = AspectManager.getAspects(off);
 					if (aspects == null || aspects.size() == 0) {
-						p.sendMessage(NO_ASPECTS);
+						p.sendMessage(Constants.NO_ASPECTS);
 						return;
 					} else {
 						if (aspects.containsKey(Aspect.PURE_AIR) || aspects.containsKey(Aspect.PURE_ARCANE)
@@ -80,7 +66,7 @@ public class ThaumaturgicalResonatorListener implements Listener {
 								|| aspects.containsKey(Aspect.PURE_FROST) || aspects.containsKey(Aspect.PURE_LIFE)
 								|| aspects.containsKey(Aspect.PURE_MECHANIC) || aspects.containsKey(Aspect.PURE_PSIONIC)
 								|| aspects.containsKey(Aspect.PURE_VOID) || aspects.containsKey(Aspect.PURE_WATER)) {
-							p.sendMessage(LARGE_ASPECTS);
+							p.sendMessage(Constants.LARGE_ASPECTS);
 							return;
 						} else if (aspects.containsKey(Aspect.CONCENTRATED_AIR)
 								|| aspects.containsKey(Aspect.CONCENTRATED_ARCANE)
@@ -96,7 +82,7 @@ public class ThaumaturgicalResonatorListener implements Listener {
 								|| aspects.containsKey(Aspect.CONCENTRATED_PSIONIC)
 								|| aspects.containsKey(Aspect.CONCENTRATED_VOID)
 								|| aspects.containsKey(Aspect.CONCENTRATED_WATER)) {
-							p.sendMessage(MEDIUM_ASPECTS);
+							p.sendMessage(Constants.MEDIUM_ASPECTS);
 							return;
 						} else if (aspects.containsKey(Aspect.MUNDANE_AIR) || aspects.containsKey(Aspect.MUNDANE_ARCANE)
 								|| aspects.containsKey(Aspect.MUNDANE_CORRUPT)
@@ -110,7 +96,7 @@ public class ThaumaturgicalResonatorListener implements Listener {
 								|| aspects.containsKey(Aspect.MUNDANE_PSIONIC)
 								|| aspects.containsKey(Aspect.MUNDANE_VOID)
 								|| aspects.containsKey(Aspect.MUNDANE_WATER)) {
-							p.sendMessage(SMALL_ASPECTS);
+							p.sendMessage(Constants.SMALL_ASPECTS);
 							return;
 						} else {
 							p.sendMessage("SOmething weird happened with Alchemy, PM the developers.");

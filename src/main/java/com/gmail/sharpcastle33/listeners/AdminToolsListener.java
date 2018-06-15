@@ -16,6 +16,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import com.gmail.sharpcastle33.Constants;
 import com.gmail.sharpcastle33.aspects.Aspect;
 import com.gmail.sharpcastle33.aspects.AspectManager;
 import com.gmail.sharpcastle33.handlers.AlembicHandler;
@@ -26,10 +27,6 @@ import net.md_5.bungee.api.ChatColor;
 
 public class AdminToolsListener implements Listener {
 	
-	public static final String ASPECT_ADMIN_TOOL = ChatColor.RED + "Secret Admin Aspect Tool";
-	public static final String POTION_ADMIN_TOOL = ChatColor.RED + "Secret Admin Potion Tool";
-	public static final String INSTANT_ADMIN_TOOL = ChatColor.RED + "Secret Admin Brewing Tool";
-
 	@EventHandler
 	public void resonator(PlayerInteractEvent event) {
 
@@ -44,7 +41,7 @@ public class AdminToolsListener implements Listener {
 				ItemMeta offMeta = null;
 				if(off.hasItemMeta()) offMeta = off.getItemMeta();
 
-				if (mainMeta.hasDisplayName() && mainMeta.getDisplayName().equals(ASPECT_ADMIN_TOOL) && off.hasItemMeta()) {
+				if (mainMeta.hasDisplayName() && mainMeta.getDisplayName().equals(Constants.ASPECT_ADMIN_TOOL) && off.hasItemMeta()) {
 					if (offMeta.hasDisplayName()) {
 						Map<Aspect, Integer> temp = AspectManager.getAspects(off);
 						p.sendMessage(ChatColor.BLUE + "This item has the following aspects:");
@@ -54,14 +51,14 @@ public class AdminToolsListener implements Listener {
 					}
 				}
 
-				if (mainMeta.hasDisplayName() && mainMeta.getDisplayName().equals(POTION_ADMIN_TOOL)) {
+				if (mainMeta.hasDisplayName() && mainMeta.getDisplayName().equals(Constants.POTION_ADMIN_TOOL)) {
 					p.sendMessage(ChatColor.BLUE + "There are " + PotionManager.potions.size() + " potions loaded.");
 					for (CustomPotion pot : PotionManager.potions.keySet()) {
 						p.sendMessage(ChatColor.GOLD + pot.name());
 					}
 				}
 
-				if (mainMeta.hasDisplayName() && mainMeta.getDisplayName().equals(INSTANT_ADMIN_TOOL)) {
+				if (mainMeta.hasDisplayName() && mainMeta.getDisplayName().equals(Constants.INSTANT_ADMIN_TOOL)) {
 					if (AlembicHandler.isAlembic(event.getClickedBlock())) {
 
 						Chest chest = (Chest) event.getClickedBlock().getState();
