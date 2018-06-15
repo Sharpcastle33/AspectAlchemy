@@ -14,12 +14,13 @@ public class DebugListPotsCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		
-		if(sender instanceof Player && args.length > 0) {
+		if(sender instanceof Player) {
 			Player player = (Player) sender;
 			
 			if(!player.isOp()) {
 				player.sendMessage(DebugGetPotionCommand.INSUFFICIENT_PERMISSIONS);
 			} // if
+			
 			player.sendMessage(ChatColor.DARK_PURPLE+"LOADED POTIONS:");
 			for(CustomPotion potion: PotionManager.potions.keySet()) player.sendMessage(ChatColor.YELLOW +""+ potion);
 		} // if
