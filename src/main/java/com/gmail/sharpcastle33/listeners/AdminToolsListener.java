@@ -33,29 +33,18 @@ public class AdminToolsListener implements Listener {
 	@EventHandler
 	public void resonator(PlayerInteractEvent event) {
 
-		
-
-		/*
-		 * DEBUG CODE if(event.getHand() == EquipmentSlot.HAND)
-		 * event.getPlayer().sendMessage(ChatColor.DARK_PURPLE+"YOUR HAND IS A HAND!");
-		 * if(event.getAction() == Action.RIGHT_CLICK_AIR)
-		 * event.getPlayer().sendMessage(ChatColor.
-		 * DARK_PURPLE+"YOU RIGHT CLICKED THE AIR!"); if(event.getAction() ==
-		 * Action.RIGHT_CLICK_BLOCK) event.getPlayer().sendMessage(ChatColor.
-		 * DARK_PURPLE+"YOU RIGHT CLICKED A BLOCK!"); /* END DEBUG CODE
-		 */
-
 		if (event.getHand() == EquipmentSlot.HAND
 				&& (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
 			Player p = event.getPlayer();
 			ItemStack main = p.getInventory().getItemInMainHand();
 			ItemStack off = p.getInventory().getItemInOffHand();
 
-			if (main.hasItemMeta() && off.hasItemMeta()) {
+			if (main.hasItemMeta()) {
 				ItemMeta mainMeta = main.getItemMeta();
-				ItemMeta offMeta = off.getItemMeta();
+				ItemMeta offMeta = null;
+				if(off.hasItemMeta()) offMeta = off.getItemMeta();
 
-				if (mainMeta.hasDisplayName() && mainMeta.getDisplayName().equals(ASPECT_ADMIN_TOOL)) {
+				if (mainMeta.hasDisplayName() && mainMeta.getDisplayName().equals(ASPECT_ADMIN_TOOL) && off.hasItemMeta()) {
 					if (offMeta.hasDisplayName()) {
 						Map<Aspect, Integer> temp = AspectManager.getAspects(off);
 						p.sendMessage(ChatColor.BLUE + "This item has the following aspects:");
