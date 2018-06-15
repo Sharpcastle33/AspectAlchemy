@@ -22,6 +22,7 @@ public class DebugGetPotionCommand implements CommandExecutor {
 			
 			if(!player.isOp()) {
 				player.sendMessage(INSUFFICIENT_PERMISSIONS);
+				return true;
 			} // if
 			
 			if(CustomPotion.valueOf(args[0]) != null) {

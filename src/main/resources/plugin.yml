@@ -12,3 +12,6 @@ commands:
     listpots:
         description: (DEBUG) Lists all potions loaded from the potions.yaml
         usage: /listpots
+    gettools:
+        description: (DEBUG) Gets all debug admin tools
+        usage: /gettools

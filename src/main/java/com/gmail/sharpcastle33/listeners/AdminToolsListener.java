@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.bukkit.Bukkit;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BrewingStand;
 import org.bukkit.block.Chest;
@@ -26,13 +25,15 @@ import com.gmail.sharpcastle33.potions.PotionManager;
 import net.md_5.bungee.api.ChatColor;
 
 public class AdminToolsListener implements Listener {
+	
+	public static final String ASPECT_ADMIN_TOOL = ChatColor.RED + "Secret Admin Aspect Tool";
+	public static final String POTION_ADMIN_TOOL = ChatColor.RED + "Secret Admin Potion Tool";
+	public static final String INSTANT_ADMIN_TOOL = ChatColor.RED + "Secret Admin Brewing Tool";
 
 	@EventHandler
 	public void resonator(PlayerInteractEvent event) {
 
-		final String ASPECT_ADMIN_TOOL = ChatColor.RED + "Secret Admin Aspect Tool";
-		final String POTION_ADMIN_TOOL = ChatColor.RED + "Secret Admin Potion Tool";
-		final String INSTANT_ADMIN_TOOL = ChatColor.RED + "Secret Admin Brewing Tool";
+		
 
 		/*
 		 * DEBUG CODE if(event.getHand() == EquipmentSlot.HAND)

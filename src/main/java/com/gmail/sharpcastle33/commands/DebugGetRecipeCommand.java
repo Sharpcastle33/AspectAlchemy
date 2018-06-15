@@ -22,6 +22,7 @@ public class DebugGetRecipeCommand implements CommandExecutor {
 			
 			if(!player.isOp()) {
 				player.sendMessage(DebugGetPotionCommand.INSUFFICIENT_PERMISSIONS);
+				return true;
 			} // if
 			
 			if(CustomPotion.valueOf(args[0]) != null) {

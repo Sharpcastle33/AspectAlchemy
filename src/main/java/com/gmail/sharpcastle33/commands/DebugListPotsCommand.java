@@ -19,6 +19,7 @@ public class DebugListPotsCommand implements CommandExecutor {
 			
 			if(!player.isOp()) {
 				player.sendMessage(DebugGetPotionCommand.INSUFFICIENT_PERMISSIONS);
+				return true;
 			} // if
 			
 			player.sendMessage(ChatColor.DARK_PURPLE+"LOADED POTIONS:");
