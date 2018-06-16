@@ -28,30 +28,40 @@ public class DebugGetToolsCommand implements CommandExecutor {
 			ItemStack potionTool = new ItemStack(Material.STICK);
 			ItemStack brewingTool = new ItemStack(Material.STICK);
 			ItemStack counterTool = new ItemStack(Material.STICK);
+			ItemStack alembic = new ItemStack(Material.OBSERVER);
+			ItemStack resonator = new ItemStack(Constants.RESONATOR_ITEM);
 			
 			ItemMeta adminMeta = adminTool.getItemMeta();
 			ItemMeta aspectMeta = aspectTool.getItemMeta();
 			ItemMeta potionMeta = potionTool.getItemMeta();
 			ItemMeta brewingMeta = brewingTool.getItemMeta();
 			ItemMeta counterMeta = counterTool.getItemMeta();
+			ItemMeta alembicMeta = alembic.getItemMeta();
+			ItemMeta resonatorMeta = resonator.getItemMeta();
 			
 			adminMeta.setDisplayName(Constants.DEBUG_ITEM);
 			aspectMeta.setDisplayName(Constants.ASPECT_ADMIN_TOOL);
 			potionMeta.setDisplayName(Constants.POTION_ADMIN_TOOL);
 			brewingMeta.setDisplayName(Constants.INSTANT_ADMIN_TOOL);
 			counterMeta.setDisplayName(Constants.COUNTER_ADMIN_TOOL);
+			alembicMeta.setDisplayName(Constants.ALEMBIC_ITEM_NAME);
+			resonatorMeta.setDisplayName(Constants.RESONATOR_NAME);
 			
 			adminTool.setItemMeta(adminMeta);
 			aspectTool.setItemMeta(aspectMeta);
 			potionTool.setItemMeta(potionMeta);
 			brewingTool.setItemMeta(brewingMeta);
 			counterTool.setItemMeta(counterMeta);
+			alembic.setItemMeta(alembicMeta);
+			resonator.setItemMeta(resonatorMeta);
 			
 			player.getInventory().addItem(adminTool);
 			player.getInventory().addItem(aspectTool);
 			player.getInventory().addItem(potionTool);
 			player.getInventory().addItem(brewingTool);
 			player.getInventory().addItem(counterTool);
+			player.getInventory().addItem(alembic);
+			player.getInventory().addItem(resonator);
 		} // if
 		
 		return true;
