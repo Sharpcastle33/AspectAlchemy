@@ -27,6 +27,7 @@ public class AspectAlchemy extends JavaPlugin {
 	public void onEnable() {
 		plugin = this;
 
+		Constants.load(getConfig(), plugin);																// Loads constants from config
 		AlembicManager.init(new File(this.getDataFolder(), "alembics.yaml"));							// Loads active alembics from file
 		AlembicHandler.init(plugin);																	// Begins all Alembic Tasks
 		AspectManager.init(new File(this.getDataFolder(), "aspects.yaml"));								// Loads item aspects from file
