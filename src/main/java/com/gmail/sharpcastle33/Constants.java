@@ -46,6 +46,7 @@ public class Constants {
 	public static String ASPECT_ADMIN_TOOL = ChatColor.RED + "Secret Admin Aspect Tool";
 	public static String POTION_ADMIN_TOOL = ChatColor.RED + "Secret Admin Potion Tool";
 	public static String INSTANT_ADMIN_TOOL = ChatColor.RED + "Secret Admin Brewing Tool";
+	public static String COUNTER_ADMIN_TOOL = ChatColor.RED + "Secret Admin Aspect Calculator";
 	
 	
 	/* Alembic Interactions */
@@ -127,6 +128,7 @@ public class Constants {
 		ASPECT_ADMIN_TOOL = names.getString("aspect_admin_tool");
 		POTION_ADMIN_TOOL = names.getString("potion_admin_tool");
 		INSTANT_ADMIN_TOOL = names.getString("instant_admin_tool");
+		COUNTER_ADMIN_TOOL = names.getString("counter_admin_tool");
 		
 		ALEMBIC_ITEM_NAME = names.getString("alembic_item_name");
 		ALEMBIC_CHEST_NAME = names.getString("alembic_chest_name");
@@ -208,6 +210,7 @@ public class Constants {
 		names.put("aspect_admin_tool", ChatColor.RED + "Secret Admin Aspect Tool");
 		names.put("potion_admin_tool", ChatColor.RED + "Secret Admin Potion Tool");
 		names.put("instant_admin_tool", ChatColor.RED + "Secret Admin Brewing Tool");
+		names.put("counter_admin_tool", ChatColor.RED + "Secret Admin Aspect Calculator");
 		
 		names.put("alembic_item_name", ChatColor.YELLOW + "Alembic");
 		names.put("alembic_chest_name", ChatColor.BLUE + "Alembic Chamber");

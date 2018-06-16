@@ -1,6 +1,7 @@
 package com.gmail.sharpcastle33.listeners;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -40,6 +42,34 @@ public class AdminToolsListener implements Listener {
 				ItemMeta mainMeta = main.getItemMeta();
 				ItemMeta offMeta = null;
 				if(off.hasItemMeta()) offMeta = off.getItemMeta();
+				
+				if (mainMeta.hasDisplayName() && mainMeta.getDisplayName().equals(Constants.COUNTER_ADMIN_TOOL)) {
+					Inventory inv = p.getInventory();
+					
+					Map<Aspect, Integer> ret = new HashMap<>();
+
+					for(int i = 0; i < 9; i++) {
+						ItemStack item = inv.getItem(i);
+						if(item.hasItemMeta() && item.getItemMeta().hasDisplayName()) {
+							if(AspectManager.getAspects(item) != null) {
+								Map<Aspect, Integer> temp = AspectManager.getAspects(item);
+								for(Aspect a : temp.keySet()) {
+									if(ret.containsKey(a)) {
+										ret.put(a, ret.get(a) + temp.get(a));
+									}else {
+										ret.put(a, temp.get(a));
+									}
+								}
+							}
+						}
+					}
+					
+					p.sendMessage(ChatColor.BLUE + "Your hotbar contains the following aspects");
+					
+					for(Aspect a : ret.keySet()) {
+						p.sendMessage(ChatColor.GOLD + a.name() + " " + ret.get(a));
+					}
+				}
 
 				if (mainMeta.hasDisplayName() && mainMeta.getDisplayName().equals(Constants.ASPECT_ADMIN_TOOL) && off.hasItemMeta()) {
 					if (offMeta.hasDisplayName()) {
