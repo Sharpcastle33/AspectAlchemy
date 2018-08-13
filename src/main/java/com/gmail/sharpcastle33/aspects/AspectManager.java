@@ -165,6 +165,9 @@ public class AspectManager {
 				// Assume that lore match before checking
 				boolean itemLoreMatch = true;
 
+				/* This block has been removed in order to ignore lore, this was the simplest way to do it
+				 * and as you can see is incredibly easy to reverse, simply un-comment.
+				
 				// Figure out whether or not lores match
 				if (stackLore == null && aspect.itemLore != null) {
 					itemLoreMatch = false;
@@ -180,6 +183,8 @@ public class AspectManager {
 						}
 					}
 				}
+				
+				*/
 
 				// If the lore matches, return a map with aspects and values
 				if (itemLoreMatch) {
