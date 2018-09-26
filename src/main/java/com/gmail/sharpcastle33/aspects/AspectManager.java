@@ -61,9 +61,7 @@ public class AspectManager {
 			ConfigurationSection itemSection = config.getConfigurationSection(key);
 
 			// Get item data
-			@SuppressWarnings("unchecked")
-			ItemStack itemStack = ((List<ItemStack>) itemSection.getList("package")).get(0);
-			ItemMeta meta = itemStack.hasItemMeta() ? itemStack.getItemMeta() : null;
+			String name = itemSection.getString("name");
 
 			// Get aspect map from aspect section of item
 			Map<String, Object> configAspects = itemSection.getConfigurationSection("aspects").getValues(false);
@@ -75,10 +73,10 @@ public class AspectManager {
 			}
 
 			// Organize data and put into instance level map of aspect data
-			AspectItemData data = new AspectItemData(key, meta.hasDisplayName() ? meta.getDisplayName() : null,
-					itemAspectMap, itemStack.getType(), meta.hasLore() ? meta.getLore() : null);
+			AspectItemData data = new AspectItemData(key, name, itemAspectMap);
 			itemAspects.put(key, data);
-		}
+		} // for
+		
 		return itemAspects;
 	} // loadAspectValues
 
@@ -119,83 +117,20 @@ public class AspectManager {
 	 * @return Map of aspect values keyed by aspect
 	 */
 	public static Map<Aspect, Integer> getAspects(ItemStack stack) {
-
 		// Check if aspects have been loaded
-		if (itemAspects == null) {
-			return null;
-		}
+		if (itemAspects == null) return null;
+		
+		if (stack == null) return null;
 
-		if (stack == null) {
-			return null;
-		}
-
+		if (!stack.hasItemMeta()) return null;
 		// Get item meta data from ItemStack
-		ItemMeta meta = stack.hasItemMeta() ? stack.getItemMeta() : null;
-
-		// For items without meta
-		if (meta == null) {
-			for (AspectItemData aspect : itemAspects.values()) {
-				if (aspect.itemMaterial == stack.getType()) {
-					if (aspect.displayName == null || aspect.displayName == "") {
-						if (aspect.itemLore == null || aspect.itemLore.size() == 0) {
-							Map<Aspect, Integer> stackAspects = new HashMap<Aspect, Integer>();
-							for (Aspect a : aspect.aspects.keySet()) {
-								stackAspects.put(a, stack.getAmount() * aspect.aspects.get(a));
-							}
-							return stackAspects;
-						}
-					}
-				}
-			}
-
-			// If there was no match return null
-			return null;
-		}
-		// For items with meta
-
-		Material stackMaterial = stack.getType();
-		String stackDisplayName = meta.hasDisplayName() ? meta.getDisplayName() : null;
-		List<String> stackLore = meta.hasLore() ? meta.getLore() : null;
-
-		// Iterate through all loaded items
-		for (AspectItemData aspect : itemAspects.values()) {
-
-			// Check if display name and material match
-			if (aspect.displayName.equals(stackDisplayName) && aspect.itemMaterial == stackMaterial) {
-				// Assume that lore match before checking
-				boolean itemLoreMatch = true;
-
-				/* This block has been removed in order to ignore lore, this was the simplest way to do it
-				 * and as you can see is incredibly easy to reverse, simply un-comment.
-				
-				// Figure out whether or not lores match
-				if (stackLore == null && aspect.itemLore != null) {
-					itemLoreMatch = false;
-				} else if (stackLore == null && aspect.itemLore == null) {
-					itemLoreMatch = true;
-				} else if (stackLore.size() != aspect.itemLore.size()) {
-					itemLoreMatch = false;
-				} else {
-					// Check if the lore lists have the same entries.
-					for (int i = 0; i < stackLore.size(); i++) {
-						if (!stackLore.contains(aspect.itemLore.get(i))) {
-							itemLoreMatch = false;
-						}
-					}
-				}
-				
-				*/
-
-				// If the lore matches, return a map with aspects and values
-				if (itemLoreMatch) {
-					Map<Aspect, Integer> stackAspects = new HashMap<Aspect, Integer>();
-					for (Aspect a : aspect.aspects.keySet()) {
-						stackAspects.put(a, stack.getAmount() * aspect.aspects.get(a));
-					}
-					return stackAspects;
-				}
-			}
-		}
+		ItemMeta meta = stack.getItemMeta();
+		
+		for(AspectItemData aspect: itemAspects.values()) {
+			if(meta.getDisplayName().equals(aspect.displayName)) {
+				return new HashMap<Aspect, Integer>(aspect.aspects);
+			} // if
+		} // for
 
 		// If there was no match return null
 		return null;

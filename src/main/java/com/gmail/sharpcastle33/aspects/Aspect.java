@@ -4,6 +4,14 @@ package com.gmail.sharpcastle33.aspects;
  * An enum of all Aspects in AspectAlchemy
  */
 public enum Aspect {
+	
+  WATER,
+  LIFE,
+  DEATH,
+  AIR,
+  FIRE,
+  FROST,
+  EARTH,
   
   MUNDANE_WATER,
   MUNDANE_LIFE,
