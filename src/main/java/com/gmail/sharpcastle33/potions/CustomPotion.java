@@ -4,6 +4,7 @@ package com.gmail.sharpcastle33.potions;
  * Enum of all CustomPotions in AspectAlchemy
  */
 public enum CustomPotion {	
+	MUNDANE_POT,
 	AEGIS_CORDIAL,
 	DIVINES_KISS,
 	FLAMEREND_PHILTER,
