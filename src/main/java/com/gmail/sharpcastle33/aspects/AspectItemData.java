@@ -12,10 +12,8 @@ public class AspectItemData {
 	public Map<Aspect, Integer> aspects;
 
 	public AspectItemData(String name, String displayName, Map<Aspect, Integer> aspects) {
-		displayName.replace('&', '§');
-		
 		this.configName = name;
-		this.displayName = displayName;
+		this.displayName = displayName.replace('&', '§');
 		this.aspects = aspects;
 	}
 

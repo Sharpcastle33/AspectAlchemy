@@ -55,6 +55,8 @@ public class AspectManager {
 	private static Map<String, AspectItemData> loadAspectValues(FileConfiguration config) {
 		// Construct new map to load into from configs
 		Map<String, AspectItemData> itemAspects = new HashMap<String, AspectItemData>();
+		
+		Bukkit.getLogger().info("Loading Item Aspects...");
 
 		// Iterate over each item in section
 		for (String key : config.getKeys(false)) {
@@ -75,6 +77,8 @@ public class AspectManager {
 			// Organize data and put into instance level map of aspect data
 			AspectItemData data = new AspectItemData(key, name, itemAspectMap);
 			itemAspects.put(key, data);
+			
+			Bukkit.getLogger().info("Loaded Aspects for "+data.displayName);
 		} // for
 		
 		return itemAspects;
