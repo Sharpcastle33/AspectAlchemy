@@ -169,9 +169,9 @@ public class Constants {
 	 * @param plugin Plugin AspectAlchemy
 	 */
 	private static void populateItemMaterials(FileConfiguration config, Plugin plugin) {
-		HashMap<String, Material> itemMaterials = new HashMap<>();
+		HashMap<String, String> itemMaterials = new HashMap<>();
 		
-		itemMaterials.put("resonator_item", Material.WATCH);
+		itemMaterials.put("resonator_item", Material.WATCH.toString());
 		
 		config.createSection("item_materials", itemMaterials);
 		plugin.saveConfig();
