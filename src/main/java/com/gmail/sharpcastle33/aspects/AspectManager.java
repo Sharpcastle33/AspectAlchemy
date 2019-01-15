@@ -104,7 +104,7 @@ public class AspectManager {
 					if (ret.get(a) != null) {
 						ret.put(a, ret.get(a) + temp.get(a));
 					} else {
-						ret.put(a, temp.get(a));
+						ret.put(a, temp.get(a)*i.getAmount());
 					}
 				}
 			}
