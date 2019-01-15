@@ -104,7 +104,7 @@ public class AspectManager {
 				Map<Aspect, Integer> temp = getAspects(i);
 				for (Aspect a : temp.keySet()) {
 					if (ret.get(a) != null) {
-						ret.put(a, ret.get(a) + temp.get(a));
+						ret.put(a, ret.get(a) + temp.get(a)*i.getAmount());
 					} else {
 						ret.put(a, temp.get(a)*i.getAmount());
 					}
