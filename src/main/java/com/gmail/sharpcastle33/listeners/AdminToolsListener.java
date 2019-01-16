@@ -55,9 +55,9 @@ public class AdminToolsListener implements Listener {
 								Map<Aspect, Integer> temp = AspectManager.getAspects(item);
 								for(Aspect a : temp.keySet()) {
 									if(ret.containsKey(a)) {
-										ret.put(a, ret.get(a) + temp.get(a));
+										ret.put(a, ret.get(a) + temp.get(a)*item.getAmount());
 									}else {
-										ret.put(a, temp.get(a));
+										ret.put(a, temp.get(a)*item.getAmount());
 									}
 								}
 							}
