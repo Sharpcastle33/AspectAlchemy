@@ -33,6 +33,12 @@ public class AlembicGUI implements Listener {
 		Player p = (Player) event.getWhoClicked();
 		ItemStack clicked = event.getCurrentItem();
 		String invName = event.getInventory().getName();
+		
+		if(event.getInventory().getName() == "Brewing Stand" || event.getInventory().getName() == Constants.ALEMBIC_BREWINGSTAND_NAME) {
+			if(event.getCurrentItem().getType() == Material.BLAZE_POWDER) {
+				event.setCancelled(true);
+			}
+		}
 
 		if (!(invName.equals(Constants.ALEMBIC_CHEST_NAME)
 				|| invName.equals(Constants.ALEMBIC_BREWINGSTAND_NAME)
