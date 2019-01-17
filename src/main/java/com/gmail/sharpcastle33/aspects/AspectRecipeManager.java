@@ -39,6 +39,23 @@ public class AspectRecipeManager {
 			e.printStackTrace();
 		}
 	} // init
+	
+	/**
+	 * Calculates the total aspect cost of an aspect recipe.
+	 * 
+	 * @param AspectRecipe
+	 */
+	public static int aspectCost(AspectRecipe rec) {
+		Map<Aspect, Integer> aspects = rec.aspects;
+		
+		int ret = 0;
+		
+		for(Aspect a : aspects.keySet()) {
+			ret+=aspects.get(a);
+		}
+		
+		return ret;
+	}
 
 	/**
 	 * Run by the initialization method, loads the recipes into the recipes List
@@ -71,7 +88,7 @@ public class AspectRecipeManager {
 	} // loadRecipes
 
 	/**
-	 * Finds the result of an alchemical reaction given the Aspect totals and the
+	 * Finds the  result of an alchemical reaction given the Aspect totals and the
 	 * amount of Shaman Sap
 	 * 
 	 * @param aspectTotals
@@ -173,10 +190,28 @@ public class AspectRecipeManager {
 				answers.add(recipe);
 			} // if/else
 		} // for
+		
+		//Find recipe with HIGHEST cost:
+		
+		if(answers.size() == 1) {
+			return answers.get(0).result;
+		}else {
+			int highest = 0;
+			AspectRecipe best = null;
+			
+			for(AspectRecipe rec : answers) {
+				if(aspectCost(rec) > highest) {
+					best = rec;
+					highest = aspectCost(rec);
+					
+				}
+			}
+			return best.result;
+		}
 
 		/* Choose Randomly of Remaining */ // ==========================================================================================================//
 
-		return answers.get((int) (Math.random() * answers.size())).result;
+		//return answers.get((int) (Math.random() * answers.size())).result;
 	} // findResult
 
 } // class

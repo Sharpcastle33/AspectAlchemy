@@ -19,7 +19,7 @@ public class Constants {
 	// NOTE: Tolerance must be NONPOSITIVE for an alchemical reaction to succeed
 	public static int ADDITIONAL_ASPECT_TOLERANCE = 1; // number added to tolerance for each additional aspect of a correct type (by the recipe) beyond the base requirement
 	public static int BAD_ASPECT_TOLERANCE = 2; // number added to tolerance for each additional aspect of an incorrect type (by the recipe)
-	public static int SHAMAN_SAP_VALUE = 6; // magnitude of sap effect on tolerance
+	public static int SHAMAN_SAP_VALUE = 20; // magnitude of sap effect on tolerance
 	
 	
 	/* Debug Commands */
