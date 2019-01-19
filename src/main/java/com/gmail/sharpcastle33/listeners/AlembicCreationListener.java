@@ -28,6 +28,8 @@ public class AlembicCreationListener implements Listener {
 
 	@EventHandler
 	public void alembicPlaceEvent(BlockPlaceEvent event) {
+		if(event.isCancelled()) return;
+		
 		Block b = event.getBlock();
 		ItemStack item = event.getItemInHand();
 		Player p = event.getPlayer();
