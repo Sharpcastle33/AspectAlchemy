@@ -56,8 +56,14 @@ public class AlembicTickTask extends BukkitRunnable {
 			return;
 		}
 		
-		if(chestLocation.getBlock() == null) {
-			Bukkit.getServer().getLogger().info(ChatColor.RED + "[AspectAlchemy]: " + "Caught null pointer: Attempted to run an Alembic Tick Task at x:" + chestLocation.getBlockX() + "z:" + chestLocation.getBlockZ() + " however, the chest block was null.");
+		try {
+			if(chestLocation.getBlock() == null) {
+				Bukkit.getServer().getLogger().info(ChatColor.RED + "[AspectAlchemy]: " + "Caught null pointer: Attempted to run an Alembic Tick Task at x:" + chestLocation.getBlockX() + "z:" + chestLocation.getBlockZ() + " however, the chest block was null.");
+				return;
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 			return;
 		}
 
