@@ -50,8 +50,18 @@ public class AlembicTickTask extends BukkitRunnable {
 	 */
 	public AlembicTickTask(Location chestLocation) {
 		fuelTick = 4;
+		
+		if(chestLocation == null) {
+			Bukkit.getServer().getLogger().info(ChatColor.RED + "[AspectAlchemy]: " + "Caught null pointer: Attempted to run an Alembic Tick Task at however, the location was null.");
+			return;
+		}
 
 		Block chest = chestLocation.getBlock();
+		
+		if(chest == null) {
+			Bukkit.getServer().getLogger().info(ChatColor.RED + "[AspectAlchemy]: " + "Caught null pointer: Attempted to run an Alembic Tick Task at x:" + chestLocation.getBlockX() + "z:" + chestLocation.getBlockZ() + " however, the chest block was null.");
+			return;
+		}
 
 		this.standLocation = chest.getRelative(BlockFace.UP).getLocation();
 		this.chestLocation = chestLocation;
