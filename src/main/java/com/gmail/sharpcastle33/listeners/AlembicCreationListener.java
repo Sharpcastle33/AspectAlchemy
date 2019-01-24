@@ -11,6 +11,7 @@ import org.bukkit.block.Chest;
 import org.bukkit.block.Furnace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
@@ -26,7 +27,7 @@ import com.gmail.sharpcastle33.util.InventoryUtil;
  */
 public class AlembicCreationListener implements Listener {
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.LOW)
 	public void alembicPlaceEvent(BlockPlaceEvent event) {
 		if(event.isCancelled()) return;
 		

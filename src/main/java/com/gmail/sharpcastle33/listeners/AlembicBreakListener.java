@@ -75,14 +75,18 @@ public class AlembicBreakListener implements Listener {
 							.getItemMeta().getDisplayName().equals(ChatColor.RED + "In Progress")) {
 						event.setCancelled(true);
 						event.getPlayer().sendMessage(Constants.IN_PROGRESS_MESSAGE);
-					} else if(chestState.getInventory().getName().equals(Constants.ALEMBIC_CHEST_NAME)){
+					} else if(b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN).getType() == Material.FURNACE){
+						Block b2 = b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN);
+						Furnace furnaceState = (Furnace) b2.getState();
+						if(furnaceState.getInventory().getName().equals(Constants.ALEMBIC_FURNACE_NAME)) {
+							breakAlembicChest(b.getRelative(BlockFace.DOWN));
+							breakAlembicStand(b);
+							breakAlembicBellows(b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN));
+							b.getWorld().dropItemNaturally(b.getLocation(),
+									InventoryUtil.createGuiItem(ChatColor.YELLOW + "Alembic", Material.OBSERVER));
+							event.setCancelled(true);	
+						}
 						
-						breakAlembicChest(b.getRelative(BlockFace.DOWN));
-						breakAlembicStand(b);
-						breakAlembicBellows(b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN));
-						b.getWorld().dropItemNaturally(b.getLocation(),
-								InventoryUtil.createGuiItem(ChatColor.YELLOW + "Alembic", Material.OBSERVER));
-						event.setCancelled(true);
 					}
 				}
 			}
