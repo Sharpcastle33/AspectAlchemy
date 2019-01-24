@@ -82,6 +82,7 @@ public class AlembicGUI implements Listener {
 						event.setCancelled(true);
 						p.closeInventory();
 						p.sendMessage(Constants.IN_PROGRESS_INVENTORY_MESSAGE);
+						return;
 					} // if
 				} // if
 			} // if
