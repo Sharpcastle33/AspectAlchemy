@@ -35,21 +35,55 @@ public class AlembicCreationListener implements Listener {
 		ItemStack item = event.getItemInHand();
 		Player p = event.getPlayer();
 		
-		// Ensure that no chest is placed next to an alembic
+		// Ensure valid Alembic placement
 		if(item.getType() == Material.CHEST || (item.getType() == Material.OBSERVER && item.hasItemMeta() && item.getItemMeta().getDisplayName().equals(Constants.ALEMBIC_ITEM_NAME))) {
-			if(item.getType() == Material.OBSERVER && item.hasItemMeta() && item.getItemMeta().getDisplayName().equals(Constants.ALEMBIC_ITEM_NAME)) {
-				b = b.getRelative(BlockFace.UP);
-			} // if
-			
 			Block north = b.getRelative(BlockFace.NORTH);
 			Block east  = b.getRelative(BlockFace.EAST);
 			Block south = b.getRelative(BlockFace.SOUTH);
 			Block west  = b.getRelative(BlockFace.WEST);
 			
+			if(item.getType() == Material.OBSERVER && item.hasItemMeta() && item.getItemMeta().getDisplayName().equals(Constants.ALEMBIC_ITEM_NAME)) {
+				b = b.getRelative(BlockFace.UP);
+				
+				//Check for chests
+				
+				Block n1 = north.getRelative(BlockFace.UP);
+				Block e1 = east.getRelative(BlockFace.UP);
+				Block s1 = south.getRelative(BlockFace.UP);
+				Block w1 = west.getRelative(BlockFace.UP);
+				
+				if(n1 != null && n1.getType() == Material.CHEST) {
+					event.setCancelled(true);
+					return;
+				}
+				
+				if(e1 != null && e1.getType() == Material.CHEST) {
+					event.setCancelled(true);
+					return;
+				}
+				
+				if(w1 != null && w1.getType() == Material.CHEST) {
+					event.setCancelled(true);
+					return;
+				}
+				
+				if(s1 != null && s1.getType() == Material.CHEST) {
+					event.setCancelled(true);
+					return;
+				}
+			}
+			
+			
+			
+			//Check for nearby Alembics
+			
 			if(AlembicHandler.isAlembic(north) || AlembicHandler.isAlembic(east) || AlembicHandler.isAlembic(south) || AlembicHandler.isAlembic(west)) {
 				event.setCancelled(true);
 				return;
 			} // if
+			
+			
+			
 			
 			if(item.getType() == Material.OBSERVER && item.hasItemMeta() && item.getItemMeta().getDisplayName().equals(Constants.ALEMBIC_ITEM_NAME)) {
 				b = b.getRelative(BlockFace.DOWN);
