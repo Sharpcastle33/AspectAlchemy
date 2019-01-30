@@ -32,6 +32,18 @@ public class AmbianceUtil {
 		
 	}
 	
+	public static void alembicFailureAmbiance(Block b) {
+	     World w = b.getWorld();
+	        Location chestLoc = b.getLocation();
+	        Location standLoc = b.getRelative(BlockFace.UP).getLocation();
+	        Location bellowsLoc = b.getRelative(BlockFace.DOWN).getLocation();
+	        
+	        w.playSound(bellowsLoc, Sound.BLOCK_FIRE_EXTINGUISH, 0.5f, 1);
+	        w.spawnParticle(Particle.VILLAGER_ANGRY, standLoc, 30, 0.5, 0, 0.5, 0.05);
+	        
+	        
+	}
+	
 	public static void alembicTickAmbiance(Block b) {
 		
 		World w = b.getWorld();
