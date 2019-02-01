@@ -2,7 +2,7 @@ package com.gmail.sharpcastle33.handlers;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Map;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -15,7 +15,11 @@ import org.bukkit.block.Furnace;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
-
+import com.gmail.sharpcastle33.aspects.Aspect;
+import com.gmail.sharpcastle33.aspects.AspectManager;
+import com.gmail.sharpcastle33.aspects.AspectRecipeManager;
+import com.gmail.sharpcastle33.potions.CustomPotion;
+import com.gmail.sharpcastle33.potions.PotionManager;
 import com.gmail.sharpcastle33.util.AmbianceUtil;
 
 /**
@@ -118,12 +122,37 @@ public class AlembicTickTask extends BukkitRunnable {
 		// Update time remaining
 		timeRemaining = getTimeRemaining(chest) - 1;
 		updateTimeRemaining(chest);
+		
+        ItemStack[] shamanSap = AlembicHandler.getShamanSaps(chest);
+        int sapAmt = AlembicHandler.getTotalShamanSapPoints(chest);    
+        
+		
+        // If time is halfway check the recipe and if it is destined to fail, fail it.
+        if(timeRemaining == sapAmt/2) {
+          ItemStack[] ingredients = AlembicHandler.getIngredients(chest);
 
+          Map<Aspect, Integer> aspectTotals = AspectManager.getAspectTotals(ingredients);
+
+          int amountShamanSap = AlembicHandler.getTotalShamanSapPoints(chest);
+
+          CustomPotion customPot = AspectRecipeManager.findResult(aspectTotals, amountShamanSap);
+
+          ItemStack result = PotionManager.getPotion(customPot);
+          
+          //If recipe will fail
+          if(result == null || result.getType() == Material.AIR || customPot == CustomPotion.MUNDANE_POT) {
+            AlembicHandler.completeAlchemy(chest, stand);
+            for (ItemStack itemStack : shamanSap)
+                if (itemStack != null)
+                    itemStack.setAmount(0);
+            AlembicHandler.deactivateAlembic(chest);
+            AmbianceUtil.alembicFailureAmbiance(chest.getBlock());
+          }
+        }
 		// If time is 0 or less evaluate recipe and deactivate alembic
 		if (timeRemaining <= 0) {
 			this.cancel();
 			AlembicHandler.completeAlchemy(chest, stand);
-			ItemStack[] shamanSap = AlembicHandler.getShamanSaps(chest);
 			for (ItemStack itemStack : shamanSap)
 				if (itemStack != null)
 					itemStack.setAmount(0);
