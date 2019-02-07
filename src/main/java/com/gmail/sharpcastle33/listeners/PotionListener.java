@@ -14,6 +14,8 @@ public class PotionListener implements Listener {
   String ANTIDOTE = ChatColor.YELLOW + "Antidote";
   String STRONG_ANTIDOTE = ChatColor.YELLOW + "Potent Antidote";
   
+  String ANTI_BURN = ChatColor.YELLOW + "Vitarun Elixir";
+  
   @EventHandler
   public void onDrink(PlayerItemConsumeEvent event) {
     ItemStack i = event.getItem();
@@ -26,6 +28,13 @@ public class PotionListener implements Listener {
       if(meta.getDisplayName().equals(ANTIDOTE) || meta.getDisplayName().equals(STRONG_ANTIDOTE)) {
         if(p.hasPotionEffect(PotionEffectType.POISON)) {
           p.removePotionEffect(PotionEffectType.POISON);
+        }
+      }
+      
+      //ANTI BURN
+      if(meta.getDisplayName().equals(ANTI_BURN)) {
+        if(p.getFireTicks() > 0) {
+          p.setFireTicks(0);
         }
       }
       
