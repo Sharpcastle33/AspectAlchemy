@@ -13,6 +13,7 @@ import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import com.gmail.sharpcastle33.handlers.AlembicTickTask;
 
 /**
  * Manages the alembics.yaml file which is used to save the locations of active
@@ -101,6 +102,9 @@ public class AlembicManager {
 			double z = alembicSection.getDouble("z");
 
 			configAlembics.add(new Location(world, x, y, z));
+			
+		    new AlembicTickTask(new Location(world, x, y, z)).runTaskTimer(AspectAlchemy.plugin, Constants.ALEMBIC_TICK_TIME, Constants.ALEMBIC_TICK_TIME);
+
 		} // for
 
 		return configAlembics;
