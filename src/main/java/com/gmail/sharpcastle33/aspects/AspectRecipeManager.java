@@ -186,7 +186,7 @@ public class AspectRecipeManager {
 				answers.clear();
 				tolerance = tolerancies.get(recipe).intValue();
 				answers.add(recipe);
-			} else {
+			} else if (tolerancies.get(recipe).intValue() == tolerance) {
 				answers.add(recipe);
 			} // if/else
 		} // for
