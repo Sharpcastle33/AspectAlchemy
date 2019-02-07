@@ -47,6 +47,7 @@ public enum CustomPotion {
 	
 	ANTIDOTE,
 	POTENT_ANTIDOTE,
+	VITARUN_ELIXIR,
 	
 	DEBUG_POTION
 } // enum
