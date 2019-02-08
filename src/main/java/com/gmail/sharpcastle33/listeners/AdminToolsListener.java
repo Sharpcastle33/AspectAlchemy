@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import org.bukkit.Location;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BrewingStand;
 import org.bukkit.block.Chest;
@@ -17,11 +17,12 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
+import com.gmail.sharpcastle33.AspectAlchemy;
 import com.gmail.sharpcastle33.Constants;
 import com.gmail.sharpcastle33.aspects.Aspect;
 import com.gmail.sharpcastle33.aspects.AspectManager;
 import com.gmail.sharpcastle33.handlers.AlembicHandler;
+import com.gmail.sharpcastle33.handlers.AlembicTickTask;
 import com.gmail.sharpcastle33.potions.CustomPotion;
 import com.gmail.sharpcastle33.potions.PotionManager;
 
@@ -42,6 +43,24 @@ public class AdminToolsListener implements Listener {
 				ItemMeta mainMeta = main.getItemMeta();
 				ItemMeta offMeta = null;
 				if(off.hasItemMeta()) offMeta = off.getItemMeta();
+				
+				if(mainMeta.hasDisplayName() && mainMeta.getDisplayName().equals(ChatColor.RED + "Alembic Fixer")) {
+		         
+				  if (AlembicHandler.isAlembic(event.getClickedBlock())) {
+
+                    Chest chest = (Chest) event.getClickedBlock().getState();
+
+                    ItemStack progress = chest.getInventory().getItem(17);
+                    ItemMeta progressMeta = progress.hasItemMeta() ? progress.getItemMeta() : null;
+                    if (progressMeta != null && progressMeta.getDisplayName().equals(ChatColor.GREEN + "Start Alchemy")) {
+                       
+                    } else {
+                      new AlembicTickTask(event.getClickedBlock().getLocation()).runTaskTimer(AspectAlchemy.plugin, Constants.ALEMBIC_TICK_TIME, Constants.ALEMBIC_TICK_TIME);
+
+                    } // if/else
+				  
+				  }
+				}
 				
 				if (mainMeta.hasDisplayName() && mainMeta.getDisplayName().equals(Constants.COUNTER_ADMIN_TOOL)) {
 					Inventory inv = p.getInventory();

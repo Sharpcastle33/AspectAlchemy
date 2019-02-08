@@ -1,10 +1,8 @@
 package com.gmail.sharpcastle33;
 
 import java.io.File;
-
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-
 import com.gmail.sharpcastle33.aspects.AspectManager;
 import com.gmail.sharpcastle33.aspects.AspectRecipeManager;
 import com.gmail.sharpcastle33.commands.DebugGetPotionCommand;
@@ -17,6 +15,7 @@ import com.gmail.sharpcastle33.listeners.AlembicBreakListener;
 import com.gmail.sharpcastle33.listeners.AlembicCreationListener;
 import com.gmail.sharpcastle33.listeners.AlembicExploitListener;
 import com.gmail.sharpcastle33.listeners.AlembicGUI;
+import com.gmail.sharpcastle33.listeners.PotionListener;
 import com.gmail.sharpcastle33.listeners.ThaumaturgicalResonatorListener;
 import com.gmail.sharpcastle33.potions.PotionManager;
 
@@ -40,6 +39,8 @@ public class AspectAlchemy extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new AlembicGUI(), plugin);						// Handles alembic GUI
 		getServer().getPluginManager().registerEvents(new ThaumaturgicalResonatorListener(), plugin);	// Handles Thaumaturgical Resonator
 		getServer().getPluginManager().registerEvents(new AdminToolsListener(), plugin);				// Handles admin tools
+	    getServer().getPluginManager().registerEvents(new PotionListener(), plugin);           // Handles custom potion effects
+
 		
 		getCommand("getpotion").setExecutor(new DebugGetPotionCommand());								// Handles getpotion command
 		getCommand("getrecipe").setExecutor(new DebugGetRecipeCommand());								// Handles getrecipe command
