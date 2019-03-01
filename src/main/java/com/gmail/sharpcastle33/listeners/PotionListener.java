@@ -3,10 +3,13 @@ package com.gmail.sharpcastle33.listeners;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityRegainHealthEvent;
+import org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffectType;
+
 import net.md_5.bungee.api.ChatColor;
 
 public class PotionListener implements Listener {
@@ -15,6 +18,13 @@ public class PotionListener implements Listener {
   String STRONG_ANTIDOTE = ChatColor.YELLOW + "Potent Antidote";
   
   String ANTI_BURN = ChatColor.YELLOW + "Vitarun Elixir";
+  
+  @EventHandler
+  public void onEntityRegainHealth(EntityRegainHealthEvent event) {
+		if(event.getRegainReason() == RegainReason.MAGIC) {
+			event.setAmount(event.getAmount() * 1.5);
+		}
+  }
   
   @EventHandler
   public void onDrink(PlayerItemConsumeEvent event) {
