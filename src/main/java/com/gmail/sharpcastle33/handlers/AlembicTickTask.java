@@ -150,7 +150,7 @@ public class AlembicTickTask extends BukkitRunnable {
           }
         }
 		// If time is 0 or less evaluate recipe and deactivate alembic
-		if (timeRemaining <= 0) {
+		if (timeRemaining <= 1) {
 			this.cancel();
 			AlembicHandler.completeAlchemy(chest, stand);
 			for (ItemStack itemStack : shamanSap)

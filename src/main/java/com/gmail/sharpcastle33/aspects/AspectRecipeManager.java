@@ -206,7 +206,10 @@ public class AspectRecipeManager {
 					
 				}
 			}
-			return best.result;
+			
+			if(best != null) {
+				return best.result;
+			}else return CustomPotion.MUNDANE_POT;
 		}
 
 		/* Choose Randomly of Remaining */ // ==========================================================================================================//
