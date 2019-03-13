@@ -10,6 +10,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import com.gmail.sharpcastle33.Constants;
 
+import net.md_5.bungee.api.ChatColor;
+
 public class DebugGetToolsCommand implements CommandExecutor {
 
 	@Override
@@ -28,6 +30,9 @@ public class DebugGetToolsCommand implements CommandExecutor {
 			ItemStack potionTool = new ItemStack(Material.STICK);
 			ItemStack brewingTool = new ItemStack(Material.STICK);
 			ItemStack counterTool = new ItemStack(Material.STICK);
+			ItemStack bugfixer = new ItemStack(Material.STICK);
+			ItemStack debugger = new ItemStack(Material.STICK);
+
 			ItemStack alembic = new ItemStack(Material.OBSERVER);
 			ItemStack resonator = new ItemStack(Constants.RESONATOR_ITEM);
 			
@@ -38,6 +43,8 @@ public class DebugGetToolsCommand implements CommandExecutor {
 			ItemMeta counterMeta = counterTool.getItemMeta();
 			ItemMeta alembicMeta = alembic.getItemMeta();
 			ItemMeta resonatorMeta = resonator.getItemMeta();
+			ItemMeta bugfixerMeta = bugfixer.getItemMeta();
+			ItemMeta debuggerMeta = debugger.getItemMeta();
 			
 			adminMeta.setDisplayName(Constants.DEBUG_ITEM);
 			aspectMeta.setDisplayName(Constants.ASPECT_ADMIN_TOOL);
@@ -46,6 +53,8 @@ public class DebugGetToolsCommand implements CommandExecutor {
 			counterMeta.setDisplayName(Constants.COUNTER_ADMIN_TOOL);
 			alembicMeta.setDisplayName(Constants.ALEMBIC_ITEM_NAME);
 			resonatorMeta.setDisplayName(Constants.RESONATOR_NAME);
+			bugfixerMeta.setDisplayName(ChatColor.RED + "Alembic Fixer");
+			debuggerMeta.setDisplayName(ChatColor.RED + "Alembic Debugger");
 			
 			adminTool.setItemMeta(adminMeta);
 			aspectTool.setItemMeta(aspectMeta);
@@ -54,6 +63,8 @@ public class DebugGetToolsCommand implements CommandExecutor {
 			counterTool.setItemMeta(counterMeta);
 			alembic.setItemMeta(alembicMeta);
 			resonator.setItemMeta(resonatorMeta);
+			bugfixer.setItemMeta(bugfixerMeta);
+			debugger.setItemMeta(debuggerMeta);
 			
 			player.getInventory().addItem(adminTool);
 			player.getInventory().addItem(aspectTool);
@@ -62,6 +73,9 @@ public class DebugGetToolsCommand implements CommandExecutor {
 			player.getInventory().addItem(counterTool);
 			player.getInventory().addItem(alembic);
 			player.getInventory().addItem(resonator);
+			player.getInventory().addItem(bugfixer);
+			player.getInventory().addItem(debugger);
+			
 		} // if
 		
 		return true;
