@@ -132,7 +132,7 @@ public class AdminToolsListener implements Listener {
 								}
 								
 								
-							p.sendMessage(ChatColor.BLUE + "Found " + shortlist.size() + " recipes within tolerance bounds of " + Constants.SHAMAN_SAP_NAME + " per sap.");
+							p.sendMessage(ChatColor.BLUE + "Found " + shortlist.size() + " recipes within tolerance bounds of " + Constants.SHAMAN_SAP_VALUE + " per sap.");
 							p.sendMessage(ChatColor.GOLD + formattedShortlist.toString());
 							p.sendMessage(ChatColor.BLACK + "-------------------------------");
 
@@ -144,7 +144,7 @@ public class AdminToolsListener implements Listener {
 										answers.clear();
 										tolerance = tolerancies.get(recipe).intValue();
 										answers.add(recipe);
-									} else if (tolerancies.get(recipe).intValue() == tolerance) {
+									} else {
 										answers.add(recipe);
 									} // if/else
 								} // for
