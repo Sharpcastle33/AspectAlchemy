@@ -109,7 +109,7 @@ public class AlembicGUI implements Listener {
 		if (clicked.hasItemMeta() && clicked.getItemMeta().hasDisplayName()
 				&& clicked.getItemMeta().getDisplayName().equals(ChatColor.BLUE + "Alembic Tutorial")) {
 			event.setCancelled(true);
-			p.sendMessage("You've clicked the tutorial button");
+			p.sendMessage("Read or watch an Alchemy tutorial here: https://old.reddit.com/r/CivEx/comments/aokfyx/first_light_alchemy_post/");
 		}
 
 		// Implement start alchemy
