@@ -2,7 +2,7 @@
 
 Aspect Alchemy is a complete potion crafting overhaul for Minecraft servers running Spigot 1.12, built for CivEx: First Light.
 
-Aspect Alchemy fundamentally changes the way players create potions by introducing an Aspect system. Server administrators can designate items as containing aspect, including custom items.
+Aspect Alchemy fundamentally changes the way players create potions by introducing an Aspect system. Server administrators can designate items as containing aspects, including custom items.
 
 Instead of simply using one ingredient to brew a potion, Aspect Alchemy allows administrators to create potion recipes that require a certain amount of aspects. With this system, there are thousands of possible item combinations that will create a valid potion. Players can use any combination of items to brew a potion, as long as their input matches the recipe's target aspect amounts, and enough Shaman Sap is provided to soak up the energies of the excess materials.
 
